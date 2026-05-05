@@ -1,0 +1,29 @@
+#ifndef __ADC_H
+#define __ADC_H
+
+/*********************** 头文件包含 **************************/
+
+#include "HeaderFiles.h"
+
+/*********************** 函数声明 *****************************/
+
+/**
+ * @brief 初始化ADC端口GPIO。
+ */
+void ADC_port_init(void);
+
+/**
+ * @brief 初始化ADC外设。
+ */
+void ADC_Init(void);
+
+/**
+ * @brief 读取ADC值。
+ * @return 返回ADC值（0-4095），用户可根据需要转换为电压值。
+ */
+uint16_t ADC_get(void);
+
+void adc_sample_cycle_update(uint32_t cycle);
+#endif /* __ADC_H */
+
+/**************************** 文件结束 ************************/
