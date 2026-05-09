@@ -20,8 +20,8 @@ uint16_t g_over_line;
 char g_hide_file[64];         // hide 文件名
 uint16_t g_hide_line;
 
+FATFS myfs;
 FIL fdst;
-FATFS fs;
 UINT br, bw;
 
 
@@ -45,8 +45,7 @@ void file_mgr_init(void)
 		stat = disk_initialize(0); 			//初始化SD卡（设备号0）,物理驱动器编号,每个物理驱动器（如硬盘、U 盘等）通常都被分配一个唯一的编号。
 	}while((stat != 0) && (--k));			//如果初始化失败，重试最多k次。
     
-    f_mount(0, &fs);						 //挂载SD卡的文件系统（设备号0）。
-
+    f_mount(0, &myfs); 
 	if(RES_OK == stat)						 //返回挂载结果（FR_OK 表示成功）。
 	{                
         is_fmount_successful = 1; // SD卡挂载成功

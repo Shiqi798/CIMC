@@ -1,14 +1,11 @@
 #include "USART.h"
-#include "mydma.h"
-#include <string.h>
-#include <stdarg.h>
-#include <stdio.h>
+
 
 ////////////////////////////// 全局变量 //////////////////////////////
 uint8_t data_recv = 0;                          // 暂时留着清状态用
 //usart1_rx_buffer--mydma.c
 uint16_t usart1_rx_len = 0;                     // 缓冲区已存储的字节数
-uint8_t usart1_rx_flag = 0;                     // 指令接收完成标志（收到\n置1）
+uint8_t usart1_rx_flag = 0;
 
 
 //////////////////////// 核心发送接收逻辑 ////////////////////////
@@ -29,7 +26,6 @@ void rs485_printf(const char *fmt, ...)
     RS485_TX_MODE();
 
     uint16_t len = strlen(buf);
-    
     // 先拷到DMA专用的TX buffer，免得局部变量buf出了作用域被覆写
     memcpy(usart1_tx_buffer, buf, len);
     dma_enable(DMA0, DMA_CH6, len);
@@ -61,11 +57,10 @@ void USART1_Init(void)
     rcu_periph_clock_enable(RCU_GPIOA);
     rcu_periph_clock_enable(RCU_USART1);
 
-    // ========== PA1 方向脚：推挽输出，默认 低电平(接收) ==========
+    // ========== PA1 方向脚，默认 低电平(接收) ==========
     gpio_mode_set(GPIOA, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO_PIN_1);
     gpio_output_options_set(GPIOA, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, GPIO_PIN_1);
-    gpio_bit_reset(GPIOA, GPIO_PIN_1); // ← 开机必须先接收！
-
+    gpio_bit_reset(GPIOA, GPIO_PIN_1); //开机接收
     // ========== PA2 TX ==========
     gpio_mode_set(GPIOA, GPIO_MODE_AF, GPIO_PUPD_PULLUP, GPIO_PIN_2);
     gpio_af_set(GPIOA, GPIO_AF_7, GPIO_PIN_2);
@@ -88,15 +83,11 @@ void USART1_Init(void)
     usart_dma_receive_config(USART1, USART_RECEIVE_DMA_ENABLE);
     
     nvic_irq_enable(USART1_IRQn, 2, 0);  // 开USART1中断
-    
     // usart_interrupt_enable(USART1, USART_INT_RBNE); // 单字节中断
     usart_interrupt_enable(USART1, USART_INT_IDLE);    /* 换成空闲中断接整包 */
-
     usart_enable(USART1);
-
     USART1_DMA_All_Init();
-
-    // 初始化时清空缓冲区，避免脏数据
+    // 初始化时清空缓冲区
     USART1_ClearRxBuf();
     data_recv = 0;
 }
@@ -118,19 +109,13 @@ void USART1_SendData(uint16_t *buf, uint16_t len)
 }
 
 
-//////////////////////////////////// 中断处理专区 ////////////////////////////////////
-
-/**
- * @brief  USART1中断服务函数
- */
+//////////////////////////////////// USART1中断服务函数 ////////////////////////////////////
 void USART1_IRQHandler(void)
 {
-    // 查空闲中断标志位（说明一包发完了）
+    // 查空闲中断标志位
     if (RESET != usart_interrupt_flag_get(USART1, USART_INT_FLAG_IDLE))
     {
-        // 清除IDLE标志位必须硬读一次数据寄存器，这坑死我了查半天GD的烂手册
         data_recv = usart_data_receive(USART1);
-        
         usart1_rx_len = get_usart1_rx_len();
 
         for(int i = 0; i < usart1_rx_len; i++)
@@ -144,9 +129,7 @@ void USART1_IRQHandler(void)
         
         // 防溢出
         usart1_rx_buffer[usart1_rx_len] = '\0'; 
-        
         usart1_rx_flag = 1;  // 标志置1，通知主循环去解包
-        
         reset_usart1_rx_dma();
     }
 }

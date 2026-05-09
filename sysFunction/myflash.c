@@ -2,17 +2,26 @@
 
 uint8_t spi_flash_device_id_write(const char* device_id)
 {
-    spi_flash_sector_erase(FLASH_ADDR_DEVICE_ID); // 擦除之前存储的设备ID
-    if (strlen(device_id) >= FLASH_LEN_DEVICE_ID) {
-        return 0; // 输入的设备ID过长
+    // ！！防空指针暴毙，传空地址直接打回
+    if (device_id == NULL) {
+        return 0; 
     }
 
-    uint8_t buffer[FLASH_LEN_DEVICE_ID]= {0};
-    memset(buffer, 0, FLASH_LEN_DEVICE_ID); // 清空缓冲区
-    memcpy(buffer, device_id, strlen(device_id)); // 将设备ID复制到缓冲区
-   spi_flash_page_write(buffer, FLASH_ADDR_DEVICE_ID, FLASH_LEN_DEVICE_ID); // 写入Flash
+    uint16_t safe_len = 0;
+    
+
+    spi_flash_sector_erase(FLASH_ADDR_DEVICE_ID); // 擦除之前存储的设备ID
+
+    uint8_t buffer[FLASH_LEN_DEVICE_ID] = {0};
+    
+    // 复制数据，哪怕没\0结尾，或者超长，这里也只会复制 safe_len 个字节，绝对安全
+    memcpy(buffer, device_id, safe_len); 
+    
+    spi_flash_page_write(buffer, FLASH_ADDR_DEVICE_ID, FLASH_LEN_DEVICE_ID); // 写入Flash
+    
     return 1; // 写入成功
 }
+
 
 char* spi_flash_device_id_read(void)
 {

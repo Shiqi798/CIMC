@@ -1,13 +1,11 @@
 #include "mydma.h"
 
 ///////////////////////////// 变量区 //////////////////////////
-// 试了512有点占内存，先256凑合，后面不够再加
+// 先256凑合
 uint8_t usart1_rx_buffer[256];
 uint8_t usart1_tx_buffer[256];
-
 /* 预留4个通道 */
 uint16_t adc_value[4]; 
-
 
 /////////////////////// 核心底层接口 ///////////////////////
 
@@ -31,10 +29,9 @@ void dma_usart_tx_config(uint32_t dma_periph, dma_channel_enum channelx, uint32_
     dma_init_struct.direction = DMA_MEMORY_TO_PERIPH;          /* 内存搬到串口 */
     dma_init_struct.number = 0; 
     
-    // 优先级试过高，丢包，改中就好了，原因不明
+    // 优先级过高，丢包
     // dma_init_struct.priority = DMA_PRIORITY_HIGH;
     dma_init_struct.priority = DMA_PRIORITY_MEDIUM;
-
     dma_single_data_mode_init(dma_periph, channelx, &dma_init_struct);
     
     // 默认配的SUBPERI4是给USART1用的，要是改USART0可能得换号
@@ -58,16 +55,14 @@ void dma_usart1_rx_config(void)
     dma_init_struct.circular_mode = DMA_CIRCULAR_MODE_ENABLE; // RX这里循环
     dma_init_struct.direction = DMA_PERIPH_TO_MEMORY;
     
-    // 缓冲区大小暂定256
+    // 缓冲区大小
     dma_init_struct.number = 256;
     
-    // ！！！优先级试过配超高，结果按键中断偶尔会卡死，这里改回中等就正常了，原因不明
     dma_init_struct.priority = DMA_PRIORITY_MEDIUM;
 
     dma_single_data_mode_init(DMA0, DMA_CH5, &dma_init_struct);
     dma_channel_subperipheral_select(DMA0, DMA_CH5, DMA_SUBPERI4);
-
-    dma_channel_enable(DMA0, DMA_CH5); // RX直接常开
+    dma_channel_enable(DMA0, DMA_CH5); // RX常开
 }
 
 /* 开启/触发一次新的传输，主要用于TX发不定长数据 */
@@ -109,30 +104,24 @@ void reset_usart1_rx_dma(void)
 void DMA_ADC_Init(void)
 {
     dma_single_data_parameter_struct dma_init_struct;
-
     rcu_periph_clock_enable(RCU_DMA1);
     dma_deinit(DMA1, DMA_CH0);
-
     // ADC0数据寄存器地址
     dma_init_struct.periph_addr = (uint32_t)(&ADC_RDATA(ADC0));
     dma_init_struct.periph_inc = DMA_PERIPH_INCREASE_DISABLE;
     dma_init_struct.memory0_addr = (uint32_t)adc_value;
     dma_init_struct.memory_inc = DMA_MEMORY_INCREASE_ENABLE;
-    
     // 这里偶尔拿错数据，注意ADC是半字16位的！！！
     dma_init_struct.periph_memory_width = DMA_PERIPH_WIDTH_16BIT; 
-    
     dma_init_struct.circular_mode = DMA_CIRCULAR_MODE_ENABLE;
     dma_init_struct.direction = DMA_PERIPH_TO_MEMORY;
     
     // 测试值4通道
     dma_init_struct.number = 4;
     dma_init_struct.priority = DMA_PRIORITY_HIGH;
-
     dma_single_data_mode_init(DMA1, DMA_CH0, &dma_init_struct);
     // ADC0固定通道
     dma_channel_subperipheral_select(DMA1, DMA_CH0, DMA_SUBPERI0);
-    
     dma_channel_enable(DMA1, DMA_CH0);
 }
 
@@ -143,7 +132,6 @@ void USART1_DMA_All_Init(void)
 {
     // TX配给 DMA0 的 CH6，SUBPERI4
     dma_usart_tx_config(DMA0, DMA_CH6, (uint32_t)&USART_DATA(USART1), (uint32_t)usart1_tx_buffer);
-    
     // RX配置
     dma_usart1_rx_config();
 

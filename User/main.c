@@ -6,16 +6,38 @@
 #define BOOTLOADER_ADDR 0x08000000
 #define APP_SIZE 4 // 4*16KB = 64KB
 
+int main(void)
+{
+	sysFunction_Init();
+	sysFunction_loop();
+}
+
 // 函数指针：指向App复位中断
 typedef void (*pFunction)(void);
 void backto_bootloader(void);
 
+void backto_bootloader(void)
+{
+	led1_off();
+	//关闭所有中断，防止跳转时干扰
+    __disable_irq();
+    //关闭系统定时器中断
+    SysTick->CTRL = 0;
+	//定义跳转函数指针
+	pFunction JumpToBootloader;
+	//设置栈指针为App栈顶
+	__set_MSP(*(uint32_t*)BOOTLOADER_ADDR);
+	//获取App复位中断地址
+	JumpToBootloader = (pFunction)*(uint32_t*)(BOOTLOADER_ADDR + 4);
+	JumpToBootloader();
+}
+
+/*
 int main(void)
 {
- /*
     spi_flash_erase(); // 擦除整个Flash（测试用）
 
-*/
+
 	SCB->VTOR = FLASH_BASE | 0x8000; 
 	__enable_irq(); 
     sysFunction_Init();
@@ -30,29 +52,8 @@ int main(void)
 			backto_bootloader();//
 		}
 	}
-//    sysFunction_loop();   
+//    
 	
 	
 }
-
-void backto_bootloader(void)
-{
-	led1_off();
-	//关闭所有中断，防止跳转时干扰
-    __disable_irq();
-    
-    //关闭系统定时器中断
-    SysTick->CTRL = 0;
-
-	//定义跳转函数指针
-	pFunction JumpToBootloader;
-	
-	//设置栈指针为App栈顶
-	__set_MSP(*(uint32_t*)BOOTLOADER_ADDR);
-	
-	//获取App复位中断地址
-	JumpToBootloader = (pFunction)*(uint32_t*)(BOOTLOADER_ADDR + 4);
-	
-	JumpToBootloader();
-
-}
+*/

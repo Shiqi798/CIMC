@@ -35,6 +35,8 @@ extern char g_hide_file[64];         // hide 文件名
 extern uint16_t g_hide_line;
 
 extern uint8_t is_fmount_successful; // SD卡挂载成功标志，0表示未成功，1表示成功
+
+extern FATFS myfs;
 /*******************log cmd end********************* */
 
 

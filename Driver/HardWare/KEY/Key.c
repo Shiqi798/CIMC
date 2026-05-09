@@ -16,8 +16,7 @@ void Key_Init(void)
 {
 	/* 使能GPIOE时钟 */
 	rcu_periph_clock_enable(RCU_GPIOE);
-
-	/* 配置按键引脚为输入模式 */
+	//上拉输入
 	gpio_mode_set(GPIOE, GPIO_MODE_INPUT, GPIO_PUPD_PULLUP, GPIO_PIN_15 | GPIO_PIN_11 | GPIO_PIN_9 | GPIO_PIN_7);
 }
 

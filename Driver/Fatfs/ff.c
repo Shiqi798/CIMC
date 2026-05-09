@@ -2209,42 +2209,43 @@ FRESULT validate (	/* FR_OK(0): The object is valid, !=0: Invalid */
 --------------------------------------------------------------------------*/
 
 
-
 /*-----------------------------------------------------------------------*/
 /* Mount/Unmount a Logical Drive                                         */
 /*-----------------------------------------------------------------------*/
 
 FRESULT f_mount (
-	BYTE vol,		/* Logical drive number to be mounted/unmounted */
-	FATFS *fs		/* Pointer to new file system object (NULL for unmount)*/
+    BYTE vol,       /* Logical drive number to be mounted/unmounted */
+    FATFS *fs       /* Pointer to new file system object (NULL for unmount)*/
 )
 {
-	FATFS *rfs;
+    // FATFS *rfs; 
 
-
-	if (vol >= _VOLUMES)		/* Check if the drive number is valid */
-		return FR_INVALID_DRIVE;
-	rfs = FatFs[vol];			/* Get current fs object */
-
-	if (rfs) {
+    if (vol >= _VOLUMES)        /* Check if the drive number is valid */
+        return FR_INVALID_DRIVE;
+    
+    /* ========屏蔽爆炸雷区 ========
+    rfs = FatFs[vol];           // Get current fs object
+    if (rfs) {
 #if _FS_SHARE
-		clear_lock(rfs);
+        clear_lock(rfs);
 #endif
-#if _FS_REENTRANT				/* Discard sync object of the current volume */
-		if (!ff_del_syncobj(rfs->sobj)) return FR_INT_ERR;
+#if _FS_REENTRANT               // Discard sync object of the current volume
+        if (!ff_del_syncobj(rfs->sobj)) return FR_INT_ERR;
 #endif
-		rfs->fs_type = 0;		/* Clear old fs object */
-	}
+        // ！！如果内存被踩，rfs就是野指针，下面这句会直接引发 HardFault！！
+        rfs->fs_type = 0;       // Clear old fs object
+    }
+    ==================================== */
 
-	if (fs) {
-		fs->fs_type = 0;		/* Clear new fs object */
-#if _FS_REENTRANT				/* Create sync object for the new volume */
-		if (!ff_cre_syncobj(vol, &fs->sobj)) return FR_INT_ERR;
+    if (fs) {
+        fs->fs_type = 0;        /* Clear new fs object */
+#if _FS_REENTRANT               /* Create sync object for the new volume */
+        if (!ff_cre_syncobj(vol, &fs->sobj)) return FR_INT_ERR;
 #endif
-	}
-	FatFs[vol] = fs;			/* Register new fs object */
+    }
+    FatFs[vol] = fs;            /* Register new fs object */
 
-	return FR_OK;
+    return FR_OK;
 }
 
 

@@ -22,8 +22,8 @@
 #define SPI_FLASH_PAGE_SIZE     256U
 #define SPI_FLASH_SECTOR_SIZE   4096U
 
-#define SPI_FLASH_CS_LOW()      gpio_bit_reset(GPIOB, GPIO_PIN_12)
-#define SPI_FLASH_CS_HIGH()     gpio_bit_set(GPIOB, GPIO_PIN_12)
+#define SPI_FLASH_CS_LOW()      gpio_bit_reset(GPIOA, GPIO_PIN_15)
+#define SPI_FLASH_CS_HIGH()     gpio_bit_set(GPIOA, GPIO_PIN_15)
 
 #define FLASH_ID_READ_SUCESS    1U
 #define FLASH_ID_READ_FAILED    0U

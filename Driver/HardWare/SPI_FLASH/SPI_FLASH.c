@@ -31,30 +31,31 @@ void spi_flash_init(void)
     spi_parameter_struct spi_init_struct;
 
     rcu_periph_clock_enable(RCU_GPIOB);
+    rcu_periph_clock_enable(RCU_GPIOA);
     rcu_periph_clock_enable(RCU_SPI1);
 
-	
-	 /* SPI1_CLK(PB13), SPI1_MISO(PB14), SPI1_MOSI(PB15) */
-    gpio_af_set(GPIOB, GPIO_AF_5, GPIO_PIN_13|GPIO_PIN_14| GPIO_PIN_15);
-    gpio_mode_set(GPIOB, GPIO_MODE_AF, GPIO_PUPD_NONE, GPIO_PIN_13|GPIO_PIN_14| GPIO_PIN_15);
-    gpio_output_options_set(GPIOB, GPIO_OTYPE_PP, GPIO_OSPEED_25MHZ, GPIO_PIN_13|GPIO_PIN_14| GPIO_PIN_15);
+     /* SPI1_CLK(PB3), SPI1_MISO(PB4), SPI1_MOSI(PB5) */
+    gpio_af_set(GPIOB, GPIO_AF_5, GPIO_PIN_3|GPIO_PIN_4| GPIO_PIN_5);
+    gpio_mode_set(GPIOB, GPIO_MODE_AF, GPIO_PUPD_NONE, GPIO_PIN_3|GPIO_PIN_4| GPIO_PIN_5);
+    gpio_output_options_set(GPIOB, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, GPIO_PIN_3|GPIO_PIN_4| GPIO_PIN_5);
 
-    /* SPI1_CS(PB12) GPIO pin configuration */
-    gpio_mode_set(GPIOB, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO_PIN_12);
-    gpio_output_options_set(GPIOB, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, GPIO_PIN_12);
-
+    /* SPI1_CS(PA15) GPIO pin configuration */
+    gpio_mode_set(GPIOA, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO_PIN_15);
+    gpio_output_options_set(GPIOA, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, GPIO_PIN_15);
 
     /* chip select invalid*/
     SPI_FLASH_CS_HIGH();
 
     /* SPI1 parameter config */
     spi_init_struct.trans_mode           = SPI_TRANSMODE_FULLDUPLEX;
-    spi_init_struct.device_mode          = SPI_MASTER;;
-    spi_init_struct.frame_size           = SPI_FRAMESIZE_8BIT;;
+    spi_init_struct.device_mode          = SPI_MASTER;
+    spi_init_struct.frame_size           = SPI_FRAMESIZE_8BIT;
     spi_init_struct.clock_polarity_phase = SPI_CK_PL_LOW_PH_1EDGE;
     spi_init_struct.nss                  = SPI_NSS_SOFT;
+    
+    // spi_init_struct.prescale             = SPI_PSC_4;
     spi_init_struct.prescale             = SPI_PSC_8 ;
-    spi_init_struct.endian               = SPI_ENDIAN_MSB;;
+    spi_init_struct.endian               = SPI_ENDIAN_MSB;
     spi_init(SPI1, &spi_init_struct);
 
     /* enable SPI1 */

@@ -50,6 +50,11 @@ DSTATUS disk_initialize (BYTE drv)
 {
     usb_core_driver *udev = (usb_core_driver *)usb_host_msc.data;
 
+    if (udev == NULL) {
+        return STA_NOINIT; // 直接返回未初始化状态
+    }
+
+    // 指针合法
     if (udev->host.connect_status) {
         state &= ~STA_NOINIT;
     }

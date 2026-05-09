@@ -111,6 +111,7 @@ targets:
         - USE_STDPERIPH_DRIVER
         - GD32F470
       incList:
+        - .
         - ../Driver/HardWare/KEY
         - ../Driver/HardWare/LED
         - ../Driver/HardWare/OLED
@@ -136,7 +137,8 @@ targets:
         - ../project/RTE/_TASK
       libList: []
     excludeList: []
-    settings: {}
+    settings:
+      debugger: cortex-debug
     toolchain: AC5
     toolchainConfigMap:
       AC5:
@@ -238,8 +240,8 @@ targets:
               isChecked: true
               isStartup: true
               mem:
-                size: "0x78000"
-                startAddr: "0x8008000"
+                size: "0x80000"
+                startAddr: "0x8000000"
               tag: IROM
             - id: 2
               isChecked: false
@@ -263,5 +265,5 @@ targets:
         baseAddr: "0x08000000"
         bin: ""
         interface: stlink
-        target: stm32f1x
+        target: stm32f4x
     uploader: OpenOCD
