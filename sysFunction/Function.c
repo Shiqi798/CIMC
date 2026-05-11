@@ -14,7 +14,7 @@ uint8_t  tx_buffer[TX_BUFFER_SIZE];
 uint8_t  rx_buffer[TX_BUFFER_SIZE];
 uint16_t i = 0, count, result = 0;
 uint8_t  is_successful = 0;
-char* DEVICE_ID = "Device_ID:2025-CIMC-2025123456\0"; // ??ID???64???
+char* DEVICE_ID = "Device_ID:2026-WUT-QRS-9\0"; // ??ID???64???
 
 uint8_t sampling_flag = 0;  // 0: ???1: ???
 uint8_t overlimit_flag = 0; // 0: ???1: ??
@@ -31,7 +31,9 @@ void sysFunction_Init(void)
 {
     systick_config();     // ?? systick
     tim6_functimer_init();
+    
 	USART1_Init();
+    // USART1_DMA_All_Init(); // 已在 USART1_Init() 内部调用，移除此行避免重复初始化
     OLED_Init();
     LED_Init(); 
     ADC_port_init();       // ??? ADC

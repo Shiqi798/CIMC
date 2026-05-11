@@ -24,15 +24,26 @@ void rs485_printf(const char *fmt, ...)
     va_end(ap);
 
     RS485_TX_MODE();
+    delay_1ms(1);  // 等待TX模式切换生效
 
     uint16_t len = strlen(buf);
+    if (len == 0) {
+        RS485_RX_MODE();
+        return;  // 字符串为空，直接返回
+    }
+    
     // 先拷到DMA专用的TX buffer，免得局部变量buf出了作用域被覆写
     memcpy(usart1_tx_buffer, buf, len);
     dma_enable(DMA0, DMA_CH6, len);
     
-    // 等待搬运完
-    while(dma_flag_get(DMA0, DMA_CH6, DMA_FLAG_FTF) == RESET); 
-    while(usart_flag_get(USART1, USART_FLAG_TC) == RESET);   
+    // 等待DMA完成
+    for (uint32_t i = 0; i < 100000 && dma_flag_get(DMA0, DMA_CH6, DMA_FLAG_FTF) == RESET; i++);
+    
+    // 等待USART发送完成
+    for (uint32_t i = 0; i < 100000 && usart_flag_get(USART1, USART_FLAG_TC) == RESET; i++);
+    
+    // RS485方向切换需要延迟
+    delay_1ms(2);
 
     RS485_RX_MODE();
 }
@@ -54,22 +65,27 @@ void USART1_ClearRxBuf(void)
 void USART1_Init(void)
 {
     // 开时钟
-    rcu_periph_clock_enable(RCU_GPIOA);
+    rcu_periph_clock_enable(RCU_GPIOD);
+    rcu_periph_clock_enable(RCU_GPIOE);  // 添加GPIOE时钟（RS485方向脚）
     rcu_periph_clock_enable(RCU_USART1);
 
-    // ========== PA1 方向脚，默认 低电平(接收) ==========
-    gpio_mode_set(GPIOA, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO_PIN_1);
-    gpio_output_options_set(GPIOA, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, GPIO_PIN_1);
-    gpio_bit_reset(GPIOA, GPIO_PIN_1); //开机接收
-    // ========== PA2 TX ==========
-    gpio_mode_set(GPIOA, GPIO_MODE_AF, GPIO_PUPD_PULLUP, GPIO_PIN_2);
-    gpio_af_set(GPIOA, GPIO_AF_7, GPIO_PIN_2);
+    // ========== PE8 方向脚，默认 低电平(接收) ==========
+    gpio_mode_set(GPIOE, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO_PIN_8);
+    gpio_output_options_set(GPIOE, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, GPIO_PIN_8);
+    gpio_bit_reset(GPIOE, GPIO_PIN_8); //开机接收
+    
+    // ========== PD5 TX ==========
+    gpio_mode_set(GPIOD, GPIO_MODE_AF, GPIO_PUPD_PULLUP, GPIO_PIN_5);
+    gpio_af_set(GPIOD, GPIO_AF_7, GPIO_PIN_5);
 
-    // ========== PA3 RX ==========
-    gpio_mode_set(GPIOA, GPIO_MODE_AF, GPIO_PUPD_PULLUP, GPIO_PIN_3);
-    gpio_af_set(GPIOA, GPIO_AF_7, GPIO_PIN_3);
+    // ========== PD6 RX ==========
+    gpio_mode_set(GPIOD, GPIO_MODE_AF, GPIO_PUPD_PULLUP, GPIO_PIN_6);
+    gpio_af_set(GPIOD, GPIO_AF_7, GPIO_PIN_6);
 
-    // ========== USART1基本参数配置 ==========
+    // ========== 第1步：初始化DMA（必须在USART启用之前） ==========
+    USART1_DMA_All_Init();
+
+    // ========== 第2步：USART1基本参数配置 ==========
     usart_deinit(USART1);
     usart_baudrate_set(USART1, 115200U);
     usart_word_length_set(USART1, USART_WL_8BIT);
@@ -78,16 +94,18 @@ void USART1_Init(void)
     usart_transmit_config(USART1, USART_TRANSMIT_ENABLE);
     usart_receive_config(USART1, USART_RECEIVE_ENABLE);
     
-    //DMA的配置函数
+    // ========== 第3步：启用USART的DMA功能 ==========
     usart_dma_transmit_config(USART1, USART_TRANSMIT_DMA_ENABLE);
     usart_dma_receive_config(USART1, USART_RECEIVE_DMA_ENABLE);
     
+    // ========== 第4步：配置中断 ==========
     nvic_irq_enable(USART1_IRQn, 2, 0);  // 开USART1中断
-    // usart_interrupt_enable(USART1, USART_INT_RBNE); // 单字节中断
-    usart_interrupt_enable(USART1, USART_INT_IDLE);    /* 换成空闲中断接整包 */
+    usart_interrupt_enable(USART1, USART_INT_IDLE);    /* 使用空闲中断接整包 */
+    
+    // ========== 第5步：启用USART ==========
     usart_enable(USART1);
-    USART1_DMA_All_Init();
-    // 初始化时清空缓冲区
+    
+    // ========== 第6步：初始化时清空缓冲区 ==========
     USART1_ClearRxBuf();
     data_recv = 0;
 }
@@ -118,17 +136,28 @@ void USART1_IRQHandler(void)
         data_recv = usart_data_receive(USART1);
         usart1_rx_len = get_usart1_rx_len();
 
-        for(int i = 0; i < usart1_rx_len; i++)
+        // 防止缓冲区溢出
+        if (usart1_rx_len >= 256) {
+            usart1_rx_len = 255;
+        }
+
+        // 遍历查找换行符，转换为字符串结尾
+        uint16_t str_end = usart1_rx_len;
+        for(uint16_t i = 0; i < usart1_rx_len; i++)
         {
             if(usart1_rx_buffer[i] == '\n' || usart1_rx_buffer[i] == '\r')
             {
                 usart1_rx_buffer[i] = '\0';
+                str_end = i;
                 break;
             }
         }
         
-        // 防溢出
-        usart1_rx_buffer[usart1_rx_len] = '\0'; 
+        // 如果没有找到换行符，在末尾加'\0'
+        if (str_end == usart1_rx_len) {
+            usart1_rx_buffer[usart1_rx_len] = '\0';
+        }
+        
         usart1_rx_flag = 1;  // 标志置1，通知主循环去解包
         reset_usart1_rx_dma();
     }

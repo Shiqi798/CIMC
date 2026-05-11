@@ -1,11 +1,20 @@
-#include "mydma.h"
+#include "myDMA.h"
+
 
 ///////////////////////////// 变量区 //////////////////////////
 // 先256凑合
 uint8_t usart1_rx_buffer[256];
 uint8_t usart1_tx_buffer[256];
 /* 预留4个通道 */
-uint16_t adc_value[4]; 
+uint16_t adc_value[4];
+
+// 初始化TX缓冲区
+void mydma_init_buffers(void)
+{
+    memset(usart1_rx_buffer, 0, 256);
+    memset(usart1_tx_buffer, 0, 256);
+    memset(adc_value, 0, sizeof(adc_value));
+} 
 
 /////////////////////// 核心底层接口 ///////////////////////
 

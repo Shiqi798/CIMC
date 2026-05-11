@@ -349,6 +349,7 @@ void cmd_parse_ratio(void)
         printf("Ratio= %.2f\r\n", ratio_ch0);
         file_write_log(RATIO_FAIL); // 记录ratio配置失败日志
     }
+    cmd_parse_init(); // 处理完指令后清空缓冲区和标志
 }
 
 void cmd_parse_limit(void)
@@ -379,6 +380,7 @@ void cmd_parse_limit(void)
         printf("limit= %.2f\r\n", limit_ch0);
         file_write_log(LIMIT_FAIL); // 记录limit配置失败日志
     }
+    cmd_parse_init(); // 处理完指令后清空缓冲区和标志
 }
 
 void cmd_parse_config_save(void)

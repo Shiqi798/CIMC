@@ -1,12 +1,15 @@
 #ifndef __MYDMA_H
 #define __MYDMA_H
 
-#include "gd32f4xx.h"
+#include "HeaderFiles.h"
 
 
 extern uint8_t usart1_rx_buffer[256];
 extern uint8_t usart1_tx_buffer[256];
 extern uint16_t adc_value[4];
+
+// 初始化缓冲区
+void mydma_init_buffers(void);
 
 // --- 函数原型声明 ---
 

@@ -9,11 +9,11 @@
 
 #define USART1_RX_BUF_LEN 128  // 接收缓冲区长度（适配赛题最长指令）
 //#define USART1_CMD_END    '\n' // 指令结束符（赛题串口指令以回车/换行结尾）
-#define RS485_DIR_PIN    GPIO_PIN_1
-#define RS485_DIR_PORT   GPIOA
-// 发送模式（PA1 高电平）
+#define RS485_DIR_PIN    GPIO_PIN_8
+#define RS485_DIR_PORT   GPIOE
+// 发送模式（PE8 高电平）
 #define RS485_TX_MODE()  gpio_bit_set(RS485_DIR_PORT, RS485_DIR_PIN)
-// 接收模式（PA1 低电平，默认）
+// 接收模式（PE8 低电平，默认）
 #define RS485_RX_MODE()  gpio_bit_reset(RS485_DIR_PORT, RS485_DIR_PIN)
 
 
