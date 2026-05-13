@@ -55,7 +55,7 @@ void file_log_printf(const char *path, const char *fmt, ...);
 
 void file_log0_load(void);
 
-/* FatFs 风格的 fgets，从文件读取一行文本，遇到 '\n' 或 EOF 停止，返回 buf 或 NULL */
+/*从文件读取一行文本，遇到 '\n' 或 EOF 停止，返回 buf 或 NULL */
 char *f_gets(char *buff, int len, FIL *fp);
 
 #endif

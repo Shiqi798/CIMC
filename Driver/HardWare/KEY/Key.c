@@ -23,7 +23,7 @@ void Key_Init(void)
 void Key_Debounce_Tick(void)
 {
 	static uint8_t conti_cnt[KEY_COUNT] = {0}; // 连续稳定计数
-	static const uint32_t key_pins[KEY_COUNT] = {GPIO_PIN_15, GPIO_PIN_11, GPIO_PIN_9, GPIO_PIN_7};
+	static const uint32_t key_pins[KEY_COUNT] = {GPIO_PIN_15, GPIO_PIN_13, GPIO_PIN_11, GPIO_PIN_9};
 	uint8_t real_level[KEY_COUNT];
 
 	for (uint8_t i = 0; i < KEY_COUNT; i++)

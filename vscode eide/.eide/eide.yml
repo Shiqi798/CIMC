@@ -50,6 +50,8 @@ virtualFolder:
         - path: ../Driver/System/TIM6/tim6_functimer.h
         - path: ../Driver/System/myDMA/myDMA.c
         - path: ../Driver/System/myDMA/myDMA.h
+        - path: ../Driver/System/DAC/DAC.c
+        - path: ../Driver/System/DAC/DAC.h
       folders: []
     - name: Library
       files:
@@ -95,10 +97,10 @@ virtualFolder:
         - path: ../sysFunction/cmd_parse.h
         - path: ../sysFunction/data_process.c
         - path: ../sysFunction/data_process.h
-        - path: ../sysfunction/file_mgr.c
-        - path: ../sysfunction/file_mgr.h
         - path: ../sysFunction/myflash.c
         - path: ../sysFunction/myflash.h
+        - path: ../sysFunction/file_mgr.c
+        - path: ../sysFunction/file_mgr.h
       folders: []
 dependenceList: []
 outDir: build
@@ -135,6 +137,7 @@ targets:
         - ../Driver/System/myDMA
         - .cmsis/include
         - ../project/RTE/_TASK
+        - ../Driver/System/DAC
       libList: []
     excludeList: []
     settings:

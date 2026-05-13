@@ -9,6 +9,7 @@
 #define FILE_PATH_LEN        64U
 
 #define FLASH_ADDR_LOG_ID    0x00004000UL
+#define FLASH_ADDR_LOG0      0x00004000UL
 #define FLASH_LEN_LOG_ID     4U
 
 char g_sample_file[64];      // sample 文件名（含路径）
@@ -313,17 +314,14 @@ void file_log0_load(void)
     power_count = 0; // 确保load的是log0
     char line[160];
     spi_flash_buffer_read((uint8_t *)line, FLASH_ADDR_LOG0, sizeof(line));
-    f_open(&fdst, "0:/log/log0.txt", FA_CREATE_ALWAYS | FA_WRITE); // 创建并打开log0文件
     file_write_log(SYSTEM_INIT); // 记录系统初始化日志
     file_write_line("0:/log/log0.txt", line, 0U);
     file_write_log(TEST_CMD);
     file_write_log(TEST_TF_FAIL); // 记录TF卡测试失败日志
-    f_close(&fdst);
 }
 
 void file_write_log_rtc_success(char past_time_text[32])
 {
-    char time_text[32];
     char line[160];
     char path[FILE_PATH_LEN];
 

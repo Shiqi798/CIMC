@@ -6,7 +6,7 @@
 uint8_t usart1_rx_buffer[256];
 uint8_t usart1_tx_buffer[256];
 /* 预留4个通道 */
-uint16_t adc_value[4];
+uint16_t adc_value[2];
 
 // 初始化TX缓冲区
 void mydma_init_buffers(void)
@@ -125,13 +125,18 @@ void DMA_ADC_Init(void)
     dma_init_struct.circular_mode = DMA_CIRCULAR_MODE_ENABLE;
     dma_init_struct.direction = DMA_PERIPH_TO_MEMORY;
     
-    // 测试值4通道
-    dma_init_struct.number = 4;
+    // 当前ADC配置为2路输入
+    dma_init_struct.number = 2;
     dma_init_struct.priority = DMA_PRIORITY_HIGH;
     dma_single_data_mode_init(DMA1, DMA_CH0, &dma_init_struct);
     // ADC0固定通道
     dma_channel_subperipheral_select(DMA1, DMA_CH0, DMA_SUBPERI0);
     dma_channel_enable(DMA1, DMA_CH0);
+}
+
+void DMA_ADJ_Init(void)
+{
+    DMA_ADC_Init();
 }
 
 

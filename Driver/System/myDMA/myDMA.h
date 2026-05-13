@@ -6,7 +6,7 @@
 
 extern uint8_t usart1_rx_buffer[256];
 extern uint8_t usart1_tx_buffer[256];
-extern uint16_t adc_value[4];
+extern uint16_t adc_value[2];
 
 // 初始化缓冲区
 void mydma_init_buffers(void);
@@ -23,6 +23,7 @@ void dma_enable(uint32_t dma_periph, dma_channel_enum channelx, uint16_t ndtr);
 
 /* ADC DMA初始化 (ADC0 -> DMA1, CH0) */
 void DMA_ADC_Init(void);
+void DMA_ADJ_Init(void);
 
 /* 初始化USART1与ADC的DMA */
 void USART1_DMA_All_Init(void);

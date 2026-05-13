@@ -19,9 +19,10 @@
 
 #define WIP_FLAG         0x01     /* write in progress(wip)flag */
 #define DUMMY_BYTE       0xA5
+#define SPI_TIMEOUT      0x20000U
 
 /*!
-    \brief      initialize SPI1 GPIO and parameter
+    \brief      initialize SPI0 GPIO and parameter
     \param[in]  none
     \param[out] none
     \retval     none
@@ -32,21 +33,21 @@ void spi_flash_init(void)
 
     rcu_periph_clock_enable(RCU_GPIOB);
     rcu_periph_clock_enable(RCU_GPIOA);
-    rcu_periph_clock_enable(RCU_SPI1);
+    rcu_periph_clock_enable(RCU_SPI0);
 
-     /* SPI1_CLK(PB3), SPI1_MISO(PB4), SPI1_MOSI(PB5) */
+    /* SPI0_CLK(PB3), SPI0_MISO(PB4), SPI0_MOSI(PB5) */
     gpio_af_set(GPIOB, GPIO_AF_5, GPIO_PIN_3|GPIO_PIN_4| GPIO_PIN_5);
     gpio_mode_set(GPIOB, GPIO_MODE_AF, GPIO_PUPD_NONE, GPIO_PIN_3|GPIO_PIN_4| GPIO_PIN_5);
     gpio_output_options_set(GPIOB, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, GPIO_PIN_3|GPIO_PIN_4| GPIO_PIN_5);
 
-    /* SPI1_CS(PA15) GPIO pin configuration */
+    /* SPI_CS(PA15) GPIO pin configuration */
     gpio_mode_set(GPIOA, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO_PIN_15);
     gpio_output_options_set(GPIOA, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, GPIO_PIN_15);
 
     /* chip select invalid*/
     SPI_FLASH_CS_HIGH();
 
-    /* SPI1 parameter config */
+    /* SPI0 parameter config */
     spi_init_struct.trans_mode           = SPI_TRANSMODE_FULLDUPLEX;
     spi_init_struct.device_mode          = SPI_MASTER;
     spi_init_struct.frame_size           = SPI_FRAMESIZE_8BIT;
@@ -56,10 +57,10 @@ void spi_flash_init(void)
     // spi_init_struct.prescale             = SPI_PSC_4;
     spi_init_struct.prescale             = SPI_PSC_8 ;
     spi_init_struct.endian               = SPI_ENDIAN_MSB;
-    spi_init(SPI1, &spi_init_struct);
+    spi_init(SPI0, &spi_init_struct);
 
-    /* enable SPI1 */
-    spi_enable(SPI1);
+    /* enable SPI0 */
+    spi_enable(SPI0);
 }
 
 /*!
@@ -101,10 +102,10 @@ void spi_flash_buffer_erase(uint32_t sector_addr,  uint32_t num_byte_to_erase)
 {
 	uint8_t buffer_data[SPI_FLASH_SECTOR_SIZE] = {0};
 	uint8_t buffer_data1[SPI_FLASH_SECTOR_SIZE] = {0};
-	uint8_t num_of_sector = 0, num_of_single = 0, addr = 0, count = 0;
+    uint32_t num_of_sector = 0, num_of_single = 0, addr = 0, count = 0;
 
     addr          = sector_addr % SPI_FLASH_SECTOR_SIZE;		//扇区内地址
-    count         = SPI_FLASH_PAGE_SIZE - addr;					//页内剩下可以写的空间长度
+    count         = SPI_FLASH_SECTOR_SIZE - addr;				//扇区内剩下可擦除空间长度
     num_of_sector = num_byte_to_erase / SPI_FLASH_SECTOR_SIZE;	//要擦除多少个满扇区空间
     num_of_single = num_byte_to_erase % SPI_FLASH_SECTOR_SIZE;	//剩下要擦除不满一个扇区的字节数
 	
@@ -115,7 +116,7 @@ void spi_flash_buffer_erase(uint32_t sector_addr,  uint32_t num_byte_to_erase)
 		while(num_of_sector-- )		//擦除整数个扇区
 		{
 			spi_flash_sector_erase( sector_addr );
-			sector_addr += SPI_FLASH_PAGE_SIZE;
+            sector_addr += SPI_FLASH_SECTOR_SIZE;
 		}
 		if(0 != num_of_single)		//擦除小数个扇区
 		{
@@ -149,7 +150,7 @@ void spi_flash_buffer_erase(uint32_t sector_addr,  uint32_t num_byte_to_erase)
 			while(num_of_sector-- )		//擦除整数个扇区
 			{
 				spi_flash_sector_erase( sector_addr );
-				sector_addr += SPI_FLASH_PAGE_SIZE;
+                sector_addr += SPI_FLASH_SECTOR_SIZE;
 			}
 			if(0 != num_of_single)		//擦除小数个扇区
 			{
@@ -396,17 +397,28 @@ uint8_t spi_flash_read_byte(void)
 */
 uint8_t spi_flash_send_byte(uint8_t byte)
 {
+    uint32_t timeout = SPI_TIMEOUT;
+
     /* loop while data register in not emplty */
-    while (RESET == spi_i2s_flag_get(SPI1,SPI_FLAG_TBE));
+    while (RESET == spi_i2s_flag_get(SPI0,SPI_FLAG_TBE)) {
+        if (timeout-- == 0U) {
+            return 0xFF;
+        }
+    }
 
-    /* send byte through the SPI1 peripheral */
-    spi_i2s_data_transmit(SPI1,byte);
+    /* send byte through the SPI0 peripheral */
+    spi_i2s_data_transmit(SPI0,byte);
 
+    timeout = SPI_TIMEOUT;
     /* wait to receive a byte */
-    while(RESET == spi_i2s_flag_get(SPI1,SPI_FLAG_RBNE));
+    while(RESET == spi_i2s_flag_get(SPI0,SPI_FLAG_RBNE)) {
+        if (timeout-- == 0U) {
+            return 0xFF;
+        }
+    }
 
     /* return the byte read from the SPI bus */
-    return(spi_i2s_data_receive(SPI1));
+    return(spi_i2s_data_receive(SPI0));
 }
 
 /*!
@@ -417,17 +429,28 @@ uint8_t spi_flash_send_byte(uint8_t byte)
 */
 uint16_t spi_flash_send_halfword(uint16_t half_word)
 {
+    uint32_t timeout = SPI_TIMEOUT;
+
     /* loop while data register in not emplty */
-    while(RESET == spi_i2s_flag_get(SPI1,SPI_FLAG_TBE));
+    while(RESET == spi_i2s_flag_get(SPI0,SPI_FLAG_TBE)) {
+        if (timeout-- == 0U) {
+            return 0xFFFF;
+        }
+    }
 
-    /* send half word through the SPI1 peripheral */
-    spi_i2s_data_transmit(SPI1,half_word);
+    /* send half word through the SPI0 peripheral */
+    spi_i2s_data_transmit(SPI0,half_word);
 
+    timeout = SPI_TIMEOUT;
     /* wait to receive a half word */
-    while(RESET == spi_i2s_flag_get(SPI1,SPI_FLAG_RBNE));
+    while(RESET == spi_i2s_flag_get(SPI0,SPI_FLAG_RBNE)) {
+        if (timeout-- == 0U) {
+            return 0xFFFF;
+        }
+    }
 
     /* return the half word read from the SPI bus */
-    return spi_i2s_data_receive(SPI1);
+    return spi_i2s_data_receive(SPI0);
 }
 
 /*!
@@ -457,6 +480,7 @@ void spi_flash_write_enable(void)
 void spi_flash_wait_for_write_end(void)
 {
     uint8_t flash_status = 0;
+    uint32_t timeout = SPI_TIMEOUT;
 
     /* select the flash: chip select low */
     SPI_FLASH_CS_LOW();
@@ -469,6 +493,9 @@ void spi_flash_wait_for_write_end(void)
         /* send a dummy byte to generate the clock needed by the flash
         and put the value of the status register in flash_status variable */
         flash_status = spi_flash_send_byte(DUMMY_BYTE);
+        if (timeout-- == 0U) {
+            break;
+        }
     }while((flash_status & WIP_FLAG) == SET);
 
     /* deselect the flash: chip select high */

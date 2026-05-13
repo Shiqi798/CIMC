@@ -17,6 +17,7 @@
 /************************* DRIVER *************************/  
 
 #include "OLED.h"
+#include "DAC.h"
 #include "USART.h"
 #include "RTC.h"
 #include "SPI_FLASH.h"

@@ -23,7 +23,19 @@ void ADC_Init(void);
  */
 uint16_t ADC_get(void);
 
-void adc_sample_cycle_update(uint32_t cycle);
+/**
+ * @brief 读取两路ADC值。
+ * @param ch0_value PC0/ADC_IN10结果输出地址。
+ * @param ch1_value PC2/ADC_IN12结果输出地址。
+ */
+void ADC_get_pair(uint16_t *ch0_value, uint16_t *ch1_value);
+
+/**
+ * @brief 读取第二路ADC值。
+ * @return PC2/ADC_IN12对应的原始值。
+ */
+uint16_t ADC_get_ch1(void);
+
 #endif /* __ADC_H */
 
 /**************************** 文件结束 ************************/
