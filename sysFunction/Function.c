@@ -53,20 +53,13 @@ void sysFunction_Init(void)
     printf("%s\r\n", spi_flash_device_id_read()); // ? Flash ???????ID
     printf("====system ready====\r\n");
 
-//    file_mgr_init();    // ??? ????
- //   file_log0_load();   // ? Flash ?? log0
     if(is_power_on_reset())
     {
         spi_flash_power_count_update(); // ?? Flash ??????
-//        file_log_set(); // ??????
     }
 
     power_count = spi_flash_power_count_read(); // ??????
     spi_ratio_limit_read(&ratio_ch0, &limit_ch0); // ? Flash ????/??
-
-//    file_write_log(SYSTEM_INIT); // ?? ????? ??
-//   log_states_load_all();        // ?? ??????
-
 }
 
 void sysFunction_loop(void)
@@ -123,29 +116,24 @@ void key_update(void)
 	{
 		if (sampling_flag == 0)
 		{
-        cmd_parse_start(); // ????
-        file_write_log(SAMPLE_START_P); // ?? ???? ??
+            cmd_parse_start(); // ????
 		}
 		else
 		{
-        cmd_parse_stop(); // ????
-        file_write_log(SAMPLE_STOP_P); // ?? ???? ??
+            cmd_parse_stop(); // ????
 		}
 	}
 	if (Key_Check(sample_cycle1, KEY_DOWN))
 	{
         spi_flash_sample_cycle_update(1,5000); //5 ?????
-        file_write_log(SAMPLE_CYCLE_CHANGE); 
 	}
 	if (Key_Check(sample_cycle2, KEY_DOWN))
 	{
         spi_flash_sample_cycle_update(0,10000);
-        file_write_log(SAMPLE_CYCLE_CHANGE);
 	}
 	if (Key_Check(sample_cycle3, KEY_DOWN))
 	{
         spi_flash_sample_cycle_update(1,15000);
-        file_write_log(SAMPLE_CYCLE_CHANGE); 
 	}
 }
 

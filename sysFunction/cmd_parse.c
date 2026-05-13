@@ -38,12 +38,10 @@ void cmd_parse(void)
         // ========== 指令解析核心 ==========
         if (strstr(cmd_buf, "test") != NULL) // 赛题test指令
         {
-            file_write_log(TEST_CMD); // 记录test指令日志
             cmd_parse_test();
         }
         else if (strstr(cmd_buf, "RTC Config") != NULL) // 赛题RTC Config指令
         {
-            file_write_log(RTC_CONFIG); // 记录RTC配置指令日志
             cmd_parse_RTC_Config();
         }
         else if (strstr(cmd_buf, "RTC now") != NULL) // 赛题RTC now指令
@@ -53,12 +51,10 @@ void cmd_parse(void)
 
         else if (strstr(cmd_buf, "ratio") != NULL) // 赛题ratio指令
         {
-            file_write_log(RATIO); // 记录ratio指令日志
             cmd_parse_ratio();
         }
         else if (strstr(cmd_buf, "limit") != NULL) // 赛题limit指令
         {
-            file_write_log(LIMIT); // 记录limit指令日志
             cmd_parse_limit();
         }
         else if (strstr(cmd_buf, "config save") != NULL) // 赛题config save指令
@@ -75,22 +71,18 @@ void cmd_parse(void)
         }        
         else if (strstr(cmd_buf, "start") != NULL) // 赛题start指令
         {            
-			file_write_log(SAMPLE_START_C); // 记录采样开始日志（命令）
 			cmd_parse_start();
         }
         else if (strstr(cmd_buf, "stop") != NULL) // 赛题stop指令
         {           
-			file_write_log(SAMPLE_STOP_C); // 记录采样停止日志（命令）
             cmd_parse_stop();
         }
         else if (strstr(cmd_buf, "unhide") != NULL) // 赛题unhide指令
         {            
-			file_write_log(UNHIDE_DATA); // 记录unhide指令日志
             cmd_parse_unhide();
         }
         else if (strstr(cmd_buf, "hide") != NULL) // 赛题hide指令
         {            
-			file_write_log(HIDE_DATA); // 记录hide指令日志
             cmd_parse_hide();
         }
         else
@@ -105,39 +97,16 @@ void cmd_parse(void)
 void cmd_parse_test(void)
 {
     printf("\r\n=====system selftest=====\r\n");
-    if ((spi_flash_read_id() == FLASH_ID) && (is_fmount_successful== 1))
+    if (spi_flash_read_id() == FLASH_ID)
     {
         printf("flash............OK\r\n");
-        printf("sd card............OK\r\n");
         printf("flash ID: 0x%X\r\n", spi_flash_read_id());
-        printf("TF card memory: %lu KB\r\n", sd_card_capacity_get());
-        rtc_show_time();
-        file_write_log(TEST_SUCCESS); // 记录测试成功日志
-    }
-    else if ((spi_flash_read_id() == FLASH_ID) && (is_fmount_successful == 0))
-    {
-        printf("flash............OK\r\n");
-        printf("sd card............ERROR\r\n");
-        printf("flash ID: 0x%X\r\n", spi_flash_read_id());
-        printf("can not find TF card\r\n");
-        rtc_show_time();
-        file_write_log(TEST_TF_FAIL); // 记录tf测试失败日志
-    }
-    else if ((spi_flash_read_id() != FLASH_ID) && (is_fmount_successful == 1))
-    {
-        printf("flash............ERROR\r\n");
-        printf("sd card............OK\r\n");
-        printf("TF card memory: %lu KB\r\n", sd_card_capacity_get());
-        rtc_show_time();
-        file_write_log(TEST_FLASH_FAIL); // 记录flash测试失败日志
     }
     else
     {
         printf("flash............ERROR\r\n");
-        printf("sd card............ERROR\r\n");
-        rtc_show_time();
-        file_write_log(TEST_FAIL); // 记录测试失败日志
-    } 
+    }
+    rtc_show_time();
     printf("\r\n=====system selftest=====\r\n");
     cmd_parse_init(); // 处理完指令后清空缓冲区
 }
@@ -266,7 +235,6 @@ void cmd_parse_RTC_Config(void)
     // 如果去除空白后字符串为空，提示错误
     if (*p == '\0') {
         printf("Error: empty input\r\n");
-        file_write_log(RTC_CONFIG_FAIL);
         cmd_parse_init();
         return;
     }
@@ -275,13 +243,9 @@ void cmd_parse_RTC_Config(void)
     int ret = parse_datetime(p, &year, &month, &date, &hour, &minute, &second);
     if (ret != 0) {
         printf("Datetime parse failed (code %d). Please try again.\r\n", ret);
-        file_write_log(RTC_CONFIG_FAIL);
         cmd_parse_init();
         return;
     }
-
-    char time_text[32];
-    file_get_time_text(time_text, sizeof(time_text));
 
     //  rtc_setup内部转换
     rtc_setup(year, month, date, hour, minute, second);
@@ -289,7 +253,6 @@ void cmd_parse_RTC_Config(void)
     printf("RTC Config success\r\n");
     printf("Time: ");
     rtc_show_time();
-    file_write_log_rtc_success(time_text);
     printf("\r\n");
     cmd_parse_init();
 }
@@ -307,17 +270,9 @@ float limit_ch0 = 100.0f;
 
 void cmd_parse_conf(void)
 {
-    if (file_read_config(&ratio_ch0, &limit_ch0) == 1)
-    {
-        printf("\r\nRatio = %.2f\r\n", ratio_ch0);
-        printf("Limit = %.2f\r\n", limit_ch0);
-        printf("Config read success\r\n");
-        spi_ratio_limit_write(ratio_ch0, limit_ch0); // 将读取的配置写入Flash，确保生效
-    }
-    else
-    {
-        printf("\r\nconfig.ini file not found\r\n");
-    }
+    printf("\r\nRatio = %.2f\r\n", ratio_ch0);
+    printf("Limit = %.2f\r\n", limit_ch0);
+    printf("Config read from flash\r\n");
     cmd_parse_init(); // 处理完指令后清空缓冲区
 }
 
@@ -341,13 +296,11 @@ void cmd_parse_ratio(void)
         ratio_ch0 = new_ratio_ch0;
         printf("\r\nratio modified success\r\n");
         printf("Ratio= %.2f\r\n", ratio_ch0);
-        file_write_log(RATIO_SUCCESS); // 记录ratio配置成功日志
     }
     else
     {
         printf("\r\nratio invalid\r\n");
         printf("Ratio= %.2f\r\n", ratio_ch0);
-        file_write_log(RATIO_FAIL); // 记录ratio配置失败日志
     }
     cmd_parse_init(); // 处理完指令后清空缓冲区和标志
 }
@@ -372,13 +325,11 @@ void cmd_parse_limit(void)
         limit_ch0 = new_limit_ch0;
         printf("\r\nlimit modified success\r\n");
         printf("limit= %.2f\r\n", limit_ch0);
-        file_write_log(LIMIT_SUCCESS); // 记录limit配置成功日志
     }
     else
     {
         printf("\r\nlimit invalid\r\n");
         printf("limit= %.2f\r\n", limit_ch0);
-        file_write_log(LIMIT_FAIL); // 记录limit配置失败日志
     }
     cmd_parse_init(); // 处理完指令后清空缓冲区和标志
 }
@@ -407,8 +358,7 @@ void cmd_parse_start(void)
     printf("\r\nPeriodic Sampling\r\n");
     printf("Sample cycle: %ds\r\n", adc_sample_cycle / 1000);
     overlimit_flag = 0; // 开始采样时重置超限标志，确保下次采样正常开始
-    adc_sample_start=0; // 采样开始时间重置，立即进行第一次采样
-    sample_result_show(); // 立即显示一次采样结果，避免等待第一个采样周期结束才有输出
+    adc_sample_start = Gettim6Time() - adc_sample_cycle + 500;
     cmd_parse_init(); // 处理完指令后清空缓冲区
     sampling_flag = 1;
 }
@@ -430,7 +380,6 @@ void sample_result_show(void)
     if (hide_flag == 1)
     {
         printf("%s\r\n", data_encrypt());
-        file_write_hide(); // 记录隐藏数据到文件
         return;
     }
     else
@@ -439,12 +388,10 @@ void sample_result_show(void)
         if (overlimit_flag == 0)
         {
             printf(" ch0=%.2fV\r\n", eng_volt);
-            file_write_sample(); // 记录采样数据到文件
         }
         else
         {
             printf(" ch0=%.2fV OverLimit (%.2f) !\r\n", eng_volt, limit_ch0);
-            file_write_overlimit(); // 记录超限数据到文件
         }
     }
 

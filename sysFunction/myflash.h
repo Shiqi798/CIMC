@@ -26,10 +26,6 @@
 #define FLASH_DATA_MAGIC        0xA5A50001 /* 参数数据 */
 #define FLASH_EMPTY_MAGIC       0xFFFFFFFF /* 空白区域标记 */
 
-//////////////////////////////////////////////////////////////////////
-#define LOG_SAMPLE_MAGIC        0xA5A50002 /* Sample 日志记录 */
-#define LOG_OVERLIMIT_MAGIC     0xA5A50003 /* OverLimit 日志记录 */
-#define LOG_HIDEDATA_MAGIC      0xA5A50004 /* HideData 日志记录 */
 //////////////////////////////////////////////////数据及结构体/////////////////////////////////////////////////////////
 extern uint32_t power_count;    
 extern float ratio_ch0; 
@@ -47,16 +43,6 @@ typedef struct {
     float dac_volt;         // DAC电压
     uint32_t reserved;      // 预留
 } flash_data_t;             /* 总共32 字节 */
-
-/* 日志状态记录，固定32B，0x00002000
- * magic 区分 sample / overlimit / hidedata
- */
-typedef struct {
-    uint32_t magic;         // 0xA5A5000X - 标记日志类型
-    uint16_t line;          // 当前行数
-    uint16_t reserved;      // 预留
-    char filename[24];      // 文件名（24 字节）
-} log_record_t;             //32 字节
 
 /************************************参数读写*****************************************/
 
@@ -98,36 +84,5 @@ uint8_t flash_data_read_latest(flash_data_t *data);
  * @retval 1 成功，0 失败
  */
 uint8_t flash_data_fold(void);
-
-/************************************日志区*****************************************/
-
-/**
- * @brief 追加写入一条日志记录到 Flash（0x00002000）
- * @param record: 指向 log_record_t 结构体的指针
- * @retval 1 成功，0 失败（扇区满需要折叠）
- */
-uint8_t log_record_append_write(const log_record_t *record);
-
-/**
- * @brief 读取特定类型的最新日志记录
- * @param magic: 日志魔数
- * @param record: 输出参数，指向 log_record_t 结构体
- * @retval 1 找到有效记录，0 初始状态
- */
-uint8_t log_record_read_latest(uint32_t magic, log_record_t *record);
-
-/**
- * @brief 折叠日志存储区（擦除并保留最新的三条记录）
- * @retval 1 成功，0 失败
- */
-uint8_t log_record_fold(void);
-
-//
-//日志状态操作
-void log_states_save_all(void);
-void log_states_save_sample(void);
-void log_states_save_over(void);
-void log_states_save_hide(void);
-void log_states_load_all(void);
 
 #endif

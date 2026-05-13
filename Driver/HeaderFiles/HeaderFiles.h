@@ -32,7 +32,6 @@
 /***********************DRIVER_END*************************
 ************************sysFunction************************/
 #include "cmd_parse.h"
-#include "file_mgr.h"
 #include "data_process.h"
 #include "Function.h"
 #include "myflash.h"
