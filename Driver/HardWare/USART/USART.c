@@ -17,16 +17,24 @@ void rs485_printf(const char *fmt, ...)
 {
     char buf[256];
     va_list ap;
+    int n;
 
     // 拼接整段字符串
     va_start(ap, fmt);
-    vsprintf(buf, fmt, ap);
+    n = vsnprintf(buf, sizeof(buf), fmt, ap);
     va_end(ap);
 
     RS485_TX_MODE();
-    delay_1ms(1);  // 等待TX模式切换生效
 
-    uint16_t len = strlen(buf);
+    if (n < 0) {
+        RS485_RX_MODE();
+        return;
+    }
+
+    uint16_t len = (uint16_t)strlen(buf);
+    if (len >= sizeof(usart1_tx_buffer)) {
+        len = sizeof(usart1_tx_buffer) - 1;
+    }
     if (len == 0) {
         RS485_RX_MODE();
         return;  // 字符串为空，直接返回
@@ -42,8 +50,6 @@ void rs485_printf(const char *fmt, ...)
     // 等待USART发送完成
     for (uint32_t i = 0; i < 100000 && usart_flag_get(USART1, USART_FLAG_TC) == RESET; i++);
     
-    // RS485方向切换需要延迟
-    delay_1ms(2);
 
     RS485_RX_MODE();
 }
@@ -115,6 +121,9 @@ void USART1_Init(void)
  */
 void USART1_SendData(uint16_t *buf, uint16_t len)
 {
+    if (len > sizeof(usart1_tx_buffer)) {
+        len = sizeof(usart1_tx_buffer);
+    }
     for(uint16_t i=0; i<len; i++){
         usart1_tx_buffer[i] = (uint8_t)buf[i];
     }

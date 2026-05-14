@@ -8,8 +8,11 @@
 /*------------------ 变量------------------*/
 extern float ratio_ch0;
 extern float limit_ch0;
-
-
+extern volatile uint8_t dac_test_flag;
+extern volatile uint16_t dac_test_count;
+extern uint8_t dac_test_flag6;
+extern uint8_t dac_test_flag3;
+extern uint8_t dac_test_flag0;
 /*------------------ 函数------------------*/
 void cmd_parse_init(void);
 void cmd_parse(void);
@@ -20,6 +23,9 @@ void cmd_parse_RTC_now(void);
 void cmd_parse_conf(void);
 void cmd_parse_ratio(void);
 void cmd_parse_limit(void);
+void cmd_parse_dac_test(void);
+void dac_test_tick(void);
+void cmd_parse_dac(void);
 void cmd_parse_config_save(void);
 void cmd_parse_config_read(void);
 void cmd_parse_start(void);

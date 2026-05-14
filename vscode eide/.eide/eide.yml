@@ -33,6 +33,15 @@ virtualFolder:
         - path: ../Driver/HardWare/USART/USART.h
         - path: ../Driver/Fatfs/diskio.c
         - path: ../Driver/Fatfs/ff.c
+        - path: ../Driver/FlashDB/fal/fal_flash_port.c
+        - path: ../Driver/FlashDB/fal/fal.c
+        - path: ../Driver/FlashDB/fal/fal_flash.c
+        - path: ../Driver/FlashDB/fal/fal_partition.c
+        - path: ../Driver/FlashDB/flashdb/fdb.c
+        - path: ../Driver/FlashDB/flashdb/fdb_port.c
+        - path: ../Driver/FlashDB/flashdb/fdb_kvdb.c
+        - path: ../Driver/FlashDB/flashdb/fdb_tsdb.c
+        - path: ../Driver/FlashDB/flashdb/fdb_utils.c
       folders: []
     - name: HeaderFiles
       files:
@@ -97,10 +106,10 @@ virtualFolder:
         - path: ../sysFunction/cmd_parse.h
         - path: ../sysFunction/data_process.c
         - path: ../sysFunction/data_process.h
-        - path: ../sysFunction/myflash.c
-        - path: ../sysFunction/myflash.h
-        - path: ../sysFunction/file_mgr.c
-        - path: ../sysFunction/file_mgr.h
+        - path: ../sysFunction/myflashdb_data.c
+        - path: ../sysFunction/myflashdb_data.h
+        - path: ../sysFunction/myflashdb_log.c
+        - path: ../sysFunction/myflashdb_log.h
       folders: []
 dependenceList: []
 outDir: build
@@ -138,6 +147,9 @@ targets:
         - .cmsis/include
         - ../project/RTE/_TASK
         - ../Driver/System/DAC
+        - ../Driver/FlashDB/fal
+        - ../Driver/FlashDB
+        - ../Driver/FlashDB/flashdb
       libList: []
     excludeList: []
     settings:

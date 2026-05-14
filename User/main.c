@@ -1,5 +1,5 @@
 #include "HeaderFiles.h"
-
+#include <fal.h>
 #define FILE_MAX_RECORDS     10U
 #define FILE_PATH_LEN        64U
 #define app_buf_size         1024U//app.bin文件的缓冲区大小，单位字节

@@ -81,6 +81,8 @@ void tim6_functimer_init(void)
     timer_enable(TIMERX_INT); /* 使能定时器TIMERX */
 }
 
+
+
 void TIMERX_INT_IRQHandler(void)
 {
 
@@ -92,6 +94,18 @@ void TIMERX_INT_IRQHandler(void)
         {
             Key_Tick(); // 更新按键状态
 
+        }
+
+        if (dac_test_count > 0)
+        {
+
+            dac_test_count--;
+            if (dac_test_count == 6000)
+                dac_test_flag6 = 1;
+            if (dac_test_count == 3000)
+                dac_test_flag3 = 1;
+            if (dac_test_count == 0)
+                dac_test_flag0 = 1;
         }
 
         timer_interrupt_flag_clear(TIMERX_INT, TIMER_INT_FLAG_UP); /* 清除定时器更新中断标志 */

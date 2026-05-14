@@ -8,7 +8,7 @@ uint8_t Key_flag[KEY_COUNT];
 int16_t CalcCount=0;
 int16_t CalcMode=0;
 uint8_t LED_Mode =0;
-int16_t Count[3]={0};
+int16_t Count[4]={0};
 uint8_t prev_real_level[KEY_COUNT] = {KEY_UNPRESSED}; // 存储上一次原始采样电平
 
 /*---------------------------------------按键部分（全功能非阻塞）------------------------------------------------*/
@@ -17,7 +17,7 @@ void Key_Init(void)
 	/* 使能GPIOE时钟 */
 	rcu_periph_clock_enable(RCU_GPIOE);
 	//上拉输入
-	gpio_mode_set(GPIOE, GPIO_MODE_INPUT, GPIO_PUPD_PULLUP, GPIO_PIN_15 | GPIO_PIN_11 | GPIO_PIN_9 | GPIO_PIN_7);
+	gpio_mode_set(GPIOE, GPIO_MODE_INPUT, GPIO_PUPD_PULLUP, GPIO_PIN_15 | GPIO_PIN_11 | GPIO_PIN_9 | GPIO_PIN_13);
 }
 
 void Key_Debounce_Tick(void)

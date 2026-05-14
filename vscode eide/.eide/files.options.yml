@@ -18,3 +18,5 @@ options:
     TASK:
         files: {}
         virtualPathFiles: {}
+        alwaysBuildSourceFiles:
+            - ../Driver/FlashDB/fal/fal_flash_port.c

@@ -14,8 +14,15 @@
 #include "math.h"
 #include <stdarg.h>
 #include <ctype.h>
-/************************* DRIVER *************************/  
+#include <stdlib.h>
+#include <time.h>
 
+#include <string.h>
+
+#include <flashdb.h>
+/************************* DRIVER *************************/  
+#include "fal.h"
+#include "fal_cfg.h"
 #include "OLED.h"
 #include "DAC.h"
 #include "USART.h"
@@ -34,8 +41,9 @@
 #include "cmd_parse.h"
 #include "data_process.h"
 #include "Function.h"
-#include "myflash.h"
-
+//#include "myflash.h"
+#include "myflashdb_log.h"
+#include "myflashdb_data.h"
 
 /**********************sysFunction_END*********************/
 /****************************End*****************************/

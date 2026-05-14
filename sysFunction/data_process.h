@@ -12,7 +12,7 @@ extern char encrypt_buf[24];// 加密缓冲区：8字节HEX=16位字符串（赛
 void data_calc_eng_volt(void);
 uint8_t data_check_overlimit(void);
 char* data_encrypt(void);
-const uint16_t *rtc_to_unix_time(void);
+uint32_t get_unix_time(void);
 
 
 

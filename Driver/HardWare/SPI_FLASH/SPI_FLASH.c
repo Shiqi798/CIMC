@@ -100,8 +100,12 @@ void spi_flash_sector_erase(uint32_t sector_addr)
 */
 void spi_flash_buffer_erase(uint32_t sector_addr,  uint32_t num_byte_to_erase)
 {
-	uint8_t buffer_data[SPI_FLASH_SECTOR_SIZE] = {0};
-	uint8_t buffer_data1[SPI_FLASH_SECTOR_SIZE] = {0};
+    /*
+     * Avoid large stack allocations during FlashDB format/erase.
+     * These scratch buffers are used only for unaligned erase paths.
+     */
+    static uint8_t buffer_data[SPI_FLASH_SECTOR_SIZE];
+    static uint8_t buffer_data1[SPI_FLASH_SECTOR_SIZE];
     uint32_t num_of_sector = 0, num_of_single = 0, addr = 0, count = 0;
 
     addr          = sector_addr % SPI_FLASH_SECTOR_SIZE;		//扇区内地址

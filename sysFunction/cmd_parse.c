@@ -1,7 +1,63 @@
 #include "cmd_parse.h"
-#include <stdlib.h>
+#include "myflashdb_data.h"  // 引入我们写好的参数库
+#include "myflashdb_log.h"   // 引入我们写好的日志库
+#include <ctype.h>
+#include <string.h>
+#include <stdio.h>
 
 /*------------------ 函数 ------------------*/
+extern uint32_t Gettim6Time(void);
+
+//////////////////////test函数补充///////////////////////////////////
+static uint8_t selftest_flash(void)
+{
+    char device_id[64] = {0};
+    
+    // 从 KVDB 参数区读取队伍编号
+    get_team_number(device_id, sizeof(device_id));
+
+    if (strlen(device_id) == 0) {
+        return 0;
+    }
+
+    return (strncmp(device_id, "Device_ID:", 10) == 0);
+}
+
+static uint8_t selftest_oled(void)
+{
+    OLED_Printf(0, 0, 16, "OLED SelfTest");
+    OLED_Printf(0, 16, 16, "Refresh OK");
+    OLED_Refresh();
+    return 1;
+}
+
+static uint8_t selftest_rtc(void)
+{
+    rtc_current_time_get(&rtc_initpara);
+
+    return (rtc_initpara.month <= 0x12 &&
+            rtc_initpara.date <= 0x31 &&
+            rtc_initpara.hour <= 0x23 &&
+            rtc_initpara.minute <= 0x59 &&
+            rtc_initpara.second <= 0x59);
+}
+
+static uint8_t selftest_adc(void)
+{
+    uint16_t adc_value_raw = ADC_get();
+    return (adc_value_raw <= 4095U);
+}
+
+static uint8_t selftest_dac(void)
+{
+    DAC_Init();
+    DAC_Set(DAC_OUT0, 2048U);//1.5V
+    DAC_Set(DAC_OUT1, 1024U);//0.82V
+
+    return (DAC_Get(DAC_OUT0) == 2048U) && (DAC_Get(DAC_OUT1) == 1024U);
+}
+////////////////////////////////end////////////////////////////////
+
 
 /**
  * @brief  清空USART1接收缓冲区
@@ -36,7 +92,11 @@ void cmd_parse(void)
             cmd_buf[--cmd_len] = '\0';
         }
         // ========== 指令解析核心 ==========
-        if (strstr(cmd_buf, "test") != NULL) // 赛题test指令
+        if(strstr(cmd_buf, "dac test") != NULL)
+        {
+            cmd_parse_dac_test();
+        }        
+        else if (strstr(cmd_buf, "test") != NULL) // 赛题test指令
         {
             cmd_parse_test();
         }
@@ -57,6 +117,11 @@ void cmd_parse(void)
         {
             cmd_parse_limit();
         }
+
+        else if(strstr(cmd_buf, "dac") != NULL)
+        {
+            cmd_parse_dac();
+        }
         else if (strstr(cmd_buf, "config save") != NULL) // 赛题config save指令
         {
             cmd_parse_config_save();
@@ -71,7 +136,7 @@ void cmd_parse(void)
         }        
         else if (strstr(cmd_buf, "start") != NULL) // 赛题start指令
         {            
-			cmd_parse_start();
+            cmd_parse_start();
         }
         else if (strstr(cmd_buf, "stop") != NULL) // 赛题stop指令
         {           
@@ -96,18 +161,21 @@ void cmd_parse(void)
 
 void cmd_parse_test(void)
 {
-    printf("\r\n=====system selftest=====\r\n");
-    if (spi_flash_read_id() == FLASH_ID)
-    {
-        printf("flash............OK\r\n");
-        printf("flash ID: 0x%X\r\n", spi_flash_read_id());
-    }
-    else
-    {
-        printf("flash............ERROR\r\n");
-    }
-    rtc_show_time();
-    printf("\r\n=====system selftest=====\r\n");
+    uint8_t flash_ok = selftest_flash();
+    uint8_t oled_ok = selftest_oled();
+    uint8_t rtc_ok = selftest_rtc();
+    uint8_t adc_ok = selftest_adc();
+    uint8_t dac_ok = selftest_dac();
+    printf("\r\nsystem self test start\r\n");
+    printf("flash:%s\r\n", flash_ok ? "ok" : "error");
+    printf("oled:%s\r\n", oled_ok ? "ok" : "error");
+    printf("rtc:%s\r\n", rtc_ok ? "ok" : "error");
+    printf("adc:%s\r\n", adc_ok ? "ok" : "error");
+    printf("dac:%s\r\n", dac_ok ? "ok" : "error");
+    printf("uart:ok\r\n");
+    printf("system self test end\r\n");
+    
+    append_normal_log("System Self Test Done"); // 写入操作日志
     cmd_parse_init(); // 处理完指令后清空缓冲区
 }
 
@@ -251,15 +319,17 @@ void cmd_parse_RTC_Config(void)
     rtc_setup(year, month, date, hour, minute, second);
 
     printf("RTC Config success\r\n");
-    printf("Time: ");
+    rtc_show_time();
     rtc_show_time();
     printf("\r\n");
+    
+    append_normal_log("RTC Configured"); // 写入操作日志
     cmd_parse_init();
 }
 
 void cmd_parse_RTC_now(void)
 {
-    printf("\r\nCurrent Time:");
+    printf("\r\n");
     rtc_show_time();
     printf("\r\n");
     cmd_parse_init(); // 处理完指令后清空缓冲区
@@ -269,10 +339,12 @@ float ratio_ch0 = 1.0f;
 float limit_ch0 = 100.0f;
 
 void cmd_parse_conf(void)
-{
-    printf("\r\nRatio = %.2f\r\n", ratio_ch0);
-    printf("Limit = %.2f\r\n", limit_ch0);
-    printf("Config read from flash\r\n");
+{    
+    printf("\r\ncurrent config\r\n");
+    printf("ratio:%.1f\r\n", ratio_ch0);
+    printf("limit:%.1f\r\n", limit_ch0);
+    printf("dac:%.1fV\r\n",dac_volt);
+    printf("sample cycle:%ds\r\n",adc_sample_cycle/1000);
     cmd_parse_init(); // 处理完指令后清空缓冲区
 }
 
@@ -280,11 +352,9 @@ void cmd_parse_ratio(void)
 {
     float new_ratio_ch0 = 0.00f;
 
-    printf("\r\nRatio = %.2f\r\n", ratio_ch0);
-    printf("Input value(0~100): \r\n");
+    printf("\r\nratio = %.1f\r\n", ratio_ch0);
+    printf("Input value(0-100): \r\n");
     cmd_parse_init(); // 处理完指令后清空缓冲区
-    usart1_rx_flag = 0;
-
     while (usart1_rx_flag == 0)
     {
         /* wait for input */
@@ -294,13 +364,14 @@ void cmd_parse_ratio(void)
     if (new_ratio_ch0 >= 0.0f && new_ratio_ch0 <= 100.0f)
     {
         ratio_ch0 = new_ratio_ch0;
-        printf("\r\nratio modified success\r\n");
-        printf("Ratio= %.2f\r\n", ratio_ch0);
+        printf("\r\nratio set ok\r\n");
+        printf("ratio=%.1f\r\n", ratio_ch0);
+        append_normal_log("Set Ratio: %.1f", ratio_ch0); // 写入操作日志
     }
     else
     {
         printf("\r\nratio invalid\r\n");
-        printf("Ratio= %.2f\r\n", ratio_ch0);
+        printf("ratio= %.1f\r\n", ratio_ch0);
     }
     cmd_parse_init(); // 处理完指令后清空缓冲区和标志
 }
@@ -308,11 +379,9 @@ void cmd_parse_ratio(void)
 void cmd_parse_limit(void)
 {
     float new_limit_ch0 = 0.0f;
-    printf("\r\nLimit = %.2f\r\n", limit_ch0);
-    printf("Input value(0~200): \r\n");
+    printf("\r\nLimit = %.1f\r\n", limit_ch0);
+    printf("Input value(0-500): \r\n");
     cmd_parse_init(); // 处理完指令后清空缓冲区
-
-    usart1_rx_flag = 0;
 
     while (usart1_rx_flag == 0)
     {
@@ -320,36 +389,152 @@ void cmd_parse_limit(void)
     }
 
     sscanf((char *)usart1_rx_buffer, "%f", &new_limit_ch0);
-    if (new_limit_ch0 >= 0.0f && new_limit_ch0 <= 200.0f)
+    if (new_limit_ch0 >= 0.0f && new_limit_ch0 <= 500.0f)
     {
         limit_ch0 = new_limit_ch0;
-        printf("\r\nlimit modified success\r\n");
-        printf("limit= %.2f\r\n", limit_ch0);
+        printf("\r\nlimit set ok\r\n");
+        printf("limit= %.1f\r\n", limit_ch0);    
+        append_normal_log("Set Limit: %.1f", limit_ch0); // 写入操作日志
     }
     else
     {
         printf("\r\nlimit invalid\r\n");
-        printf("limit= %.2f\r\n", limit_ch0);
+        printf("limit= %.1f\r\n", limit_ch0);
     }
     cmd_parse_init(); // 处理完指令后清空缓冲区和标志
 }
 
 void cmd_parse_config_save(void)
-{
-    printf("\r\nratio: %.2f \r\n", ratio_ch0);
-    printf("limit: %.2f \r\n", limit_ch0);
+{    
     printf("save parameters to flash\r\n");
-    spi_ratio_limit_write(ratio_ch0, limit_ch0); // 将当前ratio和limit写入Flash
+    printf("\r\nratio:%.1f \r\n", ratio_ch0);
+    printf("limit:%.1f \r\n", limit_ch0);
+    printf("dac:%.1f \r\n", dac_volt);
+    printf("sample cycle:%ds \r\n", adc_sample_cycle / 1000);
+    
+    // 【核心改进】：使用 KVDB 结构体统一打包保存
+    data_cfg_t temp_cfg;
+    get_data_config(&temp_cfg); // 先读出来保底
+    temp_cfg.ratio_ch0    = ratio_ch0;
+    temp_cfg.limit_ch0    = limit_ch0;
+    temp_cfg.dac_volt     = dac_volt;
+    temp_cfg.sample_cycle = adc_sample_cycle;
+    set_data_config(&temp_cfg); // 写入FlashDB
+    
+    adc_sample_start = 0; // 重置采样计时器以立即应用新的采样周期
+    
+    append_normal_log("Config saved to Flash"); // 写入操作日志
     cmd_parse_init(); // 处理完指令后清空缓冲区
 }
 
 void cmd_parse_config_read(void)
 {
-    spi_ratio_limit_read(&ratio_ch0, &limit_ch0); // 从Flash读取配置到ratio_ch0和limit_ch0
+    // 【核心改进】：使用 KVDB 统一读取
+    data_cfg_t temp_cfg;
+    get_data_config(&temp_cfg); 
+    
+    ratio_ch0        = temp_cfg.ratio_ch0;
+    limit_ch0        = temp_cfg.limit_ch0;
+    dac_volt         = temp_cfg.dac_volt;
+    adc_sample_cycle = temp_cfg.sample_cycle;
+
     printf("\r\nread parameters from flash\r\n");    
-    printf("ratio: %.2f \r\n", ratio_ch0);
-    printf("limit: %.2f \r\n", limit_ch0);
+    printf("ratio:%.1f \r\n", ratio_ch0);
+    printf("limit:%.1f \r\n", limit_ch0);
+    printf("dac:%.1f \r\n", dac_volt); 
+    printf("sample cycle: %ds \r\n", adc_sample_cycle / 1000);
+    
+    append_normal_log("Config loaded from Flash"); // 写入操作日志
     cmd_parse_init(); // 处理完指令后清空缓冲区
+}
+
+
+volatile uint8_t dac_test_flag = 0;
+volatile uint16_t dac_test_count = 0;
+void cmd_parse_dac_test(void)
+{
+    dac_test_flag = 1;
+    dac_test_count=9000;
+    append_normal_log("DAC Test Started"); // 写入操作日志
+    cmd_parse_init(); // 处理完指令后清空缓冲区
+}
+
+void cmd_parse_dac(void)
+{
+    float new_dac = 0.0f;
+    printf("\r\ndac=%.1fV\r\n", dac_volt);
+    printf("Input value(0-3.0): \r\n");
+    cmd_parse_init(); // 处理完指令后清空缓冲区
+
+    while (usart1_rx_flag == 0)
+    {
+        /* wait for input */
+    }
+
+    sscanf((char *)usart1_rx_buffer, "%f", &new_dac);
+    if (new_dac >= 0.0f && new_dac <= 3.0f)
+    {
+        dac_volt = new_dac;
+        printf("\r\ndac set ok\r\n");
+        printf("dac= %.1f\r\n", dac_volt);
+        append_normal_log("Set DAC: %.1f", dac_volt); // 写入操作日志
+    }
+    else
+    {
+        printf("\r\ndac invalid\r\n");
+        printf("dac= %.1f\r\n", dac_volt);
+    }
+    DAC_SetVoltage(0, dac_volt);
+    DAC_SetVoltage(1, dac_volt);
+    cmd_parse_init(); // 处理完指令后清空缓冲区和标志
+}
+
+
+uint8_t dac_test_flag6=0;
+uint8_t dac_test_flag3=0;
+uint8_t dac_test_flag0=0;
+void dac_test_tick(void)
+{
+    if(dac_test_flag == 1)
+    {
+        OLED_Printf(0,0,16,"DAC Test     ");
+        OLED_Printf(0,16,16,"DAC:1.0V ");
+        OLED_Refresh();
+        printf("\r\nDAC Test Start\r\n");
+        printf("DAC Output:1.0V\r\n");
+        DAC_SetVoltage(0, 1.0f);
+        DAC_SetVoltage(1, 1.0f);   
+        dac_test_flag=0; 
+    }  
+        if(dac_test_flag6==1)
+        {
+            OLED_Printf(0,16,16,"DAC:1.5V ");
+            OLED_Refresh();
+            printf("DAC Output:1.5V\r\n");
+            DAC_SetVoltage(0, 1.5f);
+            DAC_SetVoltage(1, 1.5f);
+            dac_test_flag6=0;
+        }
+        if(dac_test_flag3==1)
+        {
+            OLED_Printf(0,16,16,"DAC:2.0V ");
+            OLED_Refresh();
+            printf("DAC Output:2.0V\r\n");
+            DAC_SetVoltage(0, 2.0f);
+            DAC_SetVoltage(1, 2.0f);
+            dac_test_flag3=0;
+        }
+        if(dac_test_flag0==1)
+        {
+            OLED_Clear();
+            OLED_Printf(0,0,16,"system idle");
+            OLED_Refresh();
+            dac_test_flag=0;
+            printf("DAC Test End\r\n");
+            DAC_SetVoltage(0, dac_volt);
+            DAC_SetVoltage(1, dac_volt);
+            dac_test_flag0=0;
+        }
 }
 
 void cmd_parse_start(void)
@@ -359,27 +544,39 @@ void cmd_parse_start(void)
     printf("Sample cycle: %ds\r\n", adc_sample_cycle / 1000);
     overlimit_flag = 0; // 开始采样时重置超限标志，确保下次采样正常开始
     adc_sample_start = Gettim6Time() - adc_sample_cycle + 500;
-    cmd_parse_init(); // 处理完指令后清空缓冲区
+    
     sampling_flag = 1;
+    append_normal_log("Periodic Sampling START"); // 写入操作日志
+    cmd_parse_init(); // 处理完指令后清空缓冲区
 }
 
 void cmd_parse_stop(void)
 {
     sampling_flag = 0;
     printf("Periodic Sampling STOP\r\n");
-    cmd_parse_init(); // 处理完指令后清空缓冲区
+    
     hide_flag = 0; // 停止采样时默认取消加密状态
     overlimit_flag = 0; // 停止采样时重置超限标志
-
+    
+    append_normal_log("Periodic Sampling STOP"); // 写入操作日志
+    cmd_parse_init(); // 处理完指令后清空缓冲区
 }
 
 void sample_result_show(void)
 {
     data_calc_eng_volt();
     data_check_overlimit();    
+    
+    // ==========================================
+    // 【核心注入】：自动记录 TSDB 时序日志
+    // 根据当前状态，底层自动分发存入不同日志区
+    // ==========================================
     if (hide_flag == 1)
     {
-        printf("%s\r\n", data_encrypt());
+        char* encrypt_str = data_encrypt();
+        printf("%s\r\n", encrypt_str);
+        
+        append_hide_log(eng_volt, encrypt_str); // 存入隐藏日志区
         return;
     }
     else
@@ -388,24 +585,31 @@ void sample_result_show(void)
         if (overlimit_flag == 0)
         {
             printf(" ch0=%.2fV\r\n", eng_volt);
+            append_sample_log(eng_volt, ratio_ch0, (float)adc_sample_cycle); // 存入正常采样日志区
         }
         else
         {
-            printf(" ch0=%.2fV OverLimit (%.2f) !\r\n", eng_volt, limit_ch0);
+            printf(" ch0=%.2fV OverLimit(%.2f) !\r\n", eng_volt, limit_ch0);
+            append_over_log(eng_volt, limit_ch0); // 存入超限报警日志区
         }
     }
-
-
+    
+    // OLED刷新
+    OLED_Printf(0, 0, 16, "%0.2X:%0.2X:%0.2X    ", rtc_initpara.hour, rtc_initpara.minute, rtc_initpara.second); 
+    OLED_Printf(0, 16, 16, "%.2fV  ", eng_volt);                                                                     
+    OLED_Refresh();
 }
 
 void cmd_parse_hide(void)
 {
     hide_flag = 1;
+    append_normal_log("Hide Mode Enabled"); // 写入操作日志
     cmd_parse_init(); // 处理完指令后清空缓冲区
 }
 
 void cmd_parse_unhide(void)
 {
     hide_flag = 0;
+    append_normal_log("Hide Mode Disabled"); // 写入操作日志
     cmd_parse_init(); // 处理完指令后清空缓冲区
 }

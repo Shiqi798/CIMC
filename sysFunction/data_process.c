@@ -36,25 +36,29 @@ uint8_t data_check_overlimit(void)
  */
 char* data_encrypt(void)
 {
-    const uint16_t *unix_time_ptr = rtc_to_unix_time();
-    uint32_t unix_time = ((uint32_t)unix_time_ptr[0] << 16) | unix_time_ptr[1];
+    /* 1. 直接获取 32 位时间戳，无需拼接 */
+    uint32_t unix_time = get_unix_time();
 
+    /* 2. 处理电压值的整数和小数部分 */
     uint16_t eng_volt_int = (uint16_t)eng_volt;
     float frac_part = eng_volt - (float)eng_volt_int;
     uint32_t frac_scaled = (uint32_t)lroundf(frac_part * 65536.0f);
 
+    /* 处理四舍五入导致的进位 */
     if (frac_scaled >= 65536UL) {
         eng_volt_int++;
         frac_scaled = 0;
     }
     uint16_t eng_volt_frac = (uint16_t)frac_scaled;
 
+    /* 3. 格式化输出为 16 字节的十六进制字符串 */
     snprintf(encrypt_buf, sizeof(encrypt_buf),
              "%08X%04X%04X",
              unix_time,
              eng_volt_int,
              eng_volt_frac);
 
+    /* 4. 如果超限，在末尾追加 '*' 标记 */
     if (overlimit_flag == 1) {
         size_t current_len = strlen(encrypt_buf);
         if (current_len < sizeof(encrypt_buf) - 1) {
@@ -62,61 +66,30 @@ char* data_encrypt(void)
             encrypt_buf[current_len + 1] = '\0';
         }
     }
+    
     return encrypt_buf;
 }
 
-/*!
-    \brief      转换为unix时间戳（读取当前RTC时间），返回4字节16位字符串
-    \param[in]  none
-    \param[out] none
-    \retval     指向2个uint16_t的静态数组（高16位/低16位）
-*/
-const uint16_t *rtc_to_unix_time(void)
-{
-    rtc_current_time_get(&rtc_initpara);
 
-    static const uint16_t days_in_month[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-    static uint16_t unix_time_str[2];
+uint32_t get_unix_time(void)
+ {
+    // 定义 GD32 的时间参数结构
+    rtc_parameter_struct rtc_current;
 
-    // BCD码转十进制函数
-    #define BCD_TO_BIN(bcd) ((((bcd) >> 4) & 0x0F) * 10 + ((bcd) & 0x0F))
+    struct tm timeinfo = {0}; 
+    rtc_current_time_get(&rtc_current);
 
-    // 转换所有BCD码为十进制值
-    const uint8_t year_bin = BCD_TO_BIN(rtc_initpara.year);      // 0-99
-    const uint8_t month_bin = BCD_TO_BIN(rtc_initpara.month);    // 1-12
-    const uint8_t date_bin = BCD_TO_BIN(rtc_initpara.date);      // 1-31
-    const uint8_t hour_bin = BCD_TO_BIN(rtc_initpara.hour);      // 0-23
-    const uint8_t minute_bin = BCD_TO_BIN(rtc_initpara.minute);  // 0-59
-    const uint8_t second_bin = BCD_TO_BIN(rtc_initpara.second);  // 0-59
+    // tm_year 是从 1900 年开始算的。
+    timeinfo.tm_year = rtc_initpara.year + 100; 
+    
+    // tm_mon 规定是从 0 开始的 (0=1月, 11=12月)
+    timeinfo.tm_mon  = rtc_initpara.month - 1;  
+    
+    timeinfo.tm_mday = rtc_initpara.date;
+    timeinfo.tm_hour = rtc_initpara.hour;
+    timeinfo.tm_min  = rtc_initpara.minute;
+    timeinfo.tm_sec  = rtc_initpara.second;
 
-    const uint16_t full_year = 2000U + (uint16_t)year_bin;
-    const uint8_t is_leap = (uint8_t)(((full_year % 4U == 0U) && (full_year % 100U != 0U)) || (full_year % 400U == 0U));
-
-    uint32_t total_days = 0U;
-
-    // 计算从1970年到当前年份之前的天数
-    for (uint16_t y = 1970U; y < full_year; y++)
-    {
-        total_days += 365U + (uint32_t)(((y % 4U == 0U) && (y % 100U != 0U)) || (y % 400U == 0U));
-    }
-
-    // 计算当年已过去的天数
-    for (uint8_t m = 1U; m < month_bin; m++)
-    {
-        total_days += days_in_month[m - 1U];
-        if ((m == 2U) && is_leap)
-        {
-            total_days += 1U;
-        }
-    }
-
-    total_days += (uint32_t)(date_bin - 1U);
-
-    // 计算总秒数
-    const uint32_t unix_time = total_days * 86400U + hour_bin * 3600U + minute_bin * 60U + second_bin-8*3600U; // 减去8小时的秒数，转换为UTC时间
-
-    unix_time_str[0] = (uint16_t)(unix_time >> 16);
-    unix_time_str[1] = (uint16_t)(unix_time & 0xFFFFU);
-
-    return unix_time_str;
+    /* 5. 一键转换！mktime 会自动把上面的信息转换成从 1970 年开始的秒数 */
+    return (uint32_t)mktime(&timeinfo)+28800;
 }

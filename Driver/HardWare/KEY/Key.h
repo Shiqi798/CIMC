@@ -28,7 +28,7 @@
 extern int16_t CalcCount;
 extern int16_t CalcMode;
 extern uint8_t LED_Mode ;
-extern int16_t Count[3];
+extern int16_t Count[4];
 extern uint8_t g_key_stable_level[KEY_COUNT];
 
 

@@ -3,7 +3,28 @@
 
 #include "HeaderFiles.h"
 /***********************************Defines*************************************/
+#define FLASH_ADDR_DEVICE_ID    0x000000UL /* 设备ID（保留）*/
+#define FLASH_LEN_DEVICE_ID     64U
+/////////////////////////////数据扇区///////////////////////////////////////////////////////
+#define FLASH_ADDR_FLASH_DATA   0x00001000 /* 4KB 扇区：参数数据追加存储 */
+#define FLASH_ADDR_LOG_STATE    0x00002000 /* 4KB 扇区：日志状态追加存储 */
 
+///////////////////////////////end///////////////////////////////////////////////////
+#define SPI_FLASH_PAGE_SIZE     256U
+#define SPI_FLASH_SECTOR_SIZE   4096U
+#define SPI_FLASH_RECORD_SIZE   32U        /* 每条追加记录固定 32 字节 */
+#define SPI_FLASH_MAX_RECORDS   (SPI_FLASH_SECTOR_SIZE / SPI_FLASH_RECORD_SIZE)  /* 128 条记录 */
+
+#define SPI_FLASH_CS_LOW()      gpio_bit_reset(GPIOA, GPIO_PIN_15)
+#define SPI_FLASH_CS_HIGH()     gpio_bit_set(GPIOA, GPIO_PIN_15)
+
+#define FLASH_ID_READ_SUCESS    1U
+#define FLASH_ID_READ_FAILED    0U
+#define FLASH_ID                0xC84013U
+
+/* magic: 区分记录类型 */
+#define FLASH_DATA_MAGIC        0xA5A50001 /* 参数数据 */
+#define FLASH_EMPTY_MAGIC       0xFFFFFFFF /* 空白区域标记 */
 /************************************函数*****************************************/
 /* initialize SPI1 GPIO and parameter */
 void spi_flash_init(void);

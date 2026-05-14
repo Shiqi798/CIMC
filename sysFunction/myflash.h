@@ -3,6 +3,18 @@
 
 #include "HeaderFiles.h"
 
+/*
+[I/FAL] ==================== FAL partition table ====================
+[I/FAL] | name       | flash_dev  |   offset   |    length  |
+[I/FAL] -------------------------------------------------------------
+[I/FAL] | fdb_kvdb1  | nor_flash0 | 0x00000000 | 0x00008000 |
+[I/FAL] | op_log     | nor_flash0 | 0x00008000 | 0x00010000 |
+[I/FAL] | sample_log | nor_flash0 | 0x00018000 | 0x00030000 |
+[I/FAL] | over_log   | nor_flash0 | 0x00048000 | 0x00020000 |
+[I/FAL] | hide_log   | nor_flash0 | 0x00068000 | 0x00018000 |
+[I/FAL] =============================================================
+*/
+
 #define FLASH_ADDR_DEVICE_ID    0x000000UL /* 设备ID（保留）*/
 #define FLASH_LEN_DEVICE_ID     64U
 /////////////////////////////数据扇区///////////////////////////////////////////////////////
@@ -35,7 +47,7 @@ extern volatile uint32_t adc_sample_cycle;
 
 /* 参数记录，固定32B，存在0x00001000 */
 typedef struct {
-    uint32_t magic;         // 0xA5A50001 - 标记有效性
+
     uint32_t power_count;   // 上电次数
     uint32_t sample_cycle;  // 采样周期(ms)
     float ratio_ch0;        // 比例系数
@@ -63,6 +75,9 @@ uint8_t spi_flash_dac_update(float dac_volt);
 float spi_flash_dac_volt_read(void);
 
 void spi_flash_erase(void); // 擦除整个Flash
+
+/* FlashDB 移植自检：初始化 KVDB 并完成一次 set/get 回读 */
+uint8_t flashdb_kv_demo(void);
 /************************************参数操作************************************/
 
 /**

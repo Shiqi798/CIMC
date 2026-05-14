@@ -76,10 +76,5 @@ uint16_t ADC_get_ch1(void)
     return ch1_value;
 }
 
-void adc_sample_cycle_update(uint32_t cycle)
-{
-    adc_sample_cycle =cycle;
-    spi_flash_sample_cycle_update(1, cycle);
-}
 
 /**************************** 文件结束 *****************************/
