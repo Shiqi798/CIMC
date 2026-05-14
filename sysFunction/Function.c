@@ -35,10 +35,22 @@ void sysFunction_Init(void)
 	USART1_Init();
     // USART1_DMA_All_Init(); // 已在 USART1_Init() 内部调用，移除此行避免重复初始化
     OLED_Init();
+    OLED_Printf(0,0,16,"system idle");
+    OLED_Refresh();
     LED_Init(); 
     ADC_port_init();       // ??? ADC
     RTC_Init();            // ??? ????
     spi_flash_init();      // ??? SPI Flash
+    fal_init();
+    fal_show_part_table();
+    if (flashdb_kv_demo())
+    {
+        printf("[FDB DEMO] migrate ok\r\n");
+    }
+    else
+    {
+        printf("[FDB DEMO] migrate check failed\r\n");
+    }
     Key_Init();      // ??? ??
 
     nvic_config();        // ?? NVIC
@@ -70,12 +82,14 @@ void sysFunction_loop(void)
         sample_led_update(); // ??????????
         key_update();        // ????
         cmd_parse();         // ????
+        dac_test_tick();    
     }
 }
 
 void sample_led_update(void)
 {
     static uint32_t led1_turn_start = 0;
+    static uint8_t last_sampling_flag=0;
     if (sampling_flag == 1)
     {
         data_calc_eng_volt();
@@ -95,19 +109,24 @@ void sample_led_update(void)
                 sample_result_show();
             }
             rtc_current_time_get(&rtc_initpara);
-            OLED_Printf(0, 0, 16, "%0.2X:%0.2X:%0.2X    ", rtc_initpara.hour, rtc_initpara.minute, rtc_initpara.second); // ????
-            OLED_Printf(0, 16, 16, "%.2fV  ", eng_volt);                                                                 // ????
-            OLED_Refresh();
+
         }
     }
     else
     {
         led1_off();
         led2_off();
+//        OLED_Printf(0, 0, 16, "system idle"); // ????
+ //       OLED_Printf(0, 16, 16, "            ");
+ //       OLED_Refresh();
+    }
+    if(last_sampling_flag==1 && sampling_flag==0) // 刚从采样状态切换到非采样状态
+    {
         OLED_Printf(0, 0, 16, "system idle"); // ????
         OLED_Printf(0, 16, 16, "            ");
         OLED_Refresh();
     }
+    last_sampling_flag = sampling_flag;
 }
 
 void key_update(void)
@@ -123,13 +142,24 @@ void key_update(void)
             cmd_parse_stop(); // ????
 		}
 	}
+    /*
+    // 临时调试：监控 PE11（sample_cycle2，对应 index 2）稳定电平变化
+    {
+        static uint8_t prev_level_cycle2 = KEY_UNPRESSED;
+        uint8_t curr_level_cycle2 = Key_GetState(sample_cycle2);
+        if (curr_level_cycle2 != prev_level_cycle2)
+        {
+            prev_level_cycle2 = curr_level_cycle2;
+        }
+    }
+    */
 	if (Key_Check(sample_cycle1, KEY_DOWN))
 	{
         spi_flash_sample_cycle_update(1,5000); //5 ?????
 	}
 	if (Key_Check(sample_cycle2, KEY_DOWN))
 	{
-        spi_flash_sample_cycle_update(0,10000);
+        spi_flash_sample_cycle_update(1,10000);
 	}
 	if (Key_Check(sample_cycle3, KEY_DOWN))
 	{
