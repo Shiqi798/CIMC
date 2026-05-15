@@ -1,9 +1,4 @@
 #include "cmd_parse.h"
-#include "myflashdb_data.h"  // 引入我们写好的参数库
-#include "myflashdb_log.h"   // 引入我们写好的日志库
-#include <ctype.h>
-#include <string.h>
-#include <stdio.h>
 
 /*------------------ 函数 ------------------*/
 extern uint32_t Gettim6Time(void);
@@ -28,6 +23,7 @@ static uint8_t selftest_oled(void)
     OLED_Printf(0, 0, 16, "OLED SelfTest");
     OLED_Printf(0, 16, 16, "Refresh OK");
     OLED_Refresh();
+    oled_idle_time = 3000; 
     return 1;
 }
 
@@ -92,28 +88,57 @@ void cmd_parse(void)
             cmd_buf[--cmd_len] = '\0';
         }
         // ========== 指令解析核心 ==========
+
         if(strstr(cmd_buf, "dac test") != NULL)
         {
             cmd_parse_dac_test();
-        }        
-        else if (strstr(cmd_buf, "test") != NULL) // 赛题test指令
+        }
+        else if (strstr(cmd_buf, "sleep") != NULL) // sample read
+        {
+            rtc_set_wakeup(10);//==========
+            printf("sleep...\r\n");
+            pmu_flag_clear(PMU_FLAG_RESET_WAKEUP);//============
+            pmu_to_deepsleepmode(PMU_LDO_LOWPOWER,PMU_LOWDRIVER_ENABLE, WFI_CMD);
+            SystemInit();
+            printf("Wake Up OK");
+        }
+        else if (strstr(cmd_buf, "sample read") != NULL) // sample read
+        {
+            cmd_parse_sample_read();
+        }
+        else if (strstr(cmd_buf, "over read") != NULL) // over read
+        {
+            cmd_parse_over_read();
+        }
+        else if (strstr(cmd_buf, "hide read") != NULL) // hide read
+        {
+            cmd_parse_hide_read();
+        }
+        else if (strstr(cmd_buf, "log read") != NULL) // log read
+        {
+            cmd_parse_log_read();
+        }
+
+        else if (strstr(cmd_buf, "test") != NULL) // test
         {
             cmd_parse_test();
+            append_normal_log("test OK"); 
         }
-        else if (strstr(cmd_buf, "RTC Config") != NULL) // 赛题RTC Config指令
+        else if (strstr(cmd_buf, "RTC Config") != NULL) // RTC Config
         {
             cmd_parse_RTC_Config();
+
         }
-        else if (strstr(cmd_buf, "RTC now") != NULL) // 赛题RTC now指令
+        else if (strstr(cmd_buf, "RTC now") != NULL) // RTC now
         {
             cmd_parse_RTC_now();
         }
 
-        else if (strstr(cmd_buf, "ratio") != NULL) // 赛题ratio指令
+        else if (strstr(cmd_buf, "ratio") != NULL) // ratio
         {
             cmd_parse_ratio();
         }
-        else if (strstr(cmd_buf, "limit") != NULL) // 赛题limit指令
+        else if (strstr(cmd_buf, "limit") != NULL) // limit
         {
             cmd_parse_limit();
         }
@@ -122,37 +147,42 @@ void cmd_parse(void)
         {
             cmd_parse_dac();
         }
-        else if (strstr(cmd_buf, "config save") != NULL) // 赛题config save指令
+        else if (strstr(cmd_buf, "config save") != NULL) // config save
         {
-            cmd_parse_config_save();
+            cmd_parse_config_save(1);
+            append_normal_log("Config saved to Flash"); 
         }
-        else if (strstr(cmd_buf, "config read") != NULL) // 赛题config read指令
+        else if (strstr(cmd_buf, "config read") != NULL) // config read
         {
             cmd_parse_config_read();
         }
-        else if (strstr(cmd_buf, "conf") != NULL) // 赛题conf指令
+        else if (strstr(cmd_buf, "conf") != NULL) // conf
         {
             cmd_parse_conf();
         }        
-        else if (strstr(cmd_buf, "start") != NULL) // 赛题start指令
+        else if (strstr(cmd_buf, "start") != NULL) // start
         {            
             cmd_parse_start();
+            append_normal_log("Periodic Sampling START(CMD)"); // 写入操作日志
         }
         else if (strstr(cmd_buf, "stop") != NULL) // 赛题stop指令
         {           
             cmd_parse_stop();
+            append_normal_log("Periodic Sampling STOP(CMD)"); // 写入操作日志
         }
         else if (strstr(cmd_buf, "unhide") != NULL) // 赛题unhide指令
         {            
             cmd_parse_unhide();
+            append_normal_log("Hide disabled");
         }
         else if (strstr(cmd_buf, "hide") != NULL) // 赛题hide指令
         {            
             cmd_parse_hide();
+            append_normal_log("Hide enabled");
         }
         else
         {
-            printf("Unknown command. Please try again.\r\n");
+            printf("[ERROR] Unknown Command\r\n");
         }
 
         cmd_parse_init();
@@ -174,10 +204,9 @@ void cmd_parse_test(void)
     printf("dac:%s\r\n", dac_ok ? "ok" : "error");
     printf("uart:ok\r\n");
     printf("system self test end\r\n");
-    
-    append_normal_log("System Self Test Done"); // 写入操作日志
     cmd_parse_init(); // 处理完指令后清空缓冲区
 }
+
 
 int parse_datetime(const char *str, 
                    uint16_t *year, uint8_t *month, uint8_t *date,
@@ -300,30 +329,29 @@ void cmd_parse_RTC_Config(void)
         p[--len] = '\0';
     }
 
-    // 如果去除空白后字符串为空，提示错误
     if (*p == '\0') {
         printf("Error: empty input\r\n");
         cmd_parse_init();
         return;
     }
 
-    // 调用改进的解析函数
+    // 调用解析函数
     int ret = parse_datetime(p, &year, &month, &date, &hour, &minute, &second);
     if (ret != 0) {
         printf("Datetime parse failed (code %d). Please try again.\r\n", ret);
         cmd_parse_init();
+        append_normal_log("RTC Config ERROR"); 
         return;
     }
 
     //  rtc_setup内部转换
     rtc_setup(year, month, date, hour, minute, second);
 
-    printf("RTC Config success\r\n");
-    rtc_show_time();
+    printf("RTC Config OK\r\n");
     rtc_show_time();
     printf("\r\n");
     
-    append_normal_log("RTC Configured"); // 写入操作日志
+    append_normal_log("RTC Config OK"); 
     cmd_parse_init();
 }
 
@@ -366,7 +394,7 @@ void cmd_parse_ratio(void)
         ratio_ch0 = new_ratio_ch0;
         printf("\r\nratio set ok\r\n");
         printf("ratio=%.1f\r\n", ratio_ch0);
-        append_normal_log("Set Ratio: %.1f", ratio_ch0); // 写入操作日志
+        append_normal_log("ratio set ok %.1f", ratio_ch0); // 写入操作日志
     }
     else
     {
@@ -394,7 +422,7 @@ void cmd_parse_limit(void)
         limit_ch0 = new_limit_ch0;
         printf("\r\nlimit set ok\r\n");
         printf("limit= %.1f\r\n", limit_ch0);    
-        append_normal_log("Set Limit: %.1f", limit_ch0); // 写入操作日志
+        append_normal_log("limit set ok %.1f", limit_ch0); // 写入操作日志
     }
     else
     {
@@ -404,15 +432,16 @@ void cmd_parse_limit(void)
     cmd_parse_init(); // 处理完指令后清空缓冲区和标志
 }
 
-void cmd_parse_config_save(void)
-{    
-    printf("save parameters to flash\r\n");
-    printf("\r\nratio:%.1f \r\n", ratio_ch0);
-    printf("limit:%.1f \r\n", limit_ch0);
-    printf("dac:%.1f \r\n", dac_volt);
-    printf("sample cycle:%ds \r\n", adc_sample_cycle / 1000);
-    
-    // 【核心改进】：使用 KVDB 结构体统一打包保存
+void cmd_parse_config_save(uint8_t printf_flag)
+{
+    if (printf_flag)
+    {
+        printf("save parameters to flash\r\n");
+        printf("\r\nratio:%.1f \r\n", ratio_ch0);
+        printf("limit:%.1f \r\n", limit_ch0);
+        printf("dac:%.1f \r\n", dac_volt);
+        printf("sample cycle:%ds \r\n", adc_sample_cycle / 1000);
+    }
     data_cfg_t temp_cfg;
     get_data_config(&temp_cfg); // 先读出来保底
     temp_cfg.ratio_ch0    = ratio_ch0;
@@ -422,14 +451,11 @@ void cmd_parse_config_save(void)
     set_data_config(&temp_cfg); // 写入FlashDB
     
     adc_sample_start = 0; // 重置采样计时器以立即应用新的采样周期
-    
-    append_normal_log("Config saved to Flash"); // 写入操作日志
     cmd_parse_init(); // 处理完指令后清空缓冲区
 }
 
 void cmd_parse_config_read(void)
 {
-    // 【核心改进】：使用 KVDB 统一读取
     data_cfg_t temp_cfg;
     get_data_config(&temp_cfg); 
     
@@ -438,13 +464,13 @@ void cmd_parse_config_read(void)
     dac_volt         = temp_cfg.dac_volt;
     adc_sample_cycle = temp_cfg.sample_cycle;
 
-    printf("\r\nread parameters from flash\r\n");    
+    printf("\r\nread parameters from flash\r\n");
     printf("ratio:%.1f \r\n", ratio_ch0);
     printf("limit:%.1f \r\n", limit_ch0);
     printf("dac:%.1f \r\n", dac_volt); 
     printf("sample cycle: %ds \r\n", adc_sample_cycle / 1000);
     
-    append_normal_log("Config loaded from Flash"); // 写入操作日志
+    append_normal_log("Config read ok"); // 写入操作日志
     cmd_parse_init(); // 处理完指令后清空缓冲区
 }
 
@@ -455,7 +481,7 @@ void cmd_parse_dac_test(void)
 {
     dac_test_flag = 1;
     dac_test_count=9000;
-    append_normal_log("DAC Test Started"); // 写入操作日志
+
     cmd_parse_init(); // 处理完指令后清空缓冲区
 }
 
@@ -477,7 +503,7 @@ void cmd_parse_dac(void)
         dac_volt = new_dac;
         printf("\r\ndac set ok\r\n");
         printf("dac= %.1f\r\n", dac_volt);
-        append_normal_log("Set DAC: %.1f", dac_volt); // 写入操作日志
+        append_normal_log("dac set ok %.1f", dac_volt); // 写入操作日志
     }
     else
     {
@@ -505,6 +531,7 @@ void dac_test_tick(void)
         DAC_SetVoltage(0, 1.0f);
         DAC_SetVoltage(1, 1.0f);   
         dac_test_flag=0; 
+        append_normal_log("DAC Test Started");
     }  
         if(dac_test_flag6==1)
         {
@@ -534,58 +561,50 @@ void dac_test_tick(void)
             DAC_SetVoltage(0, dac_volt);
             DAC_SetVoltage(1, dac_volt);
             dac_test_flag0=0;
+            append_normal_log("DAC Test Ended"); 
         }
 }
 
 void cmd_parse_start(void)
 {
-
     printf("\r\nPeriodic Sampling\r\n");
     printf("Sample cycle: %ds\r\n", adc_sample_cycle / 1000);
-    overlimit_flag = 0; // 开始采样时重置超限标志，确保下次采样正常开始
-    adc_sample_start = Gettim6Time() - adc_sample_cycle + 500;
-    
+    overlimit_flag = 0; // 重置超限标志
     sampling_flag = 1;
-    append_normal_log("Periodic Sampling START"); // 写入操作日志
+    sample_result_show();
+    adc_sample_start = 0;
     cmd_parse_init(); // 处理完指令后清空缓冲区
 }
 
 void cmd_parse_stop(void)
 {
     sampling_flag = 0;
-    printf("Periodic Sampling STOP\r\n");
+    printf("\r\nPeriodic Sampling STOP\r\n");
     
-    hide_flag = 0; // 停止采样时默认取消加密状态
-    overlimit_flag = 0; // 停止采样时重置超限标志
-    
-    append_normal_log("Periodic Sampling STOP"); // 写入操作日志
-    cmd_parse_init(); // 处理完指令后清空缓冲区
+    hide_flag = 0; // 停止采样取消加密
+    overlimit_flag = 0; // 重置超限标志
+    cmd_parse_init(); 
 }
 
 void sample_result_show(void)
 {
     data_calc_eng_volt();
+    // 超限检查
     data_check_overlimit();    
-    
-    // ==========================================
-    // 【核心注入】：自动记录 TSDB 时序日志
-    // 根据当前状态，底层自动分发存入不同日志区
-    // ==========================================
     if (hide_flag == 1)
     {
         char* encrypt_str = data_encrypt();
         printf("%s\r\n", encrypt_str);
         
         append_hide_log(eng_volt, encrypt_str); // 存入隐藏日志区
-        return;
     }
     else
     {
-        rtc_show_time();
+        rtc_show_time(); // 串口打印时间
         if (overlimit_flag == 0)
         {
             printf(" ch0=%.2fV\r\n", eng_volt);
-            append_sample_log(eng_volt, ratio_ch0, (float)adc_sample_cycle); // 存入正常采样日志区
+            append_sample_log(eng_volt, ratio_ch0, (float)adc_sample_cycle);
         }
         else
         {
@@ -594,22 +613,42 @@ void sample_result_show(void)
         }
     }
     
-    // OLED刷新
-    OLED_Printf(0, 0, 16, "%0.2X:%0.2X:%0.2X    ", rtc_initpara.hour, rtc_initpara.minute, rtc_initpara.second); 
+    //局部刷新电压！
     OLED_Printf(0, 16, 16, "%.2fV  ", eng_volt);                                                                     
-    OLED_Refresh();
+//    OLED_Refresh();
 }
 
 void cmd_parse_hide(void)
 {
     hide_flag = 1;
-    append_normal_log("Hide Mode Enabled"); // 写入操作日志
     cmd_parse_init(); // 处理完指令后清空缓冲区
 }
 
 void cmd_parse_unhide(void)
 {
     hide_flag = 0;
-    append_normal_log("Hide Mode Disabled"); // 写入操作日志
-    cmd_parse_init(); // 处理完指令后清空缓冲区
+    cmd_parse_init(); 
+}
+
+
+void cmd_parse_sample_read(void)
+{
+    print_latest_sample_logs(10);
+    cmd_parse_init(); 
+}
+
+void cmd_parse_over_read(void)
+{
+    print_latest_over_logs(10);
+    cmd_parse_init(); 
+}
+void cmd_parse_hide_read(void)
+{
+    print_latest_hide_logs(10);
+    cmd_parse_init(); 
+}
+void cmd_parse_log_read(void)
+{
+    print_latest_normal_logs(20);
+    cmd_parse_init(); 
 }

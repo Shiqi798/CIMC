@@ -1,5 +1,5 @@
 #include "HeaderFiles.h"
-#include <fal.h>
+
 #define FILE_MAX_RECORDS     10U
 #define FILE_PATH_LEN        64U
 #define app_buf_size         1024U//app.bin文件的缓冲区大小，单位字节
@@ -7,10 +7,16 @@
 #define APP_SIZE 4 // 4*16KB = 64KB
 
 int main(void)
-{
+{	
+
 	sysFunction_Init();
 	sysFunction_loop();
+	
+//		clear_all_logs();
+	
 }
+
+
 
 // 函数指针：指向App复位中断
 typedef void (*pFunction)(void);
@@ -35,11 +41,10 @@ void backto_bootloader(void)
 /*
 int main(void)
 {
-    spi_flash_erase(); // 擦除整个Flash（测试用）
+//    spi_flash_erase();
 
 
-	SCB->VTOR = FLASH_BASE | 0x8000; 
-	__enable_irq(); 
+
     sysFunction_Init();
 	led1_on();
 	while(1)

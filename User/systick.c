@@ -36,7 +36,6 @@ OF SUCH DAMAGE.
 #include "systick.h"
 
 volatile static uint32_t delay;
-
 /*!
     \brief      configure systick
     \param[in]  none
@@ -66,6 +65,7 @@ void delay_1ms(uint32_t count)
     delay = count;
 
     while(0U != delay){
+        
     }
 }
 

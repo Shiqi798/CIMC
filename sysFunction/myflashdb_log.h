@@ -24,7 +24,7 @@
 typedef struct {
     float voltage;
     float ratio;
-    float sample_cycle;
+    uint16_t sample_cycle;
 } sample_log_t;
 
 //≥¨œﬁ»’÷æ
@@ -47,7 +47,7 @@ typedef struct {
 int flash_log_init(void);
 
 //–¥
-void append_sample_log(float voltage, float ratio, float sample_cycle);
+void append_sample_log(float voltage, float ratio, uint16_t sample_cycle);
 void append_over_log(float voltage, float limit);
 void append_hide_log(float voltage, const char* hide_str);
 
@@ -63,5 +63,5 @@ void clear_all_sample_logs(void);
 void clear_all_over_logs(void);
 void clear_all_hide_logs(void);
 void clear_all_normal_logs(void);
-
+void clear_all_logs(void);
 #endif

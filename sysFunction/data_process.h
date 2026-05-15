@@ -13,7 +13,7 @@ void data_calc_eng_volt(void);
 uint8_t data_check_overlimit(void);
 char* data_encrypt(void);
 uint32_t get_unix_time(void);
-
+char* unix_to_str(uint32_t timestamp);
 
 
 

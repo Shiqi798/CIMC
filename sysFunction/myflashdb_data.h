@@ -15,15 +15,15 @@
 
 // KVDB 键值宏定义 
 #define DATA_CFG_KEY    "data_config"  // 总配置结构体
-#define TEAM_NUM_KEY    "team_number"  // 队伍编号
-#define POWER_CNT_KEY   "power_count"  // 上电次数
+#define TEAM_NUM_KEY    "team_number" 
+#define POWER_CNT_KEY   "power_count"  
 
 
 typedef struct {
-    uint32_t sample_cycle;  // 采样周期(ms)
-    float    ratio_ch0;     // 比例系数
-    float    limit_ch0;     // 限值
-    float    dac_volt;      // DAC电压
+    uint32_t sample_cycle;  
+    float    ratio_ch0;    
+    float    limit_ch0;    
+    float    dac_volt; 
 } data_cfg_t;
 
 int flashdata_init(void);

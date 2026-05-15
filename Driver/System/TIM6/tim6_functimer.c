@@ -82,7 +82,6 @@ void tim6_functimer_init(void)
 }
 
 
-
 void TIMERX_INT_IRQHandler(void)
 {
 
@@ -107,6 +106,15 @@ void TIMERX_INT_IRQHandler(void)
             if (dac_test_count == 0)
                 dac_test_flag0 = 1;
         }
+        if (oled_idle_time > 0)
+        {
+            if(oled_idle_time == 1)
+            {
+                oled_idle_refresh_flag = 1;
+            }
+            oled_idle_time--;
+        }
+
 
         timer_interrupt_flag_clear(TIMERX_INT, TIMER_INT_FLAG_UP); /* 清除定时器更新中断标志 */
     }

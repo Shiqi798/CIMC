@@ -42,6 +42,8 @@ virtualFolder:
         - path: ../Driver/FlashDB/flashdb/fdb_kvdb.c
         - path: ../Driver/FlashDB/flashdb/fdb_tsdb.c
         - path: ../Driver/FlashDB/flashdb/fdb_utils.c
+        - path: ../Driver/HardWare/sleep_wake/sleep_wake.c
+        - path: ../Driver/HardWare/sleep_wake/sleep_wake.h
       folders: []
     - name: HeaderFiles
       files:
@@ -150,6 +152,7 @@ targets:
         - ../Driver/FlashDB/fal
         - ../Driver/FlashDB
         - ../Driver/FlashDB/flashdb
+        - ../Driver/HardWare/sleep_wake
       libList: []
     excludeList: []
     settings:
@@ -255,8 +258,8 @@ targets:
               isChecked: true
               isStartup: true
               mem:
-                size: "0x80000"
-                startAddr: "0x8000000"
+                size: "0x78000"
+                startAddr: "0x08008000"
               tag: IROM
             - id: 2
               isChecked: false

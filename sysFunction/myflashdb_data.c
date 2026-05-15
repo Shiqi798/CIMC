@@ -63,10 +63,10 @@ void get_data_config(data_cfg_t *out_cfg) {
     struct fdb_blob blob;
 //    size_t read_len;
 //初始化数据
-    out_cfg->sample_cycle = 5000;              // 默认 5000ms
-    out_cfg->ratio_ch0    = 1.0f;              // 默认比例 1.0
-    out_cfg->limit_ch0    = 10.0f;            // 默认报警阈值 220.0
-    out_cfg->dac_volt     = 3.0f;              // 默认 DAC 电压 1.5V
+    out_cfg->sample_cycle = 5000; 
+    out_cfg->ratio_ch0    = 1.0f;     
+    out_cfg->limit_ch0    = 10.0f;            
+    out_cfg->dac_volt     = 0.0f;
 
 //flash读取
     fdb_blob_make(&blob, out_cfg, sizeof(data_cfg_t));

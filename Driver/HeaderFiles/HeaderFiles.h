@@ -44,6 +44,7 @@
 //#include "myflash.h"
 #include "myflashdb_log.h"
 #include "myflashdb_data.h"
+#include "sleep_wake.h"
 
 /**********************sysFunction_END*********************/
 /****************************End*****************************/

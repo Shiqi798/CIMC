@@ -26,12 +26,17 @@ void cmd_parse_limit(void);
 void cmd_parse_dac_test(void);
 void dac_test_tick(void);
 void cmd_parse_dac(void);
-void cmd_parse_config_save(void);
+void cmd_parse_config_save(uint8_t printf_flag);
 void cmd_parse_config_read(void);
 void cmd_parse_start(void);
 void cmd_parse_stop(void);
 void sample_result_show(void);
 void cmd_parse_hide(void);
 void cmd_parse_unhide(void);
+
+void cmd_parse_sample_read(void);
+void cmd_parse_over_read(void);
+void cmd_parse_hide_read(void);
+void cmd_parse_log_read(void);
 
 #endif 

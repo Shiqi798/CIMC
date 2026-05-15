@@ -16,53 +16,58 @@ uint32_t RTCSRC_FLAG = 0;
 */
 uint8_t RTC_Init(void)
 {
-    uint16_t prescaler_a = 0;                           /* RTC异步分频值 */
-    uint16_t prescaler_s  = 0;                          /* RTC同步分频值 */
-    uint8_t RTCSRC_FLAG = 0;
-    uint16_t bkpflag = 0;
-  
-    rcu_periph_clock_enable(RCU_PMU);                   /* 使能电源接口时钟 */
-    pmu_backup_write_enable();                          /* 备份域写使能 */   
-    bkpflag = RTC_BKP0;                                 /* 读取BKP0的值 */
-    rcu_osci_on(RCU_LXTAL);                             /* 打开外部低速晶振 */
-		
-    if ((rcu_osci_stab_wait(RCU_LXTAL) == ERROR))       /* 开启CK_LXTAL失败? */
-    { 
-        rcu_osci_on(RCU_IRC32K);                        /* 打开CK_IRC32K时钟 */     
-      
-        if ((rcu_osci_stab_wait(RCU_IRC32K) == ERROR))  /* 开启CK_IRC32K失败? */
-        {
-            return 1;                                   /* 开启RTC时钟源失败 */
-        }
+    /* 1. 使能 PMU 时钟并解锁后备域 */
+    rcu_periph_clock_enable(RCU_PMU);
+    pmu_backup_write_enable();
+
+    /* 2. 极其关键：无论是否冷热启动，必须使能 RTC 的 APB 外设时钟并等待同步 */
+    rcu_periph_clock_enable(RCU_RTC);
+    rtc_register_sync_wait();
+
+    /* 3. 检查是否为冷启动 (第一次上电) */
+    if (RTC_BKP0 != 0x7050)
+    {
+        /* ===== 第一次初始化 ===== */
         
-        rcu_rtc_clock_config(RCU_RTCSRC_IRC32K);        /* 选择 CK_IRC32K时钟作为RTC的时钟源 */
-        prescaler_s = 0x13F;                            /* RTC同步分频值(0~7FFF) */
-        prescaler_a = 0x63;                             /* RTC异步分频值(0~0X7F) */
-        RTC_BKP0 = 0X7051;                              /* 标记RTC使用LSI */
-    }	
-    else
-    {  
-        rcu_rtc_clock_config(RCU_RTCSRC_LXTAL);         /* 选择RCU_LXTAL时钟作为RTC的时钟源 */
-        prescaler_s = 0xFF;
-        prescaler_a = 0x7F;
-        RTC_BKP0 = 0X7050;                              /* 标记RTC使用LSE */
+        /* 开启外部低速晶振 LXTAL */
+        rcu_osci_on(RCU_LXTAL);
+        if (rcu_osci_stab_wait(RCU_LXTAL) == ERROR)
+        {
+            printf("LXTAL Failed!\r\n");
+            return 1;   
+        }
+
+        /* 配置 RTC 时钟源为 LXTAL */
+        rcu_rtc_clock_config(RCU_RTCSRC_LXTAL);
+
+        /* 再次等待同步（切换时钟源后需重新同步） */
+        rtc_register_sync_wait();
+
+        /* 配置 RTC 预分频参数 (LXTAL = 32.768kHz) */
+        rtc_initpara.factor_asyn = 0x7F;  // 127
+        rtc_initpara.factor_syn  = 0xFF;  // 255
+        rtc_initpara.display_format = RTC_24HOUR;
+        
+        /* 致命Bug修复：必须调用初始化函数把参数写进去！ */
+        if (SUCCESS != rtc_init(&rtc_initpara))
+        {
+            printf("RTC Init Config Failed!\r\n");
+            return 1;
+        }
+
+        /* 写入初始化完成标志 */
+        RTC_BKP0 = 0x7050;
+//        printf("RTC Cold Start Init OK (LSE)\r\n");
     }
-    
-    rcu_periph_clock_enable(RCU_RTC);                   /* 使能RTC时钟 */
-    rtc_register_sync_wait();                           /* 等待同步 */                  
-    RTCSRC_FLAG = GET_BITS(RCU_BDCTL, 8, 9);            /* 获取RTC时钟源选择 */ 
-    
-    /* BKP0的内容既不是0X7050,也不是0X7051,说明是第一次配置,或者RTC时钟源没有配置，需要设置时间日期. */
-    if(((bkpflag != 0x7050) && (bkpflag != 0x7051)) || (0x00 == RTCSRC_FLAG))    
-    {  
-        rtc_initpara.factor_asyn = prescaler_a;         /* 设置RTC异步分频系数 */
-        rtc_initpara.factor_syn = prescaler_s;          /* 设置RTC同步分频系数 */
-        rtc_initpara.display_format = RTC_24HOUR;       /* RTC时间格式为24小时格式 */
-        rtc_setup(2025,1 , 1, 1, 00, 50);                     /* 设置RTC时间日期 */
-    
-    }  
-    
-    return 0; 
+    else
+    {
+        /* 热启动/唤醒后：虽然不需要重新配置时钟源，但建议清除一下可能残留的标志位 */
+        rtc_flag_clear(RTC_FLAG_WT);
+        exti_interrupt_flag_clear(EXTI_22);
+//        printf("RTC Warm Start OK\r\n");
+    }
+
+    return 0;
 }
 
 /**

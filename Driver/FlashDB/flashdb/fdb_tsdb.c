@@ -889,7 +889,7 @@ static void tsl_format_all(fdb_tsdb_t db)
     /* read the current using sector info */
     read_sector_info(db, db->cur_sec.addr, &db->cur_sec, false);
 
-    FDB_INFO("All sector format finished.\n");
+//    FDB_INFO("All sector format finished.\n");
 }
 
 /**
