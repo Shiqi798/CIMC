@@ -65,17 +65,14 @@ uint16_t DAC_Get(uint8_t channel)
 }
 
 // 将输入电压换算为12位DAC原始数据。
+#define DAC_VREF 1.8f   // 实测值
+
 uint16_t DAC_VoltageToData(float voltage)
 {
-	if (voltage <= 0.0f) {
-		return 0U;
-	}
+    if (voltage <= 0.0f) return 0;
+    if (voltage >= DAC_VREF) return 4095;
 
-	if (voltage >= 3.3f) {
-		return 4095U;
-	}
-
-	return (uint16_t)lroundf((voltage / 3.3f) * 4095.0f);
+    return (uint16_t)((voltage / DAC_VREF) * 4095.0f + 0.5f);
 }
 
 // 按输入电压设置指定DAC通道输出

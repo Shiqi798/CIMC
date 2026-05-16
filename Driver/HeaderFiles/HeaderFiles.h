@@ -20,6 +20,8 @@
 #include <string.h>
 
 #include <flashdb.h>
+
+#define BCD2BYTE(val) ((((val) >> 4) * 10) + ((val) & 0x0F))
 /************************* DRIVER *************************/  
 #include "fal.h"
 #include "fal_cfg.h"

@@ -94,13 +94,18 @@ void cmd_parse(void)
             cmd_parse_dac_test();
         }
         else if (strstr(cmd_buf, "sleep") != NULL) // sample read
-        {
-            rtc_set_wakeup(10);//==========
-            printf("sleep...\r\n");
+        {            
+            OLED_Printf(0,0,16,"Sleep Mode   ");
+            OLED_Refresh();
+            RTC_SetWakeup(10);//==========
             pmu_flag_clear(PMU_FLAG_RESET_WAKEUP);//============
             pmu_to_deepsleepmode(PMU_LDO_LOWPOWER,PMU_LOWDRIVER_ENABLE, WFI_CMD);
             SystemInit();
-            printf("Wake Up OK");
+            USART1_Init(); 
+            printf("\r\nWake Up OK\r\n");
+            OLED_Printf(0,0,16,"wake up ok    ");
+            OLED_Refresh();
+            oled_idle_time=2000;
         }
         else if (strstr(cmd_buf, "sample read") != NULL) // sample read
         {
@@ -307,51 +312,88 @@ void cmd_parse_RTC_Config(void)
     uint8_t month, date, hour, minute, second;
     char input_buf[64];
 
+    printf("\r\nInput Datetime (YYYY-MM-DD HH:MM:SS):\r\n");
+
     USART1_ClearRxBuf();
     usart1_rx_flag = 0;
-    printf("\r\nInput Datetime\r\n");
 
-    while (usart1_rx_flag == 0) {
-        /* 等待输入完成 */
-    }
+    /* ===== 等待输入完成 ===== */
+    while (usart1_rx_flag == 0);
 
-    // 确保以'\0'结尾
+    __disable_irq();
+
     strncpy(input_buf, (char *)usart1_rx_buffer, sizeof(input_buf) - 1);
     input_buf[sizeof(input_buf) - 1] = '\0';
+    usart1_rx_flag = 0;
 
-    // 去除首尾空白字符
+    __enable_irq();
+
+    /* ===== 去空白 ===== */
     char *p = input_buf;
-    while (*p == '\r' || *p == '\n' || *p == ' ' || *p == '\t') p++;
+
+    while (*p == ' ' || *p == '\r' || *p == '\n' || *p == '\t') p++;
 
     size_t len = strlen(p);
-    while (len > 0 && (p[len-1] == '\r' || p[len-1] == '\n' || 
-                       p[len-1] == ' ' || p[len-1] == '\t')) {
+    while (len > 0 &&
+          (p[len-1] == ' ' || p[len-1] == '\r' ||
+           p[len-1] == '\n' || p[len-1] == '\t'))
+    {
         p[--len] = '\0';
     }
 
-    if (*p == '\0') {
+    if (*p == '\0')
+    {
         printf("Error: empty input\r\n");
         cmd_parse_init();
         return;
     }
 
-    // 调用解析函数
-    int ret = parse_datetime(p, &year, &month, &date, &hour, &minute, &second);
-    if (ret != 0) {
-        printf("Datetime parse failed (code %d). Please try again.\r\n", ret);
+    /* ===== 格式解析 ===== */
+    if (sscanf(p, "%hu-%hhu-%hhu %hhu:%hhu:%hhu",
+               &year, &month, &date,
+               &hour, &minute, &second) != 6)
+    {
+        printf("Format error! Use: YYYY-MM-DD HH:MM:SS\r\n");
         cmd_parse_init();
-        append_normal_log("RTC Config ERROR"); 
         return;
     }
 
-    //  rtc_setup内部转换
+    /* ===== 范围校验 ===== */
+    if (year < 2000 || year > 2099 ||
+        month < 1 || month > 12 ||
+        date  < 1 || date  > 31 ||
+        hour  > 23 ||
+        minute > 59 ||
+        second > 59)
+    {
+        printf("Invalid datetime range\r\n");
+        cmd_parse_init();
+        return;
+    }
+
+    /* ===== 月份校验 ===== */
+    if ((month == 2 && date > 29) ||
+        ((month == 4 || month == 6 || month == 9 || month == 11) && date > 30))
+    {
+        printf("Invalid date\r\n");
+        cmd_parse_init();
+        return;
+    }
+
+    /* ===== 设置RTC（无返回值）===== */
     rtc_setup(year, month, date, hour, minute, second);
+
+    /* ===== 写后验证（关键）===== */
+    uint16_t y;
+    uint8_t mo, d, h, mi, s;
+
+
 
     printf("RTC Config OK\r\n");
     rtc_show_time();
     printf("\r\n");
-    
-    append_normal_log("RTC Config OK"); 
+
+    append_normal_log("RTC Config OK");
     cmd_parse_init();
 }
 
@@ -584,6 +626,7 @@ void cmd_parse_stop(void)
     hide_flag = 0; // 停止采样取消加密
     overlimit_flag = 0; // 重置超限标志
     cmd_parse_init(); 
+    oled_idle_time=10;
 }
 
 void sample_result_show(void)

@@ -33,7 +33,7 @@ void sysFunction_Init(void)
     	
     SCB->VTOR = FLASH_BASE | 0x8000; 
 	__enable_irq(); 
-
+ //   SystemInit();
     systick_config(); // ?? systick
     tim6_functimer_init();
 
@@ -45,15 +45,20 @@ void sysFunction_Init(void)
     LED_Init();
     ADC_port_init(); // ??? ADC
     RTC_Init();      // ??? ????
+    DAC_Init();
 
-    spi_flash_init(); // ??? SPI Flash
-/*    printf("Erasing Flash... Please wait 5-20 seconds...\r\n");
+   spi_flash_init(); // ??? SPI Flash
+/* 
+    printf("Erasing Flash... Please wait 5-20 seconds...\r\n");
     spi_flash_bulk_erase(); //flashÈ«²Á³ý
    printf("Flash Erase Done!\r\n");
 */
     fal_init();
     flashdata_init();
     flash_log_init();
+
+
+
     //    fal_show_part_table();
 /*
     if (flashdata_init() == 0 && flash_log_init() == 0)
@@ -114,8 +119,8 @@ void oled_idle_refresh(void)
 {
     if (oled_idle_refresh_flag == 1)
     {
-        OLED_Printf(0, 0, 16, "system idle    ");
-        OLED_Printf(0, 16, 16, "            ");
+        OLED_Printf(0, 0, 16, "system idle  ");
+        OLED_Printf(0, 16, 16, "        ");
         OLED_Refresh();
         oled_idle_refresh_flag = 0;
     }
@@ -132,7 +137,10 @@ void sample_led_update(void)
         if (tim6_timeoutcheck(&rtc_refresh_start, 1000))
         {
             rtc_current_time_get(&rtc_initpara);
-            OLED_Printf(0, 0, 16, "%0.2X:%0.2X:%0.2X    ", rtc_initpara.hour, rtc_initpara.minute, rtc_initpara.second);
+            OLED_Printf(0, 0, 16, "%02d:%02d:%02d    ",
+                    BCD2BYTE(rtc_initpara.hour),
+                    BCD2BYTE(rtc_initpara.minute),
+                    BCD2BYTE(rtc_initpara.second));
             OLED_Refresh();
         }
 
