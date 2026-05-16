@@ -306,6 +306,7 @@ int parse_datetime(const char *str,
     return 0;  // 成功
 }
 
+
 void cmd_parse_RTC_Config(void)
 {
     uint16_t year;
@@ -316,19 +317,11 @@ void cmd_parse_RTC_Config(void)
 
     USART1_ClearRxBuf();
     usart1_rx_flag = 0;
-
-    /* ===== 等待输入完成 ===== */
     while (usart1_rx_flag == 0);
-
-    __disable_irq();
-
     strncpy(input_buf, (char *)usart1_rx_buffer, sizeof(input_buf) - 1);
     input_buf[sizeof(input_buf) - 1] = '\0';
     usart1_rx_flag = 0;
 
-    __enable_irq();
-
-    /* ===== 去空白 ===== */
     char *p = input_buf;
 
     while (*p == ' ' || *p == '\r' || *p == '\n' || *p == '\t') p++;
@@ -348,7 +341,6 @@ void cmd_parse_RTC_Config(void)
         return;
     }
 
-    /* ===== 格式解析 ===== */
     if (sscanf(p, "%hu-%hhu-%hhu %hhu:%hhu:%hhu",
                &year, &month, &date,
                &hour, &minute, &second) != 6)
@@ -358,7 +350,6 @@ void cmd_parse_RTC_Config(void)
         return;
     }
 
-    /* ===== 范围校验 ===== */
     if (year < 2000 || year > 2099 ||
         month < 1 || month > 12 ||
         date  < 1 || date  > 31 ||
@@ -371,7 +362,6 @@ void cmd_parse_RTC_Config(void)
         return;
     }
 
-    /* ===== 月份校验 ===== */
     if ((month == 2 && date > 29) ||
         ((month == 4 || month == 6 || month == 9 || month == 11) && date > 30))
     {
@@ -379,16 +369,10 @@ void cmd_parse_RTC_Config(void)
         cmd_parse_init();
         return;
     }
-
-    /* ===== 设置RTC（无返回值）===== */
+    
+    //调用rtc_setup，废弃之前拆分调用可能引起的野指针异常
     rtc_setup(year, month, date, hour, minute, second);
-
-    /* ===== 写后验证（关键）===== */
-    uint16_t y;
-    uint8_t mo, d, h, mi, s;
-
-
-
+    
     printf("RTC Config OK\r\n");
     rtc_show_time();
     printf("\r\n");
@@ -396,6 +380,7 @@ void cmd_parse_RTC_Config(void)
     append_normal_log("RTC Config OK");
     cmd_parse_init();
 }
+
 
 void cmd_parse_RTC_now(void)
 {

@@ -33,12 +33,12 @@ void sysFunction_Init(void)
     	
     SCB->VTOR = FLASH_BASE | 0x8000; 
 	__enable_irq(); 
- //   SystemInit();
+    SystemInit();
     systick_config(); // ?? systick
     tim6_functimer_init();
 
     USART1_Init();
-    // USART1_DMA_All_Init(); //USART1_Init() 内部调用
+    // USART1_DMA_All_Init();
     OLED_Init();
     OLED_Printf(0, 0, 16, "system idle");
     OLED_Refresh();
