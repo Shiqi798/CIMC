@@ -1093,4 +1093,6 @@ fdb_err_t fdb_tsdb_deinit(fdb_tsdb_t db)
     return FDB_NO_ERR;
 }
 
-#endif /* defined(FDB_USING_TSDB) */
+#endif
+
+

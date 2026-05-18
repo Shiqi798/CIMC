@@ -64,4 +64,6 @@ void clear_all_over_logs(void);
 void clear_all_hide_logs(void);
 void clear_all_normal_logs(void);
 void clear_all_logs(void);
+
 #endif
+

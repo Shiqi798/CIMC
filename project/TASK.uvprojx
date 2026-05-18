@@ -337,7 +337,7 @@
               <MiscControls></MiscControls>
               <Define>USE_STDPERIPH_DRIVER,GD32F470</Define>
               <Undefine></Undefine>
-              <IncludePath>..\Driver\HardWare\KEY;..\Driver\HardWare\LED;..\Driver\HardWare\OLED;..\Driver\HardWare\RTC;..\Driver\HardWare\SDCARD;..\Driver\HardWare\SPI_FLASH;..\Driver\HardWare\USART;..\Driver\HeaderFiles;..\Driver\Library;..\Driver\Start\CMSIS;..\Driver\Start\Startup;..\Driver\System\ADC;..\Driver\System\TIM6;..\User;..\Driver\Library\GD32F4xx_standard_peripheral\Include;..\Driver\Library\GD32F4xx_standard_peripheral\Source;..\Driver\Start\CMSIS\GD\GD32F4xx\Include;..\Driver\Start\CMSIS\GD\GD32F4xx\Source;..\sysFunction;..\Driver\Fatfs;..\Driver\System\myDMA;..\Driver\FlashDB\fal;..\Driver\FlashDB\flashdb</IncludePath>
+              <IncludePath>..\Driver\HardWare\KEY;..\Driver\HardWare\LED;..\Driver\HardWare\OLED;..\Driver\HardWare\RTC;..\Driver\HardWare\SDCARD;..\Driver\HardWare\SPI_FLASH;..\Driver\HardWare\USART;..\Driver\HeaderFiles;..\Driver\Library;..\Driver\Start\CMSIS;..\Driver\Start\Startup;..\Driver\System\ADC;..\Driver\System\TIM6;..\User;..\Driver\Library\GD32F4xx_standard_peripheral\Include;..\Driver\Library\GD32F4xx_standard_peripheral\Source;..\Driver\Start\CMSIS\GD\GD32F4xx\Include;..\Driver\Start\CMSIS\GD\GD32F4xx\Source;..\sysFunction;..\Driver\Fatfs;..\Driver\System\myDMA;..\Driver\FlashDB\fal;..\Driver\FlashDB\flashdb;..\Driver\FlashDB;..\Driver\HardWare\sleep_wake;..\Driver\System\DAC</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -486,6 +486,61 @@
               <FileType>1</FileType>
               <FilePath>..\Driver\Fatfs\ff.c</FilePath>
             </File>
+            <File>
+              <FileName>fal.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Driver\FlashDB\fal\fal.c</FilePath>
+            </File>
+            <File>
+              <FileName>fal_flash.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Driver\FlashDB\fal\fal_flash.c</FilePath>
+            </File>
+            <File>
+              <FileName>fal_flash_port.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Driver\FlashDB\fal\fal_flash_port.c</FilePath>
+            </File>
+            <File>
+              <FileName>fal_partition.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Driver\FlashDB\fal\fal_partition.c</FilePath>
+            </File>
+            <File>
+              <FileName>fdb.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Driver\FlashDB\flashdb\fdb.c</FilePath>
+            </File>
+            <File>
+              <FileName>fdb_kvdb.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Driver\FlashDB\flashdb\fdb_kvdb.c</FilePath>
+            </File>
+            <File>
+              <FileName>fdb_utils.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Driver\FlashDB\flashdb\fdb_utils.c</FilePath>
+            </File>
+            <File>
+              <FileName>DAC.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Driver\System\DAC\DAC.c</FilePath>
+            </File>
+            <File>
+              <FileName>DAC.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Driver\System\DAC\DAC.h</FilePath>
+            </File>
+            <File>
+              <FileName>fdb_port.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Driver\FlashDB\flashdb\fdb_port.c</FilePath>
+            </File>
+            <File>
+              <FileName>fdb_tsdb.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Driver\FlashDB\flashdb\fdb_tsdb.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -540,6 +595,11 @@
               <FileName>myDMA.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\Driver\System\myDMA\myDMA.h</FilePath>
+            </File>
+            <File>
+              <FileName>sleep_wake.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Driver\HardWare\sleep_wake\sleep_wake.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -737,24 +797,24 @@
               <FilePath>..\sysFunction\data_process.h</FilePath>
             </File>
             <File>
-              <FileName>file_mgr.c</FileName>
+              <FileName>myflashdb_data.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\sysfunction\file_mgr.c</FilePath>
+              <FilePath>..\sysFunction\myflashdb_data.c</FilePath>
             </File>
             <File>
-              <FileName>file_mgr.h</FileName>
+              <FileName>myflashdb_data.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\sysfunction\file_mgr.h</FilePath>
+              <FilePath>..\sysFunction\myflashdb_data.h</FilePath>
             </File>
             <File>
-              <FileName>myflash.c</FileName>
+              <FileName>myflashdb_log.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\sysFunction\myflash.c</FilePath>
+              <FilePath>..\sysFunction\myflashdb_log.c</FilePath>
             </File>
             <File>
-              <FileName>myflash.h</FileName>
+              <FileName>myflashdb_log.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\sysFunction\myflash.h</FilePath>
+              <FilePath>..\sysFunction\myflashdb_log.h</FilePath>
             </File>
           </Files>
         </Group>
