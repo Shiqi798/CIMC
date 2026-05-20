@@ -15,7 +15,11 @@ void DAC_Init(void)
 	dac_enable(DAC0, DAC_OUT1);
 
 	dac_data_set(DAC0, DAC_OUT0, DAC_ALIGN_12B_R, 0U);
-	dac_data_set(DAC0, DAC_OUT1, DAC_ALIGN_12B_R, 0U);
+	dac_data_set(DAC0, DAC_OUT1, DAC_ALIGN_12B_R, 0U);		
+	DAC_SetVoltage(0,0.0f);
+	DAC_SetVoltage(1,0.0f);
+
+
 }
 
 // 复位DAC外设
@@ -65,17 +69,17 @@ uint16_t DAC_Get(uint8_t channel)
 }
 
 // 将输入电压换算为12位DAC原始数据。
-#define DAC_VREF 1.8f   // 实测值
-
+#define DAC_VREF 3.3f
+//保护+换算
 uint16_t DAC_VoltageToData(float voltage)
 {
     if (voltage <= 0.0f) return 0;
     if (voltage >= DAC_VREF) return 4095;
 
-    return (uint16_t)((voltage / DAC_VREF) * 4095.0f + 0.5f);
+    return (uint16_t)((voltage / DAC_VREF) * 4095.0f);
 }
 
-// 按输入电压设置指定DAC通道输出
+// 输出voltage
 //PA4-DAC_OUT0, PA5-DAC_OUT1
 void DAC_SetVoltage(uint8_t channel, float voltage)
 {

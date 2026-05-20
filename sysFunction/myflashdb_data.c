@@ -1,7 +1,7 @@
 #include "myflashdb_data.h"
 
 struct fdb_kvdb flashdata_db;
-
+uint8_t exflash_erase_flag = 0;
 int flashdata_init(void) 
 {
     fdb_err_t err;
@@ -15,9 +15,15 @@ int flashdata_init(void)
     return 0;
 }
 
+
 void set_team_number(const char *team_str) {
     if (team_str == NULL) return;
-    fdb_kv_set(&flashdata_db, TEAM_NUM_KEY, team_str);
+    
+    // 捕获返回值并打印
+    fdb_err_t err = fdb_kv_set(&flashdata_db, TEAM_NUM_KEY, team_str);
+    if (err != FDB_NO_ERR) {
+        printf("[FDB_ERR] fdb_kv_set failed! Error code: %d\r\n", err);
+    }
 }
 
 void get_team_number(char *out_str, int max_len) {
@@ -58,7 +64,8 @@ void set_power_count(void)
 }
 
 
-void get_data_config(data_cfg_t *out_cfg) {
+void get_data_config(data_cfg_t *out_cfg) 
+{
     if (out_cfg == NULL) return;
     struct fdb_blob blob;
 //    size_t read_len;

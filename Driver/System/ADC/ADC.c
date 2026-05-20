@@ -40,7 +40,7 @@ void ADC_Init(void)
     adc_external_trigger_config(ADC0, ADC_ROUTINE_CHANNEL, DISABLE);           // 使用软件触发
 
     adc_enable(ADC0);        // 使能ADC
-    delay_1ms(1);            // 延时1ms
+//    delay_1ms(1);            // 延时1ms
     adc_calibration_enable(ADC0);    // 使能ADC校准
 }
 

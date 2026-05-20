@@ -31,20 +31,19 @@ uint8_t is_power_on_reset(void);
 void sysFunction_Init(void)
 {
     	
+
     SCB->VTOR = FLASH_BASE | 0x8000; 
 	__enable_irq(); 
     SystemInit();
     systick_config(); // ?? systick
     tim6_functimer_init();
-
-    USART1_Init();
+    RTC_Init();      // ??? ????
+    USART1_Init();    
     // USART1_DMA_All_Init();
-    OLED_Init();
-    OLED_Printf(0, 0, 16, "system idle");
-    OLED_Refresh();
+    printf("\r\n");
     LED_Init();
     ADC_port_init(); // ??? ADC
-    RTC_Init();      // ??? ????
+
     DAC_Init();
 
    spi_flash_init(); // ??? SPI Flash
@@ -53,11 +52,13 @@ void sysFunction_Init(void)
     spi_flash_bulk_erase(); //flashÈ«²Á³ý
    printf("Flash Erase Done!\r\n");
 */
+
+
     fal_init();
     flashdata_init();
     flash_log_init();
 
-
+    exflash_erase_flag=0;
 
     //    fal_show_part_table();
 /*
@@ -70,6 +71,9 @@ void sysFunction_Init(void)
         printf("[FlashDB] DB init failed!\r\n");
     }
 */
+    OLED_Init();
+    OLED_Printf(0, 0, 16, "system idle");
+    OLED_Refresh();
     Key_Init(); // ??? ??
 
     nvic_config(); // ?? NVIC
@@ -83,20 +87,21 @@ void sysFunction_Init(void)
 
     overlimit_flag = 0;
     hide_flag = 0;                                 // ??????
-
-    set_team_number(DEVICE_ID); 
-    printf("\r\n====system init====\r\n");
     char current_dev_id[64];
     get_team_number(current_dev_id, sizeof(current_dev_id));
-    printf("\r\n%s\r\n", current_dev_id); 
+    if (strcmp(current_dev_id, "DEFAULT_TEAM") == 0)
+    {
+        set_team_number(DEVICE_ID); 
+        get_team_number(current_dev_id, sizeof(current_dev_id));
+    }
+    printf("\r\n====system init====\r\n");
+    printf("%s\r\n", current_dev_id);     
     printf("Boot Mode:APP\r\n");
     printf("====system ready====\r\n");
     if (is_power_on_reset())
     {
         set_power_count();
     }
-    DAC_SetVoltage(0, 0.0f);
-    DAC_SetVoltage(1, 0.0f);
     uint32_t power_count = get_power_count();   // ??????
  //   printf("SystemCoreClock = %ld\r\n", SystemCoreClock);
 

@@ -7,7 +7,8 @@ char encrypt_buf[24] = {0}; // 加密缓冲区，，8字节HEX=16位字符串
 
 void data_calc_eng_volt(void)
 {
-    // 将ADC值转换为电压（假设Vref = 3.3V，12位ADC）
+    // 将ADC值转换为电压
+    //四舍五入
     adc_volt = round(((ADC_get() / 4095.0) * 3.3) * 100) / 100; // 保留两位小数
     eng_volt = round(adc_volt * ratio_ch0 * 100) / 100;         // 计算工程值并保留两位小数
 }

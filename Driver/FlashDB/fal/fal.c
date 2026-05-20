@@ -9,7 +9,7 @@
  */
 
 #include <fal.h>
-
+#include "HeaderFiles.h"
 static uint8_t init_ok = 0;
 
 /**
@@ -20,6 +20,11 @@ static uint8_t init_ok = 0;
  */
 int fal_init(void)
 {
+    if(exflash_erase_flag==1)
+    {
+        spi_flash_bulk_erase();
+        delay_1ms(1000);
+    }
     extern int fal_flash_init(void);
     extern int fal_partition_init(void);
 

@@ -65,7 +65,6 @@ void delay_1ms(uint32_t count)
     delay = count;
 
     while(0U != delay){
-        
     }
 }
 

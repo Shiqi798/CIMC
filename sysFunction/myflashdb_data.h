@@ -18,6 +18,8 @@
 #define TEAM_NUM_KEY    "team_number" 
 #define POWER_CNT_KEY   "power_count"  
 
+extern uint8_t exflash_erase_flag;
+
 
 typedef struct {
     uint32_t sample_cycle;  

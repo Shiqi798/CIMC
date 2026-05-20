@@ -35,7 +35,7 @@
 
 /* log print macro. default EF_PRINT macro is printf() */
 extern void rs485_printf(const char *fmt, ...);
-#define FDB_PRINT(...)              rs485_printf(__VA_ARGS__)
+#define FDB_PRINT(...)             // rs485_printf(__VA_ARGS__)
 
 /* print debug information */
 /* #define FDB_DEBUG_ENABLE */

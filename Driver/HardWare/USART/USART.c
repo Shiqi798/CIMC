@@ -14,8 +14,13 @@ uint8_t usart1_rx_flag = 0;
  * @brief  重定向C库printf函数到USART（配合DMA改版）
  */
 void rs485_printf(const char *fmt, ...)
-{
-    char buf[256];
+{    
+/*    if(exflash_erase_flag==1)
+    {
+        return;
+    }  
+*/ 
+    char buf[512];
     va_list ap;
     int n;
 
@@ -28,7 +33,7 @@ void rs485_printf(const char *fmt, ...)
 
     if (n < 0) {
         RS485_RX_MODE();
-        return;
+    return;
     }
 
     uint16_t len = (uint16_t)strlen(buf);
@@ -39,11 +44,13 @@ void rs485_printf(const char *fmt, ...)
         RS485_RX_MODE();
         return;  // 字符串为空，直接返回
     }
-    
+ 
     // 先拷到DMA专用的TX buffer，免得局部变量buf出了作用域被覆写
     memcpy(usart1_tx_buffer, buf, len);
     dma_enable(DMA0, DMA_CH6, len);
     
+
+
     // 等待DMA完成
     for (uint32_t i = 0; i < 100000 && dma_flag_get(DMA0, DMA_CH6, DMA_FLAG_FTF) == RESET; i++);
     
@@ -74,44 +81,36 @@ void USART1_Init(void)
     rcu_periph_clock_enable(RCU_GPIOD);
     rcu_periph_clock_enable(RCU_GPIOE);  // 添加GPIOE时钟（RS485方向脚）
     rcu_periph_clock_enable(RCU_USART1);
-
-    // ========== PE8 方向脚，默认 低电平(接收) ==========
+    //PE8 0接受，1发送
     gpio_mode_set(GPIOE, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO_PIN_8);
     gpio_output_options_set(GPIOE, GPIO_OTYPE_PP, GPIO_OSPEED_50MHZ, GPIO_PIN_8);
     gpio_bit_reset(GPIOE, GPIO_PIN_8); //开机接收
     
-    // ========== PD5 TX ==========
+    //PD5 TX
     gpio_mode_set(GPIOD, GPIO_MODE_AF, GPIO_PUPD_PULLUP, GPIO_PIN_5);
     gpio_af_set(GPIOD, GPIO_AF_7, GPIO_PIN_5);
 
-    // ========== PD6 RX ==========
+    //PD6 RX
     gpio_mode_set(GPIOD, GPIO_MODE_AF, GPIO_PUPD_PULLUP, GPIO_PIN_6);
     gpio_af_set(GPIOD, GPIO_AF_7, GPIO_PIN_6);
-
-    // ========== 第1步：初始化DMA（必须在USART启用之前） ==========
+    //初始化DMA
     USART1_DMA_All_Init();
-
-    // ========== 第2步：USART1基本参数配置 ==========
     usart_deinit(USART1);
-    usart_baudrate_set(USART1, 115200U);
+    usart_baudrate_set(USART1, 115200);
     usart_word_length_set(USART1, USART_WL_8BIT);
     usart_stop_bit_set(USART1, USART_STB_1BIT);
     usart_parity_config(USART1, USART_PM_NONE);
     usart_transmit_config(USART1, USART_TRANSMIT_ENABLE);
     usart_receive_config(USART1, USART_RECEIVE_ENABLE);
     
-    // ========== 第3步：启用USART的DMA功能 ==========
+    //DMA
     usart_dma_transmit_config(USART1, USART_TRANSMIT_DMA_ENABLE);
     usart_dma_receive_config(USART1, USART_RECEIVE_DMA_ENABLE);
-    
-    // ========== 第4步：配置中断 ==========
+    // 中断
     nvic_irq_enable(USART1_IRQn, 2, 0);  // 开USART1中断
     usart_interrupt_enable(USART1, USART_INT_IDLE);    /* 使用空闲中断接整包 */
-    
-    // ========== 第5步：启用USART ==========
+
     usart_enable(USART1);
-    
-    // ========== 第6步：初始化时清空缓冲区 ==========
     USART1_ClearRxBuf();
     data_recv = 0;
 }

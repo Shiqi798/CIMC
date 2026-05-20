@@ -43,6 +43,7 @@ void RTC_Init(void)
         rtc_init(&rtc_initpara);
 
         RTC_BKP0 = RTC_BKP_MARK;
+        exflash_erase_flag=1;
     }
     else
     {
