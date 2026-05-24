@@ -259,7 +259,7 @@ targets:
               isStartup: true
               mem:
                 size: "0x78000"
-                startAddr: "0x08008000"
+                startAddr: "0x08000000"
               tag: IROM
             - id: 2
               isChecked: false
