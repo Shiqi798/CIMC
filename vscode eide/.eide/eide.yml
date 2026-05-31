@@ -63,6 +63,8 @@ virtualFolder:
         - path: ../Driver/System/myDMA/myDMA.h
         - path: ../Driver/System/DAC/DAC.c
         - path: ../Driver/System/DAC/DAC.h
+        - path: ../Driver/System/AD3344/AD3344.c
+        - path: ../Driver/System/AD3344/AD3344.h
       folders: []
     - name: Library
       files:
@@ -112,6 +114,8 @@ virtualFolder:
         - path: ../sysFunction/myflashdb_data.h
         - path: ../sysFunction/myflashdb_log.c
         - path: ../sysFunction/myflashdb_log.h
+        - path: ../sysFunction/msg.c
+        - path: ../sysFunction/msg.h
       folders: []
 dependenceList: []
 outDir: build
@@ -153,6 +157,7 @@ targets:
         - ../Driver/FlashDB
         - ../Driver/FlashDB/flashdb
         - ../Driver/HardWare/sleep_wake
+        - ../Driver/System/AD3344
       libList: []
     excludeList: []
     settings:
@@ -258,7 +263,7 @@ targets:
               isChecked: true
               isStartup: true
               mem:
-                size: "0x78000"
+                size: "0x80000"
                 startAddr: "0x08000000"
               tag: IROM
             - id: 2

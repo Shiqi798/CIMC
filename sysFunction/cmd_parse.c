@@ -1,5 +1,7 @@
 #include "cmd_parse.h"
 
+char *cmd_buf;
+
 /*------------------ 函数 ------------------*/
 extern uint32_t Gettim6Time(void);
 
@@ -74,7 +76,7 @@ void cmd_parse(void)
 {
     if (usart1_rx_flag == 1)
     {
-        char *cmd_buf = (char *)usart1_rx_buffer;
+        cmd_buf = (char *)usart1_rx_buffer;
         //跳过开头的空白符
         while (*cmd_buf == '\r' || *cmd_buf == '\n' || *cmd_buf == ' ' || *cmd_buf == '\t')
         {
@@ -93,19 +95,21 @@ void cmd_parse(void)
         {
             cmd_parse_dac_test();
         }
+        else if (strstr(cmd_buf, "lightsleep") != NULL)
+        {
+            cmd_parse_lightsleep();
+        }
+        else if (strstr(cmd_buf, "standby") != NULL)
+        {
+            cmd_parse_standby();
+        }
         else if (strstr(cmd_buf, "sleep") != NULL) // sample read
         {            
-            OLED_Printf(0,0,16,"Sleep Mode   ");
-            OLED_Refresh();
-            RTC_SetWakeup(10);//==========
-            pmu_flag_clear(PMU_FLAG_RESET_WAKEUP);//============
-            pmu_to_deepsleepmode(PMU_LDO_LOWPOWER,PMU_LOWDRIVER_ENABLE, WFI_CMD);
-            SystemInit();
-            USART1_Init(); 
-            printf("\r\nWake Up OK\r\n");
-            OLED_Printf(0,0,16,"wake up ok    ");
-            OLED_Refresh();
-            oled_idle_time=2000;
+            cmd_parse_deepsleep();
+        }
+        else if (strstr(cmd_buf, "ad3344") != NULL) // ad3344
+        {
+            AD3344_cmd();
         }
         else if (strstr(cmd_buf, "sample read") != NULL) // sample read
         {
@@ -194,6 +198,51 @@ void cmd_parse(void)
     }
 }
 
+
+void cmd_parse_lightsleep(void)
+{
+    OLED_Printf(0, 0, 16, "Light Sleep  ");
+    OLED_Refresh();
+    printf("\r\nEnter light sleep, wake by USART1.\r\n");
+    UART_LightSleep_Enter();
+    printf("\r\nWake Up By USART1\r\n");
+    OLED_Printf(0, 0, 16, "wake up uart  ");
+    OLED_Refresh();
+    oled_idle_time = 2000;
+}
+
+void cmd_parse_standby(void)
+{
+    uint32_t standby_sec = 10U;
+
+    if (sscanf(cmd_buf, "standby %lu", &standby_sec) != 1 || standby_sec == 0U)
+    {
+        standby_sec = 10U;
+    }
+
+    OLED_Printf(0, 0, 16, "Standby Mode ");
+    OLED_Refresh();
+    printf("\r\nEnter standby, wake by RTC or PA0, sec=%lu.\r\n", standby_sec);
+    Standby_Enter(standby_sec);
+}
+
+void cmd_parse_deepsleep(void)
+{
+    OLED_Printf(0, 0, 16, "Sleep Mode   ");
+    OLED_Refresh();
+    RTC_SetWakeup(10);                     
+    pmu_flag_clear(PMU_FLAG_RESET_WAKEUP); 
+    pmu_to_deepsleepmode(PMU_LDO_LOWPOWER, PMU_LOWDRIVER_ENABLE, WFI_CMD);
+    SystemInit();
+    USART1_Init();
+    printf("\r\nWake Up OK\r\n");
+    OLED_Printf(0, 0, 16, "wake up ok    ");
+    OLED_Refresh();
+    oled_idle_time = 2000;
+}
+
+
+
 void cmd_parse_test(void)
 {
     uint8_t flash_ok = selftest_flash();
@@ -238,7 +287,7 @@ int parse_datetime(const char *str,
             while (isdigit((unsigned char)*p)) {
                 val = val * 10 + (*p - '0');
                 p++;
-                // 防止溢出（年份最多4位，其他最多2位，但输入可能很长）
+                // 防止溢出
                 if (val > 9999) break;  // 年份最大2100，截断合理
             }
             values[field_count++] = (uint16_t)val;

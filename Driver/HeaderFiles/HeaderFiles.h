@@ -32,12 +32,14 @@
 #include "SPI_FLASH.h"
 #include "sdcard.h"
 #include "ADC.h"
+#include "AD3344.h"
 #include "tim6_functimer.h"
 #include "LED.h"
 #include "ff.h"
 #include "diskio.h"
 #include "Key.h"
 #include "myDMA.h"
+#include "AD3344.h"
 /***********************DRIVER_END*************************
 ************************sysFunction************************/
 #include "cmd_parse.h"
@@ -47,6 +49,7 @@
 #include "myflashdb_log.h"
 #include "myflashdb_data.h"
 #include "sleep_wake.h"
+#include "msg.h"
 
 /**********************sysFunction_END*********************/
 /****************************End*****************************/
