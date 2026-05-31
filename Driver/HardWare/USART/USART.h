@@ -37,12 +37,9 @@ void USART1_Init(void);
  */
 void USART1_ClearRxBuf(void);
 
-/**
- * @brief 发送数据
- * @param buf 数据缓冲区指针
- * @param len 发送数据长度
- */
-void USART1_SendData(uint16_t *buf, uint16_t len);
+
+void USART1_SendData(uint8_t *buf, uint16_t len);
+//void USART1_SendBytes(uint8_t *buf, uint16_t len);
 
 
 #endif

@@ -10,7 +10,7 @@
 
 uint8_t oled_idle_refresh_flag=0; 
 uint16_t oled_idle_time = 0;
-// ??
+// ?? 
 uint32_t flash_id = 0;
 uint8_t tx_buffer[TX_BUFFER_SIZE];
 uint8_t rx_buffer[TX_BUFFER_SIZE];
@@ -32,7 +32,7 @@ void sysFunction_Init(void)
 {
     	
 
-    SCB->VTOR = FLASH_BASE | 0x8000; 
+//    SCB->VTOR = FLASH_BASE | 0x44000; 
 	__enable_irq(); 
     SystemInit();
     systick_config(); // ?? systick
@@ -74,7 +74,7 @@ void sysFunction_Init(void)
     OLED_Init();
     OLED_Printf(0, 0, 16, "system idle");
     OLED_Refresh();
-    Key_Init(); // ??? ??
+//    Key_Init(); // ??? ??
 
     nvic_config(); // ?? NVIC
 
@@ -104,6 +104,7 @@ void sysFunction_Init(void)
     }
     uint32_t power_count = get_power_count();   // ??????
  //   printf("SystemCoreClock = %ld\r\n", SystemCoreClock);
+    AD3344_Init();
 
 }
 
@@ -112,11 +113,19 @@ void sysFunction_loop(void)
 
     while (1)
     {
+       
         sample_led_update(); // ??????????
         key_update();        // ????
-        cmd_parse();      // ????
+/**/
+        if (msg_poll() == 0U) {
+            cmd_parse();      
+        }
+
         dac_test_tick();
         oled_idle_refresh(); // OLED?????
+ /*        
+       led1_off();
+       led2_off();*/
     }
 }
 
@@ -255,3 +264,4 @@ void update_sample_cycle(uint32_t new_cycle)
 }
 
 /****************************End*****************************/
+

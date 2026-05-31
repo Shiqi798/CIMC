@@ -17,6 +17,9 @@ extern uint8_t dac_test_flag0;
 void cmd_parse_init(void);
 void cmd_parse(void);
 
+void cmd_parse_deepsleep(void);
+void cmd_parse_lightsleep(void);
+void cmd_parse_standby(void);
 void cmd_parse_test(void);
 void cmd_parse_RTC_Config(void);
 void cmd_parse_RTC_now(void);

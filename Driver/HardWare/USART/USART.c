@@ -1,4 +1,4 @@
-#include "USART.h"
+﻿#include "USART.h"
 
 
 ////////////////////////////// 全局变量 //////////////////////////////
@@ -118,6 +118,7 @@ void USART1_Init(void)
 /**
  * @brief  USART1发送数据
  */
+/**
 void USART1_SendData(uint16_t *buf, uint16_t len)
 {
     if (len > sizeof(usart1_tx_buffer)) {
@@ -130,6 +131,25 @@ void USART1_SendData(uint16_t *buf, uint16_t len)
     RS485_TX_MODE();
     dma_enable(DMA0, DMA_CH6, len);
     while(dma_flag_get(DMA0, DMA_CH6, DMA_FLAG_FTF) == RESET); 
+    while(usart_flag_get(USART1, USART_FLAG_TC) == RESET);
+    RS485_RX_MODE();
+}
+*/
+void USART1_SendData(uint8_t *buf, uint16_t len)
+{
+    if ((buf == NULL) || (len == 0U)) {
+        return;
+    }
+
+    if (len > sizeof(usart1_tx_buffer)) {
+        len = sizeof(usart1_tx_buffer);
+    }
+
+    memcpy(usart1_tx_buffer, buf, len);
+
+    RS485_TX_MODE();
+    dma_enable(DMA0, DMA_CH6, len);
+    while(dma_flag_get(DMA0, DMA_CH6, DMA_FLAG_FTF) == RESET);
     while(usart_flag_get(USART1, USART_FLAG_TC) == RESET);
     RS485_RX_MODE();
 }
@@ -149,22 +169,8 @@ void USART1_IRQHandler(void)
             usart1_rx_len = 255;
         }
 
-        // 遍历查找换行符，转换为字符串结尾
-        uint16_t str_end = usart1_rx_len;
-        for(uint16_t i = 0; i < usart1_rx_len; i++)
-        {
-            if(usart1_rx_buffer[i] == '\n' || usart1_rx_buffer[i] == '\r')
-            {
-                usart1_rx_buffer[i] = '\0';
-                str_end = i;
-                break;
-            }
-        }
-        
-        // 如果没有找到换行符，在末尾加'\0'
-        if (str_end == usart1_rx_len) {
-            usart1_rx_buffer[usart1_rx_len] = '\0';
-        }
+        // Keep raw bytes for binary frames; append '\0' only for legacy text commands.
+        usart1_rx_buffer[usart1_rx_len] = '\0';
         
         usart1_rx_flag = 1;  // 标志置1，通知主循环去解包
         reset_usart1_rx_dma();
