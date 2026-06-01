@@ -5,6 +5,51 @@ char *cmd_buf;
 /*------------------ 函数 ------------------*/
 extern uint32_t Gettim6Time(void);
 
+typedef void (*cmd_handler_t)(void);
+
+//邪恶指令集
+typedef struct
+{
+    const char *name;
+    cmd_handler_t handler;
+    const char *success_log;
+} cmd_entry_t;
+
+
+//命令表名称匹配
+static uint8_t cmd_name_match(const char *input, const char *name);
+//包装condigsave
+static void cmd_handle_config_save(void);
+//指令分发
+static uint8_t cmd_dispatch(const char *input);
+//指令表+函数+无参数日志，，
+static const cmd_entry_t g_cmd_table[] =
+{
+    {"dac test",    cmd_parse_dac_test,    NULL},
+    {"lightsleep",  cmd_parse_lightsleep,  NULL},
+    {"standby",     cmd_parse_standby,     NULL},
+    {"sleep",       cmd_parse_deepsleep,   NULL},
+    {"ad3344",      AD3344_cmd,            NULL},
+    {"sample read", cmd_parse_sample_read, NULL},
+    {"over read",   cmd_parse_over_read,   NULL},
+    {"hide read",   cmd_parse_hide_read,   NULL},
+    {"log read",    cmd_parse_log_read,    NULL},
+    {"test",        cmd_parse_test,        "test OK"},
+    {"RTC Config",  cmd_parse_RTC_Config,  NULL},
+    {"RTC now",     cmd_parse_RTC_now,     NULL},
+    {"ratio",       cmd_parse_ratio,       NULL},
+    {"limit",       cmd_parse_limit,       NULL},
+    {"dac",         cmd_parse_dac,         NULL},
+    {"config save", cmd_handle_config_save, "Config saved to Flash"},
+    {"config read", cmd_parse_config_read, NULL},
+    {"conf",        cmd_parse_conf,        NULL},
+    {"start",       cmd_parse_start,       "Periodic Sampling START(CMD)"},
+    {"stop",        cmd_parse_stop,        "Periodic Sampling STOP(CMD)"},
+    {"unhide",      cmd_parse_unhide,      "Hide disabled"},
+    {"hide",        cmd_parse_hide,        "Hide enabled"},
+};
+
+
 //////////////////////test函数补充///////////////////////////////////
 static uint8_t selftest_flash(void)
 {
@@ -64,132 +109,76 @@ static uint8_t selftest_dac(void)
  */
 void cmd_parse_init(void)
 {
-    USART1_ClearRxBuf(); // 清空缓冲区
+    USART1_ClearRxBuf();
+}
+
+
+
+/**************************查表核心函数*3****************************** */
+//
+static uint8_t cmd_name_match(const char *input, const char *name)
+{
+    size_t name_len;
+    if ((input == NULL) || (name == NULL))
+    {
+        return 0U;
+    }
+    name_len = strlen(name);
+    if (strncmp(input, name, name_len) != 0)
+    {
+        return 0U;
+    }
+    return (input[name_len] == '\0') || isspace((unsigned char)input[name_len]);
+}
+
+static void cmd_handle_config_save(void)
+{
+    cmd_parse_config_save(1);
+}
+//查表分发器
+static uint8_t cmd_dispatch(const char *input)
+{
+    uint16_t i;
+
+    for (i = 0U; i < (uint16_t)(sizeof(g_cmd_table) / sizeof(g_cmd_table[0])); i++)
+    {
+        if (cmd_name_match(input, g_cmd_table[i].name))
+        {
+            g_cmd_table[i].handler();
+            if (g_cmd_table[i].success_log != NULL)
+            {
+                //无参数日志
+                append_normal_log(g_cmd_table[i].success_log);
+            }
+            return 1U;
+        }
+    }
+
+    return 0U;
 }
 
 /**
  * @brief  处理接收到的完整指令处理完清空缓冲区
- * @param  无
- * @retval 无
+//指令处理外部调用函数
  */
 void cmd_parse(void)
 {
     if (usart1_rx_flag == 1)
     {
         cmd_buf = (char *)usart1_rx_buffer;
-        //跳过开头的空白符
         while (*cmd_buf == '\r' || *cmd_buf == '\n' || *cmd_buf == ' ' || *cmd_buf == '\t')
         {
             cmd_buf++;
         }
-        // 去掉结尾的空白符
+
         uint16_t cmd_len = strlen(cmd_buf);
         while (cmd_len > 0 && (cmd_buf[cmd_len - 1] == '\r' || cmd_buf[cmd_len - 1] == '\n' ||
                                cmd_buf[cmd_len - 1] == ' ' || cmd_buf[cmd_len - 1] == '\t'))
         {
             cmd_buf[--cmd_len] = '\0';
         }
-        // ========== 指令解析核心 ==========
 
-        if(strstr(cmd_buf, "dac test") != NULL)
-        {
-            cmd_parse_dac_test();
-        }
-        else if (strstr(cmd_buf, "lightsleep") != NULL)
-        {
-            cmd_parse_lightsleep();
-        }
-        else if (strstr(cmd_buf, "standby") != NULL)
-        {
-            cmd_parse_standby();
-        }
-        else if (strstr(cmd_buf, "sleep") != NULL) // sample read
-        {            
-            cmd_parse_deepsleep();
-        }
-        else if (strstr(cmd_buf, "ad3344") != NULL) // ad3344
-        {
-            AD3344_cmd();
-        }
-        else if (strstr(cmd_buf, "sample read") != NULL) // sample read
-        {
-            cmd_parse_sample_read();
-        }
-        else if (strstr(cmd_buf, "over read") != NULL) // over read
-        {
-            cmd_parse_over_read();
-        }
-        else if (strstr(cmd_buf, "hide read") != NULL) // hide read
-        {
-            cmd_parse_hide_read();
-        }
-        else if (strstr(cmd_buf, "log read") != NULL) // log read
-        {
-            cmd_parse_log_read();
-        }
-
-        else if (strstr(cmd_buf, "test") != NULL) // test
-        {
-            cmd_parse_test();
-            append_normal_log("test OK"); 
-        }
-        else if (strstr(cmd_buf, "RTC Config") != NULL) // RTC Config
-        {
-            cmd_parse_RTC_Config();
-
-        }
-        else if (strstr(cmd_buf, "RTC now") != NULL) // RTC now
-        {
-            cmd_parse_RTC_now();
-        }
-
-        else if (strstr(cmd_buf, "ratio") != NULL) // ratio
-        {
-            cmd_parse_ratio();
-        }
-        else if (strstr(cmd_buf, "limit") != NULL) // limit
-        {
-            cmd_parse_limit();
-        }
-
-        else if(strstr(cmd_buf, "dac") != NULL)
-        {
-            cmd_parse_dac();
-        }
-        else if (strstr(cmd_buf, "config save") != NULL) // config save
-        {
-            cmd_parse_config_save(1);
-            append_normal_log("Config saved to Flash"); 
-        }
-        else if (strstr(cmd_buf, "config read") != NULL) // config read
-        {
-            cmd_parse_config_read();
-        }
-        else if (strstr(cmd_buf, "conf") != NULL) // conf
-        {
-            cmd_parse_conf();
-        }        
-        else if (strstr(cmd_buf, "start") != NULL) // start
-        {            
-            cmd_parse_start();
-            append_normal_log("Periodic Sampling START(CMD)"); // 写入操作日志
-        }
-        else if (strstr(cmd_buf, "stop") != NULL) // 赛题stop指令
-        {           
-            cmd_parse_stop();
-            append_normal_log("Periodic Sampling STOP(CMD)"); // 写入操作日志
-        }
-        else if (strstr(cmd_buf, "unhide") != NULL) // 赛题unhide指令
-        {            
-            cmd_parse_unhide();
-            append_normal_log("Hide disabled");
-        }
-        else if (strstr(cmd_buf, "hide") != NULL) // 赛题hide指令
-        {            
-            cmd_parse_hide();
-            append_normal_log("Hide enabled");
-        }
-        else
+        if (cmd_dispatch(cmd_buf) == 0U)
         {
             printf("[ERROR] Unknown Command\r\n");
         }
@@ -197,7 +186,6 @@ void cmd_parse(void)
         cmd_parse_init();
     }
 }
-
 
 void cmd_parse_lightsleep(void)
 {
