@@ -1,7 +1,6 @@
 #include "data_process.h"
 
 float adc_volt = 0.00f;      // ADC实际电压值
-float dac_volt = 1.0f;
 float eng_volt = 0.00f;      // 工程值=adc_volt*ratio
 char encrypt_buf[24] = {0}; // 加密缓冲区，，8字节HEX=16位字符串
 

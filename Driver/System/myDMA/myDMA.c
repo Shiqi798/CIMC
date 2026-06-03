@@ -3,16 +3,16 @@
 
 ///////////////////////////// 变量区 //////////////////////////
 // 先256凑合
-uint8_t usart1_rx_buffer[256];
-uint8_t usart1_tx_buffer[256];
+uint8_t usart1_rx_buffer[USART1_RX_BUF_LEN];
+uint8_t usart1_tx_buffer[USART1_TX_BUF_LEN];
 /* 预留4个通道 */
 uint16_t adc_value[2];
 
 // 初始化TX缓冲区
 void mydma_init_buffers(void)
 {
-    memset(usart1_rx_buffer, 0, 256);
-    memset(usart1_tx_buffer, 0, 256);
+    memset(usart1_rx_buffer, 0, USART1_RX_BUF_LEN);
+    memset(usart1_tx_buffer, 0, USART1_TX_BUF_LEN);
     memset(adc_value, 0, sizeof(adc_value));
 } 
 
@@ -65,7 +65,7 @@ void dma_usart1_rx_config(void)
     dma_init_struct.direction = DMA_PERIPH_TO_MEMORY;
     
     // 缓冲区大小
-    dma_init_struct.number = 256;
+    dma_init_struct.number = USART1_RX_BUF_LEN;
     
     dma_init_struct.priority = DMA_PRIORITY_MEDIUM;
 
@@ -93,7 +93,7 @@ void dma_enable(uint32_t dma_periph, dma_channel_enum channelx, uint16_t ndtr)
 // 配合IDLE中断用，直接读返回长度
 uint16_t get_usart1_rx_len(void)
 {
-    return 256 - dma_transfer_number_get(DMA0, DMA_CH5);
+    return USART1_RX_BUF_LEN - dma_transfer_number_get(DMA0, DMA_CH5);
 }
 
 /* 收到一包处理完后，重置一下RX DMA */
@@ -102,7 +102,7 @@ void reset_usart1_rx_dma(void)
     dma_channel_disable(DMA0, DMA_CH5);
     // 清一波标志位，之前没清偶尔会卡
     dma_flag_clear(DMA0, DMA_CH5, DMA_FLAG_FTF);
-    dma_transfer_number_config(DMA0, DMA_CH5, 256);
+    dma_transfer_number_config(DMA0, DMA_CH5, USART1_RX_BUF_LEN);
     dma_channel_enable(DMA0, DMA_CH5);
 }
 

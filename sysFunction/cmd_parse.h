@@ -29,6 +29,7 @@ void cmd_parse_limit(void);
 void cmd_parse_dac_test(void);
 void dac_test_tick(void);
 void cmd_parse_dac(void);
+void cmd_parse_pt100(void);
 void cmd_parse_config_save(uint8_t printf_flag);
 void cmd_parse_config_read(void);
 void cmd_parse_start(void);

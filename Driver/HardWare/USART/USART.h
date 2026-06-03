@@ -7,7 +7,10 @@
 
 /************************* 宏定义 *************************/
 
-#define USART1_RX_BUF_LEN 128  // 接收缓冲区长度（适配赛题最长指令）
+#define USART1_RX_BUF_LEN 256U  // 接收缓冲区长度（适配赛题最长指令）
+#ifndef USART1_TX_BUF_LEN
+#define USART1_TX_BUF_LEN 256U
+#endif
 //#define USART1_CMD_END    '\n' // 指令结束符（赛题串口指令以回车/换行结尾）
 #define RS485_DIR_PIN    GPIO_PIN_8
 #define RS485_DIR_PORT   GPIOE
@@ -21,7 +24,7 @@
 
 /************************ 全局变量 ************************/
 extern uint8_t data_recv;                          // 单字节接收临时变量
-extern uint8_t usart1_rx_buf[USART1_RX_BUF_LEN]; // 串口接收缓冲区（核心）
+extern uint8_t usart1_rx_buffer[USART1_RX_BUF_LEN]; // 串口接收缓冲区（核心）
 extern uint16_t usart1_rx_len;                     // 缓冲区已存储的字节数
 extern uint8_t usart1_rx_flag;                     // 指令接收完成标志（收到\n置1）
 

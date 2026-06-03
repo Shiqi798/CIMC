@@ -110,12 +110,16 @@ virtualFolder:
         - path: ../sysFunction/cmd_parse.h
         - path: ../sysFunction/data_process.c
         - path: ../sysFunction/data_process.h
+        - path: ../sysFunction/pt100.c
+        - path: ../sysFunction/pt100.h
         - path: ../sysFunction/myflashdb_data.c
         - path: ../sysFunction/myflashdb_data.h
         - path: ../sysFunction/myflashdb_log.c
         - path: ../sysFunction/myflashdb_log.h
         - path: ../sysFunction/msg.c
         - path: ../sysFunction/msg.h
+        - path: ../sysFunction/app_vars.c
+        - path: ../sysFunction/app_vars.h
       folders: []
 dependenceList: []
 outDir: build

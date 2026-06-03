@@ -3,9 +3,17 @@
 
 #include "HeaderFiles.h"
 
+#ifndef USART1_RX_BUF_LEN
+#define USART1_RX_BUF_LEN 256U
+#endif
 
-extern uint8_t usart1_rx_buffer[256];
-extern uint8_t usart1_tx_buffer[256];
+#ifndef USART1_TX_BUF_LEN
+#define USART1_TX_BUF_LEN 256U
+#endif
+
+extern uint8_t usart1_rx_buffer[USART1_RX_BUF_LEN];
+extern uint8_t usart1_tx_buffer[USART1_TX_BUF_LEN];
+
 extern uint16_t adc_value[2];
 
 // 初始化缓冲区

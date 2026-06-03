@@ -5,7 +5,6 @@
 /* 系统毫秒计数器 */
 volatile uint32_t msTicks = 0;
 volatile uint32_t led1_turn_time = 500;    // 500ms
-volatile uint32_t adc_sample_cycle = 5000; // 5000ms
 uint32_t adc_sample_start = 0;
 /************************* 函数实现 *************************/
 

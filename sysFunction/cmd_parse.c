@@ -30,6 +30,7 @@ static const cmd_entry_t g_cmd_table[] =
     {"standby",     cmd_parse_standby,     NULL},
     {"sleep",       cmd_parse_deepsleep,   NULL},
     {"ad3344",      AD3344_cmd,            NULL},
+    {"pt100",       cmd_parse_pt100,       NULL},
     {"sample read", cmd_parse_sample_read, NULL},
     {"over read",   cmd_parse_over_read,   NULL},
     {"hide read",   cmd_parse_hide_read,   NULL},
@@ -427,9 +428,6 @@ void cmd_parse_RTC_now(void)
     cmd_parse_init(); // 处理完指令后清空缓冲区
 }
 
-float ratio_ch0 = 1.0f;
-float limit_ch0 = 100.0f;
-
 void cmd_parse_conf(void)
 {    
     printf("\r\ncurrent config\r\n");
@@ -579,6 +577,24 @@ void cmd_parse_dac(void)
     cmd_parse_init(); // 处理完指令后清空缓冲区和标志
 }
 
+
+void cmd_parse_pt100(void)
+{
+    float voltage = 0.0f;
+    float res_ohm = 0.0f;
+    float temp_c = 0.0f;
+
+    if (PT100_ReadVoltage(&voltage) != 0U) {
+        res_ohm = PT100_VoltageToResistance(voltage);
+        temp_c = PT100_ResistanceToTemp(res_ohm);
+        printf("\r\nPT100 cfg=0x%04X algo=%s V=%.6fV R=%.3fohm T=%.2fC\r\n",
+               AD3344_GetConfig(), PT100_GetAlgoName(), voltage, res_ohm, temp_c);
+    } else {
+        printf("\r\nPT100 read failed\r\n");
+    }
+
+    cmd_parse_init();
+}
 
 uint8_t dac_test_flag6=0;
 uint8_t dac_test_flag3=0;

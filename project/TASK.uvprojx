@@ -807,6 +807,26 @@
               <FilePath>..\sysFunction\data_process.h</FilePath>
             </File>
             <File>
+              <FileName>pt100.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\sysFunction\pt100.c</FilePath>
+            </File>
+            <File>
+              <FileName>pt100.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\sysFunction\pt100.h</FilePath>
+            </File>
+            <File>
+              <FileName>app_vars.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\sysFunction\app_vars.c</FilePath>
+            </File>
+            <File>
+              <FileName>app_vars.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\sysFunction\app_vars.h</FilePath>
+            </File>
+            <File>
               <FileName>myflashdb_data.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\sysFunction\myflashdb_data.c</FilePath>

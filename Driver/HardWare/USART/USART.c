@@ -67,7 +67,7 @@ void rs485_printf(const char *fmt, ...)
 void USART1_ClearRxBuf(void)
 {
     // 改成清DMA的数组
-    memset(usart1_rx_buffer, 0, 256);
+    memset(usart1_rx_buffer, 0, USART1_RX_BUF_LEN);
     usart1_rx_len = 0;
     usart1_rx_flag = 0;
 }
@@ -165,8 +165,8 @@ void USART1_IRQHandler(void)
         usart1_rx_len = get_usart1_rx_len();
 
         // 防止缓冲区溢出
-        if (usart1_rx_len >= 256) {
-            usart1_rx_len = 255;
+        if (usart1_rx_len >= USART1_RX_BUF_LEN) {
+            usart1_rx_len = USART1_RX_BUF_LEN - 1U;
         }
 
         // Keep raw bytes for binary frames; append '\0' only for legacy text commands.

@@ -2,28 +2,28 @@
 #define __AD3344_H
 
 #include "HeaderFiles.h"
-
+/********************************配置定义和结构体************************************* */
 //上电默认配置字
 #define AD3344_DEFAULT_CONFIG                  ((uint16_t)0x058BU)
-
-//配置寄存器位定义。O/S 位在单次启动和忙标志上共用同一位
-#define AD3344_CONFIG_OS_SINGLE                ((uint16_t)0x8000U)
-#define AD3344_CONFIG_OS_NOT_BUSY              AD3344_CONFIG_OS_SINGLE
-#define AD3344_CONFIG_MUX_MASK                 ((uint16_t)0x7000U)
+//配置寄存器位定义。     O/S 位在单次启动和忙标志上共用同一位
+#define AD3344_CONFIG_OS_SINGLE         ((uint16_t)0x8000U)
+#define AD3344_CONFIG_OS_NOT_BUSY     AD3344_CONFIG_OS_SINGLE
+#define AD3344_CONFIG_MUX_MASK         ((uint16_t)0x7000U)
 #define AD3344_CONFIG_PGA_MASK                 ((uint16_t)0x0E00U)
-#define AD3344_CONFIG_MODE_MASK                ((uint16_t)0x0100U)
-#define AD3344_CONFIG_DR_MASK                  ((uint16_t)0x00E0U)
-#define AD3344_CONFIG_PULL_UP_EN               ((uint16_t)0x0008U)
-#define AD3344_CONFIG_NOP_VALID                ((uint16_t)0x0002U)
-#define AD3344_CONFIG_RESERVED                 ((uint16_t)0x0001U)
+#define AD3344_CONFIG_MODE_MASK         ((uint16_t)0x0100U)
+#define AD3344_CONFIG_DR_MASK              ((uint16_t)0x00E0U)
+#define AD3344_CONFIG_PULL_UP_EN          ((uint16_t)0x0008U)
+#define AD3344_CONFIG_NOP_VALID             ((uint16_t)0x0002U)
+#define AD3344_CONFIG_RESERVED           ((uint16_t)0x0001U)
 
-//cs
-#define AD3344_CS_PE9                          GPIO_PIN_9
+
 
 //输入通道选择
 typedef enum {
     //差分
-    AD3344_MUX_DIFF_0_1 = 0x0000U,
+    AD3344_MUX_DIFF_0_1 = 0x0000U,/////01差分，常用
+
+    //备用
     AD3344_MUX_DIFF_0_3 = 0x1000U,
     AD3344_MUX_DIFF_1_3 = 0x2000U,
     AD3344_MUX_DIFF_2_3 = 0x3000U,
@@ -36,24 +36,26 @@ typedef enum {
 
 //PGA增益，4096为1倍
 typedef enum {
-    AD3344_PGA_6_144V = 0x0000U,
-    AD3344_PGA_4_096V = 0x0200U,
-    AD3344_PGA_2_048V = 0x0400U,
-    AD3344_PGA_1_024V = 0x0600U,
-    AD3344_PGA_0_512V = 0x0800U,
-    AD3344_PGA_0_256V = 0x0A00U,
+    AD3344_PGA_6_144V= 0x0000U,
+    AD3344_PGA_4_096V= 0x0200U,
+    AD3344_PGA_2_048V= 0x0400U,
+    AD3344_PGA_1_024V=0x0600U,
+    AD3344_PGA_0_512V= 0x0800U,
+
+    //0.1到0.19差不多电压
+    AD3344_PGA_0_256V =0x0A00U,
     AD3344_PGA_0_064V = 0x0C00U
 } ad3344_pga_t;
 
 //输出数据速度
 typedef enum {
-    AD3344_DR_6_25SPS  = 0x0000U,
-    AD3344_DR_12_5SPS  = 0x0020U,
-    AD3344_DR_25SPS    = 0x0040U,
-    AD3344_DR_50SPS    = 0x0060U,
-    AD3344_DR_100SPS   = 0x0080U,
-    AD3344_DR_250SPS   = 0x00A0U,
-    AD3344_DR_500SPS   = 0x00C0U,
+    AD3344_DR_6_25SPS  =0x0000U,
+    AD3344_DR_12_5SPS = 0x0020U,
+    AD3344_DR_25SPS = 0x0040U,
+    AD3344_DR_50SPS =0x0060U,
+    AD3344_DR_100SPS =0x0080U,
+    AD3344_DR_250SPS = 0x00A0U,
+    AD3344_DR_500SPS =0x00C0U,
 
     AD3344_DR_1000SPS  = 0x00E0U
 } ad3344_data_rate_t;
@@ -64,6 +66,9 @@ typedef enum {
     AD3344_MODE_SINGLE     = 0x0100U
 } ad3344_mode_t;
 
+
+//cs
+#define AD3344_CS_PE9                          GPIO_PIN_9
 //配置结构体
 typedef struct {
     ad3344_mux_t mux;
