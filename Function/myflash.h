@@ -48,6 +48,7 @@ extern volatile uint32_t adc_sample_cycle;
 /* 参数记录，固定32B，存在0x00001000 */
 typedef struct {
 
+    uint32_t magic;         // 记录标记
     uint32_t power_count;   // 上电次数
     uint32_t sample_cycle;  // 采样周期(ms)
     float ratio_ch0;        // 比例系数

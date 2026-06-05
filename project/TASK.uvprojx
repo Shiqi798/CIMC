@@ -337,7 +337,7 @@
               <MiscControls></MiscControls>
               <Define>USE_STDPERIPH_DRIVER,GD32F470</Define>
               <Undefine></Undefine>
-              <IncludePath>..\Driver\HardWare\KEY;..\Driver\HardWare\LED;..\Driver\HardWare\OLED;..\Driver\HardWare\RTC;..\Driver\HardWare\SDCARD;..\Driver\HardWare\SPI_FLASH;..\Driver\HardWare\USART;..\Driver\HeaderFiles;..\Driver\Library;..\Driver\Start\CMSIS;..\Driver\Start\Startup;..\Driver\System\ADC;..\Driver\System\AD3344;..\Driver\System\TIM6;..\User;..\Driver\Library\GD32F4xx_standard_peripheral\Include;..\Driver\Library\GD32F4xx_standard_peripheral\Source;..\Driver\Start\CMSIS\GD\GD32F4xx\Include;..\Driver\Start\CMSIS\GD\GD32F4xx\Source;..\sysFunction;..\Driver\Fatfs;..\Driver\System\myDMA;..\Driver\FlashDB\fal;..\Driver\FlashDB\flashdb;..\Driver\FlashDB;..\Driver\HardWare\sleep_wake;..\Driver\System\DAC</IncludePath>
+              <IncludePath>..\Driver\HardWare\KEY;..\Driver\HardWare\LED;..\Driver\HardWare\OLED;..\Driver\HardWare\RTC;..\Driver\HardWare\SDCARD;..\Driver\HardWare\SPI_FLASH;..\Driver\HardWare\USART;..\Driver\HeaderFiles;..\Driver\Library;..\Driver\Start\CMSIS;..\Driver\Start\Startup;..\Driver\System\ADC;..\Driver\System\AD3344;..\Driver\System\TIM6;..\User;..\Driver\Library\GD32F4xx_standard_peripheral\Include;..\Driver\Library\GD32F4xx_standard_peripheral\Source;..\Driver\Start\CMSIS\GD\GD32F4xx\Include;..\Driver\Start\CMSIS\GD\GD32F4xx\Source;..\Function;..\Protocol;..\Driver\Fatfs;..\Driver\System\myDMA;..\Driver\FlashDB\fal;..\Driver\FlashDB\flashdb;..\Driver\FlashDB;..\Driver\HardWare\sleep_wake;..\Driver\System\DAC</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -774,87 +774,92 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>sysFunction</GroupName>
+          <GroupName>Function</GroupName>
           <Files>
             <File>
               <FileName>Function.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\sysFunction\Function.c</FilePath>
+              <FilePath>..\Function\Function.c</FilePath>
             </File>
             <File>
               <FileName>Function.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\sysFunction\Function.h</FilePath>
+              <FilePath>..\Function\Function.h</FilePath>
             </File>
             <File>
               <FileName>cmd_parse.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\sysFunction\cmd_parse.c</FilePath>
+              <FilePath>..\Function\cmd_parse.c</FilePath>
             </File>
             <File>
               <FileName>cmd_parse.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\sysFunction\cmd_parse.h</FilePath>
+              <FilePath>..\Function\cmd_parse.h</FilePath>
             </File>
             <File>
               <FileName>data_process.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\sysFunction\data_process.c</FilePath>
+              <FilePath>..\Function\data_process.c</FilePath>
             </File>
             <File>
               <FileName>data_process.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\sysFunction\data_process.h</FilePath>
+              <FilePath>..\Function\data_process.h</FilePath>
             </File>
             <File>
               <FileName>pt100.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\sysFunction\pt100.c</FilePath>
+              <FilePath>..\Function\pt100.c</FilePath>
             </File>
             <File>
               <FileName>pt100.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\sysFunction\pt100.h</FilePath>
+              <FilePath>..\Function\pt100.h</FilePath>
             </File>
             <File>
               <FileName>app_vars.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\sysFunction\app_vars.c</FilePath>
+              <FilePath>..\Function\app_vars.c</FilePath>
             </File>
             <File>
               <FileName>app_vars.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\sysFunction\app_vars.h</FilePath>
+              <FilePath>..\Function\app_vars.h</FilePath>
             </File>
             <File>
               <FileName>myflashdb_data.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\sysFunction\myflashdb_data.c</FilePath>
+              <FilePath>..\Function\myflashdb_data.c</FilePath>
             </File>
             <File>
               <FileName>myflashdb_data.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\sysFunction\myflashdb_data.h</FilePath>
+              <FilePath>..\Function\myflashdb_data.h</FilePath>
             </File>
             <File>
               <FileName>myflashdb_log.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\sysFunction\myflashdb_log.c</FilePath>
+              <FilePath>..\Function\myflashdb_log.c</FilePath>
             </File>
             <File>
               <FileName>myflashdb_log.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\sysFunction\myflashdb_log.h</FilePath>
+              <FilePath>..\Function\myflashdb_log.h</FilePath>
             </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Protocol</GroupName>
+          <Files>
             <File>
               <FileName>msg.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\sysFunction\msg.c</FilePath>
+              <FilePath>..\Protocol\msg.c</FilePath>
             </File>
             <File>
               <FileName>msg.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\sysFunction\msg.h</FilePath>
+              <FilePath>..\Protocol\msg.h</FilePath>
             </File>
           </Files>
         </Group>

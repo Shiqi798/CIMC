@@ -6,14 +6,14 @@
 uint8_t usart1_rx_buffer[USART1_RX_BUF_LEN];
 uint8_t usart1_tx_buffer[USART1_TX_BUF_LEN];
 /* 预留4个通道 */
-uint16_t adc_value[2];
+volatile uint16_t adc_value[2];
 
 // 初始化TX缓冲区
 void mydma_init_buffers(void)
 {
     memset(usart1_rx_buffer, 0, USART1_RX_BUF_LEN);
     memset(usart1_tx_buffer, 0, USART1_TX_BUF_LEN);
-    memset(adc_value, 0, sizeof(adc_value));
+    memset((void *)adc_value, 0, sizeof(adc_value));
 } 
 
 /////////////////////// 核心底层接口 ///////////////////////

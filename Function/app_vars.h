@@ -6,7 +6,9 @@
 
 /************************* 全局参数 *************************/
 extern float ratio_ch0;
+extern float ratio_ch1;
 extern float limit_ch0;
+extern float limit_ch1;
 extern float dac_volt;
 extern volatile uint32_t adc_sample_cycle;
 

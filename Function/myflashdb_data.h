@@ -23,8 +23,11 @@ extern uint8_t exflash_erase_flag;
 
 typedef struct {
     uint32_t sample_cycle;  
+    uint16_t device_id;
     float    ratio_ch0;    
+    float    ratio_ch1;    
     float    limit_ch0;    
+    float    limit_ch1;    
     float    dac_volt; 
 } data_cfg_t;
 

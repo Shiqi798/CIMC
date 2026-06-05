@@ -1069,7 +1069,7 @@
   </Group>
 
   <Group>
-    <GroupName>sysFunction</GroupName>
+    <GroupName>Function</GroupName>
     <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
@@ -1081,7 +1081,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\sysFunction\Function.c</PathWithFileName>
+      <PathWithFileName>..\Function\Function.c</PathWithFileName>
       <FilenameWithoutPath>Function.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -1093,7 +1093,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\sysFunction\Function.h</PathWithFileName>
+      <PathWithFileName>..\Function\Function.h</PathWithFileName>
       <FilenameWithoutPath>Function.h</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -1105,7 +1105,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\sysFunction\cmd_parse.c</PathWithFileName>
+      <PathWithFileName>..\Function\cmd_parse.c</PathWithFileName>
       <FilenameWithoutPath>cmd_parse.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -1117,7 +1117,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\sysFunction\cmd_parse.h</PathWithFileName>
+      <PathWithFileName>..\Function\cmd_parse.h</PathWithFileName>
       <FilenameWithoutPath>cmd_parse.h</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -1129,7 +1129,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\sysFunction\data_process.c</PathWithFileName>
+      <PathWithFileName>..\Function\data_process.c</PathWithFileName>
       <FilenameWithoutPath>data_process.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -1141,7 +1141,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\sysFunction\data_process.h</PathWithFileName>
+      <PathWithFileName>..\Function\data_process.h</PathWithFileName>
       <FilenameWithoutPath>data_process.h</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -1153,7 +1153,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\sysFunction\myflashdb_data.c</PathWithFileName>
+      <PathWithFileName>..\Function\myflashdb_data.c</PathWithFileName>
       <FilenameWithoutPath>myflashdb_data.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -1165,7 +1165,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\sysFunction\myflashdb_data.h</PathWithFileName>
+      <PathWithFileName>..\Function\myflashdb_data.h</PathWithFileName>
       <FilenameWithoutPath>myflashdb_data.h</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -1177,7 +1177,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\sysFunction\myflashdb_log.c</PathWithFileName>
+      <PathWithFileName>..\Function\myflashdb_log.c</PathWithFileName>
       <FilenameWithoutPath>myflashdb_log.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
@@ -1189,7 +1189,7 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\sysFunction\myflashdb_log.h</PathWithFileName>
+      <PathWithFileName>..\Function\myflashdb_log.h</PathWithFileName>
       <FilenameWithoutPath>myflashdb_log.h</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>

@@ -85,18 +85,18 @@ virtualFolder:
       files:
         - path: ../Driver/Start/CMSIS/GD/GD32F4xx/Source/system_gd32f4xx.c
       folders: []
-    - name: sysFunction
+    - name: Function
       files:
-        - path: ../sysFunction/Function.c
-        - path: ../sysFunction/Function.h
-        - path: ../sysFunction/cmd_parse.c
-        - path: ../sysFunction/cmd_parse.h
-        - path: ../sysFunction/data_process.c
-        - path: ../sysFunction/data_process.h
+        - path: ../Function/Function.c
+        - path: ../Function/Function.h
+        - path: ../Function/cmd_parse.c
+        - path: ../Function/cmd_parse.h
+        - path: ../Function/data_process.c
+        - path: ../Function/data_process.h
         - path: ../sysfunction/file_mgr.c
         - path: ../sysfunction/file_mgr.h
-        - path: ../sysFunction/myflash.c
-        - path: ../sysFunction/myflash.h
+        - path: ../Function/myflash.c
+        - path: ../Function/myflash.h
       folders: []
 dependenceList: []
 outDir: build
@@ -322,7 +322,7 @@ targets:
         - ../Driver/Library/GD32F4xx_standard_peripheral/Source
         - ../Driver/Start/CMSIS/GD/GD32F4xx/Include
         - ../Driver/Start/CMSIS/GD/GD32F4xx/Source
-        - ../sysFunction
+        - ../Function
         - ../Driver/Fatfs
         - .cmsis/include
         - RTE/_TASK

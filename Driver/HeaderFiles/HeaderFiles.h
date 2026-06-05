@@ -43,7 +43,7 @@
 #include "myDMA.h"
 #include "AD3344.h"
 /***********************DRIVER_END*************************
-************************sysFunction************************/
+************************Function************************/
 #include "app_vars.h"
 #include "cmd_parse.h"
 #include "data_process.h"
@@ -55,7 +55,7 @@
 #include "sleep_wake.h"
 #include "msg.h"
 
-/**********************sysFunction_END*********************/
+/**********************Function_END*********************/
 /****************************End*****************************/
 #endif
 

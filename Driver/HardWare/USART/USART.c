@@ -102,7 +102,7 @@ void USART1_Init(void)
     //初始化DMA
     USART1_DMA_All_Init();
     usart_deinit(USART1);
-    usart_baudrate_set(USART1, 115200);
+    usart_baudrate_set(USART1, 19200);
     usart_word_length_set(USART1, USART_WL_8BIT);
     usart_stop_bit_set(USART1, USART_STB_1BIT);
     usart_parity_config(USART1, USART_PM_NONE);

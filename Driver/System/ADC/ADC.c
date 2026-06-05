@@ -7,7 +7,7 @@ void ADC_port_init(void)
     rcu_periph_clock_enable(RCU_GPIOC);   // 使能GPIOC时钟
     rcu_periph_clock_enable(RCU_ADC0);    // 使能ADC0时钟
 
-    gpio_mode_set(GPIOC, GPIO_MODE_ANALOG, GPIO_PUPD_NONE, GPIO_PIN_0 | GPIO_PIN_2);   // 设置PC0/PC2为模拟输入
+    gpio_mode_set(GPIOC, GPIO_MODE_ANALOG, GPIO_PUPD_NONE, GPIO_PIN_0 | GPIO_PIN_1);   // 设置PC0/PC1为模拟输入
 
     adc_clock_config(ADC_ADCCK_PCLK2_DIV8);   // 配置ADC时钟
 
@@ -27,12 +27,13 @@ void ADC_Init(void)
 {
     adc_deinit();    // 复位ADC
 
+    adc_special_function_config(ADC0, ADC_SCAN_MODE, ENABLE);
     adc_special_function_config(ADC0, ADC_CONTINUOUS_MODE, ENABLE);      // 使能连续转换模式
     adc_data_alignment_config(ADC0, ADC_DATAALIGN_RIGHT);               // 设置数据右对齐
     adc_channel_length_config(ADC0, ADC_ROUTINE_CHANNEL, 2);            // 设置通道数为2
     
     adc_routine_channel_config(ADC0, 0, ADC_CHANNEL_10, ADC_SAMPLETIME_56);   // 配置PC0/ADC_IN10
-    adc_routine_channel_config(ADC0, 1, ADC_CHANNEL_12, ADC_SAMPLETIME_56);   // 配置PC2/ADC_IN12
+    adc_routine_channel_config(ADC0, 1, ADC_CHANNEL_11, ADC_SAMPLETIME_56);   // 配置PC1/ADC_IN11
     adc_oversample_mode_config(ADC0, ADC_OVERSAMPLING_ALL_CONVERT, ADC_OVERSAMPLING_SHIFT_6B, ADC_OVERSAMPLING_RATIO_MUL64);
     adc_oversample_mode_enable(ADC0);   // 配置并使能过采样模式，64倍采样，移位6位
     adc_dma_mode_enable(ADC0);          // 使能ADC DMA请求

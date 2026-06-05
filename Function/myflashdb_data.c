@@ -8,8 +8,11 @@ static void data_config_default(data_cfg_t *cfg)
     if (cfg == NULL) return;
 
     cfg->sample_cycle = 5000U;
+    cfg->device_id    = 0x0001U;
     cfg->ratio_ch0    = 1.0f;
+    cfg->ratio_ch1    = 1.0f;
     cfg->limit_ch0    = 100.0f;
+    cfg->limit_ch1    = 100.0f;
     cfg->dac_volt     = 1.0f;
 }
 
@@ -22,11 +25,20 @@ static void data_config_check(data_cfg_t *cfg)
     if (cfg->sample_cycle < 1000U || cfg->sample_cycle > 600000U) {
         cfg->sample_cycle = 5000U;
     }
+    if ((cfg->device_id == 0U) || (cfg->device_id == 0xFFFFU)) {
+        cfg->device_id = 0x0001U;
+    }
     if (cfg->ratio_ch0 < 0.0f || cfg->ratio_ch0 > 100.0f) {
         cfg->ratio_ch0 = 1.0f;
     }
     if (cfg->limit_ch0 < 0.0f || cfg->limit_ch0 > 500.0f) {
         cfg->limit_ch0 = 100.0f;
+    }
+    if (cfg->ratio_ch1 < 0.0f || cfg->ratio_ch1 > 100.0f) {
+        cfg->ratio_ch1 = 1.0f;
+    }
+    if (cfg->limit_ch1 < 0.0f || cfg->limit_ch1 > 500.0f) {
+        cfg->limit_ch1 = 100.0f;
     }
     if (cfg->dac_volt < 0.0f || cfg->dac_volt > 3.0f) {
         cfg->dac_volt = 1.0f;

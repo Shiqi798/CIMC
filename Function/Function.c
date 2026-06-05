@@ -81,8 +81,11 @@ void sysFunction_Init(void)
     data_cfg_t sys_cfg;
     get_data_config(&sys_cfg);
     adc_sample_cycle = sys_cfg.sample_cycle;
+    msg_device_id = sys_cfg.device_id;
     ratio_ch0 = sys_cfg.ratio_ch0;
+    ratio_ch1 = sys_cfg.ratio_ch1;
     limit_ch0 = sys_cfg.limit_ch0;
+    limit_ch1 = sys_cfg.limit_ch1;
     dac_volt = sys_cfg.dac_volt;
 
     overlimit_flag = 0;
@@ -135,10 +138,13 @@ void sysFunction_loop(void)
 
 void oled_idle_refresh(void)
 {
+    float ch1_volt;
+
     if (oled_idle_refresh_flag == 1)
     {
+        ch1_volt = ((float)ADC_get_ch1() * 3.3f) / 4095.0f;
         OLED_Printf(0, 0, 16, "system idle  ");
-        OLED_Printf(0, 16, 16, "           ");
+        OLED_Printf(0, 16, 16, "CH1:%.3fV   ", ch1_volt);
         OLED_Refresh();
         oled_idle_refresh_flag = 0;
     }
