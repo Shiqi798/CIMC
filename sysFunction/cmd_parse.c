@@ -245,7 +245,9 @@ void cmd_parse_test(void)
     printf("rtc:%s\r\n", rtc_ok ? "ok" : "error");
     printf("adc:%s\r\n", adc_ok ? "ok" : "error");
     printf("dac:%s\r\n", dac_ok ? "ok" : "error");
+//    delay_1ms(2);
     printf("uart:ok\r\n");
+//    delay_1ms(2);
     printf("system self test end\r\n");
     cmd_parse_init(); // 处理完指令后清空缓冲区
 }
@@ -292,7 +294,7 @@ int parse_datetime(const char *str,
         return -2;
     }
 
-    // 赋值（注意顺序：年、月、日、时、分、秒）
+    // 赋值（注意顺序年、月、日、时、分、秒）
     *year   = values[0];
     *month  = (uint8_t)values[1];
     *date   = (uint8_t)values[2];

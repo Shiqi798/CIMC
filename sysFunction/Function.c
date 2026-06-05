@@ -36,11 +36,11 @@ void sysFunction_Init(void)
 	__enable_irq(); 
     SystemInit();
     systick_config(); // ?? systick
-    tim6_functimer_init();
+
     RTC_Init();      // ??? ????
     USART1_Init();    
     // USART1_DMA_All_Init();
-    printf("\r\n");
+//    printf("\r\n");
     LED_Init();
     ADC_port_init(); // ??? ADC
 
@@ -94,10 +94,14 @@ void sysFunction_Init(void)
         set_team_number(DEVICE_ID); 
         get_team_number(current_dev_id, sizeof(current_dev_id));
     }
-    printf("\r\n====system init====\r\n");
-    printf("%s\r\n", current_dev_id);     
-    printf("Boot Mode:APP\r\n");
-    printf("====system ready====\r\n");
+        delay_1ms(2);
+    printf("====system init====");
+    delay_1ms(2);
+    printf("%s", current_dev_id);     
+    delay_1ms(2);
+    printf("Boot Mode:APP");
+    delay_1ms(2);
+    printf("====system ready====");
     if (is_power_on_reset())
     {
         set_power_count();
@@ -105,7 +109,7 @@ void sysFunction_Init(void)
     uint32_t power_count = get_power_count();   // ??????
  //   printf("SystemCoreClock = %ld\r\n", SystemCoreClock);
     AD3344_Init();
-
+    tim6_functimer_init();
 }
 
 void sysFunction_loop(void)
@@ -134,7 +138,7 @@ void oled_idle_refresh(void)
     if (oled_idle_refresh_flag == 1)
     {
         OLED_Printf(0, 0, 16, "system idle  ");
-        OLED_Printf(0, 16, 16, "        ");
+        OLED_Printf(0, 16, 16, "           ");
         OLED_Refresh();
         oled_idle_refresh_flag = 0;
     }

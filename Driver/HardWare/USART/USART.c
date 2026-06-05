@@ -23,17 +23,15 @@ void rs485_printf(const char *fmt, ...)
     char buf[512];
     va_list ap;
     int n;
+    static uint8_t print_started = 0;
 
     // 拼接整段字符串
     va_start(ap, fmt);
     n = vsnprintf(buf, sizeof(buf), fmt, ap);
     va_end(ap);
 
-    RS485_TX_MODE();
-
     if (n < 0) {
-        RS485_RX_MODE();
-    return;
+        return;
     }
 
     uint16_t len = (uint16_t)strlen(buf);
@@ -41,21 +39,29 @@ void rs485_printf(const char *fmt, ...)
         len = sizeof(usart1_tx_buffer) - 1;
     }
     if (len == 0) {
-        RS485_RX_MODE();
         return;  // 字符串为空，直接返回
     }
+
+    // 帧间隔
+    if (print_started != 0U) {
+        delay_1ms(4);
+    }
+    print_started = 1U;
+
+    RS485_TX_MODE();
  
     // 先拷到DMA专用的TX buffer，免得局部变量buf出了作用域被覆写
     memcpy(usart1_tx_buffer, buf, len);
+    usart_flag_clear(USART1, USART_FLAG_TC);
     dma_enable(DMA0, DMA_CH6, len);
     
 
 
     // 等待DMA完成
-    for (uint32_t i = 0; i < 100000 && dma_flag_get(DMA0, DMA_CH6, DMA_FLAG_FTF) == RESET; i++);
+    while (dma_flag_get(DMA0, DMA_CH6, DMA_FLAG_FTF) == RESET);
     
-    // 等待USART发送完成
-    for (uint32_t i = 0; i < 100000 && usart_flag_get(USART1, USART_FLAG_TC) == RESET; i++);
+    // 等待USART最后一个bit真正发完
+    while (usart_flag_get(USART1, USART_FLAG_TC) == RESET);
     
 
     RS485_RX_MODE();
