@@ -29,6 +29,7 @@ typedef struct {
 
 //≥¨œﬁ»’÷æ
 typedef struct {
+    char channel[4];
     float voltage;
     float limit;
 } over_log_t;
@@ -49,6 +50,7 @@ int flash_log_init(void);
 //–¥
 void append_sample_log(float voltage, float ratio, uint16_t sample_cycle);
 void append_over_log(float voltage, float limit);
+void append_over_log_ch(const char *channel, float voltage, float limit);
 void append_hide_log(float voltage, const char* hide_str);
 
 void append_normal_log(const char *fmt, ...);

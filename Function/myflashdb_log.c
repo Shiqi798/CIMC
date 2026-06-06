@@ -106,8 +106,16 @@ void append_sample_log(float voltage, float ratio, uint16_t sample_cycle) {
 }
 
 void append_over_log(float voltage, float limit) {
+    append_over_log_ch("CH0", voltage, limit);
+}
+
+void append_over_log_ch(const char *channel, float voltage, float limit) {
     struct fdb_blob blob;
-    over_log_t log_data = {voltage, limit};
+    over_log_t log_data;
+    memset(&log_data, 0, sizeof(log_data));
+    strncpy(log_data.channel, channel, sizeof(log_data.channel) - 1);
+    log_data.voltage = voltage;
+    log_data.limit = limit;
     fdb_blob_make(&blob, &log_data, sizeof(log_data));
     fdb_tsl_append(&over_db, &blob);
 }
@@ -197,12 +205,15 @@ void print_latest_over_logs(int count) {
     over_ctx_t ctx = {buffer, count, 0}; 
 
     fdb_tsl_iter_reverse(&over_db, query_latest_over_cb, &ctx);
-    printf("\r\n");
+    if (ctx.count == 0) {
+        printf("empty\r\n");
+        return;
+    }
 //    printf("--- 最新 %d 条 [超限日志] (实际读出 %d 条) ---\n", count, ctx.count);
-    printf("\r\n");
     for (int i = ctx.count - 1; i >= 0; i--) {
-        printf("[%d]%s ch0=%.2fV limit=%.2fV\r\n", ctx.count - i,
-               unix_to_str(ctx.cache[i].time),ctx.cache[i].data.voltage, ctx.cache[i].data.limit);
+        printf("%s | %s | %.2f | %.2f\r\n",
+               unix_to_str(ctx.cache[i].time), ctx.cache[i].data.channel,
+               ctx.cache[i].data.limit, ctx.cache[i].data.voltage);
     }
 }
 
@@ -229,7 +240,6 @@ void print_latest_hide_logs(int count) {
     hide_ctx_t ctx = {buffer, count, 0}; 
 
     fdb_tsl_iter_reverse(&hide_db, query_latest_hide_cb, &ctx);
-    printf("\r\n");
     for (int i = ctx.count - 1; i >= 0; i--) {
         printf("[%d]%s ch0=%.2fV hide_data=%s\r\n", ctx.count - i,
                unix_to_str(ctx.cache[i].time),ctx.cache[i].data.voltage, ctx.cache[i].data.hide_data);
@@ -262,7 +272,6 @@ void print_latest_normal_logs(int count) {
 
     fdb_tsl_iter_reverse(&normal_db, query_latest_op_cb, &ctx);
 //    printf("读出 %d 条\r\n", ctx.count);
-    printf("\r\n");
     for (int i = ctx.count - 1; i >= 0; i--) {
         printf("[%d]%s %s\r\n", ctx.count - i,
                unix_to_str(ctx.cache[i].time),

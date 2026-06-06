@@ -83,6 +83,16 @@ void USART1_ClearRxBuf(void)
  */
 void USART1_Init(void)
 {
+    uint32_t baud = 19200U;
+
+    if (usart1_baud_mode == 0x11U) {
+        baud = 4800U;
+    } else if (usart1_baud_mode == 0x12U) {
+        baud = 9600U;
+    } else if (usart1_baud_mode == 0x14U) {
+        baud = 115200U;
+    }
+
     // 开时钟
     rcu_periph_clock_enable(RCU_GPIOD);
     rcu_periph_clock_enable(RCU_GPIOE);  // 添加GPIOE时钟（RS485方向脚）
@@ -102,7 +112,7 @@ void USART1_Init(void)
     //初始化DMA
     USART1_DMA_All_Init();
     usart_deinit(USART1);
-    usart_baudrate_set(USART1, 19200);
+    usart_baudrate_set(USART1, baud);
     usart_word_length_set(USART1, USART_WL_8BIT);
     usart_stop_bit_set(USART1, USART_STB_1BIT);
     usart_parity_config(USART1, USART_PM_NONE);

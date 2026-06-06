@@ -29,6 +29,8 @@ typedef struct {
     float    limit_ch0;    
     float    limit_ch1;    
     float    dac_volt; 
+    uint8_t  alarm_report_mode;
+    uint8_t  baud_mode;
 } data_cfg_t;
 
 int flashdata_init(void);

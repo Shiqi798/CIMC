@@ -21,6 +21,7 @@
 /*------------------ Cmd定义 ------------------*/
 #define MSG_OK_BYTE          0xFFU
 #define MSG_BAUD_19200       0x13U
+#define MSG_BAUD_115200      0x14U
 
 //结果枚举
 typedef enum {
@@ -48,6 +49,7 @@ typedef struct {
 extern uint8_t msg_tx_buffer[MSG_TX_BUF_LEN];
 extern uint16_t msg_tx_len;
 extern uint16_t msg_device_id;
+extern uint8_t msg_auto_sample_flag;
 /*------------------ 外部接口定义 ------------------*/
 // CRC计算
 uint16_t Calculate_CRC16(uint8_t *data, uint16_t length);

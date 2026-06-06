@@ -671,34 +671,55 @@ void cmd_parse_stop(void)
 
 void sample_result_show(void)
 {
+    float ch1_eng_volt;
+    uint8_t ch0_over;
+    uint8_t ch1_over;
+
     data_calc_eng_volt();
-    // 超限检查
-    data_check_overlimit();    
+    ch1_eng_volt = (((float)ADC_get_ch1() * 3.3f) / 4095.0f) * ratio_ch1;
+    ch0_over = (eng_volt > limit_ch0) ? 1U : 0U;
+    ch1_over = (ch1_eng_volt > limit_ch1) ? 1U : 0U;
+    overlimit_flag = ((ch0_over != 0U) || (ch1_over != 0U)) ? 1U : 0U;
+
     if (hide_flag == 1)
     {
         char* encrypt_str = data_encrypt();
         printf("%s\r\n", encrypt_str);
-        
-        append_hide_log(eng_volt, encrypt_str); // 存入隐藏日志区
+        append_hide_log(eng_volt, encrypt_str);
     }
     else
     {
-        rtc_show_time(); // 串口打印时间
-        if (overlimit_flag == 0)
+        rtc_show_time();
+        printf(" ch0=%.2fV ch1=%.2fV", eng_volt, ch1_eng_volt);
+
+        if (ch0_over == 0U && ch1_over == 0U)
         {
-            printf(" ch0=%.2fV\r\n", eng_volt);
+            printf("\r\n");
             append_sample_log(eng_volt, ratio_ch0, (float)adc_sample_cycle);
         }
         else
         {
-            printf(" ch0=%.2fV OverLimit(%.2f) !\r\n", eng_volt, limit_ch0);
-            append_over_log(eng_volt, limit_ch0); // 存入超限报警日志区
+            printf(" OverLimit!\r\n");
+            if (ch0_over != 0U)
+            {
+                append_over_log_ch("CH0", eng_volt, limit_ch0);
+                if (alarm_report_mode == 1U)
+                {
+                    printf("%s | CH0 | %.2f | %.2f\r\n", unix_to_str(get_unix_time()), limit_ch0, eng_volt);
+                }
+            }
+            if (ch1_over != 0U)
+            {
+                append_over_log_ch("CH1", ch1_eng_volt, limit_ch1);
+                if (alarm_report_mode == 1U)
+                {
+                    printf("%s | CH1 | %.2f | %.2f\r\n", unix_to_str(get_unix_time()), limit_ch1, ch1_eng_volt);
+                }
+            }
         }
     }
-    
-    //局部刷新电压！
-    OLED_Printf(0, 16, 16, "%.2fV  ", eng_volt);                                                                     
-//    OLED_Refresh();
+
+    OLED_Printf(0, 16, 16, "%.2fV  ", eng_volt);
 }
 
 void cmd_parse_hide(void)

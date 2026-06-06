@@ -72,7 +72,8 @@ void sysFunction_Init(void)
     }
 */
     OLED_Init();
-    OLED_Printf(0, 0, 16, "system idle");
+    OLED_Printf(0, 0, 16, "2026-WUT-QRS-9 ");
+    OLED_Printf(0, 16, 16, "IDLE           ");
     OLED_Refresh();
 //    Key_Init(); // ??? ??
 
@@ -87,6 +88,9 @@ void sysFunction_Init(void)
     limit_ch0 = sys_cfg.limit_ch0;
     limit_ch1 = sys_cfg.limit_ch1;
     dac_volt = sys_cfg.dac_volt;
+    alarm_report_mode = sys_cfg.alarm_report_mode;
+    usart1_baud_mode = sys_cfg.baud_mode;
+    USART1_Init();
 
     overlimit_flag = 0;
     hide_flag = 0;                                 // ??????
@@ -138,13 +142,18 @@ void sysFunction_loop(void)
 
 void oled_idle_refresh(void)
 {
-    float ch1_volt;
+    char current_dev_id[32];
+    char *show_id;
 
     if (oled_idle_refresh_flag == 1)
     {
-        ch1_volt = ((float)ADC_get_ch1() * 3.3f) / 4095.0f;
-        OLED_Printf(0, 0, 16, "system idle  ");
-        OLED_Printf(0, 16, 16, "CH1:%.3fV   ", ch1_volt);
+        get_team_number(current_dev_id, sizeof(current_dev_id));
+        show_id = current_dev_id;
+        if (strncmp(show_id, "Device_ID:", 10) == 0) {
+            show_id += 10;
+        }
+        OLED_Printf(0, 0, 16, "%-16.16s", show_id);
+        OLED_Printf(0, 16, 16, "%-16.16s", ((sampling_flag == 1) || (msg_auto_sample_flag == 1)) ? "AutoSample" : "IDLE");
         OLED_Refresh();
         oled_idle_refresh_flag = 0;
     }
@@ -153,56 +162,38 @@ void oled_idle_refresh(void)
 void sample_led_update(void)
 {
     static uint32_t led1_turn_start = 0;
-    static uint32_t rtc_refresh_start = 0; // ?新增：用于专门给时间和屏幕分配 1s 更新周期
-    static uint8_t last_sampling_flag = 0;
-    
-    if (sampling_flag == 1)
+    static uint32_t rtc_refresh_start = 0;
+    char current_dev_id[32];
+    char *show_id;
+
+    if (tim6_timeoutcheck(&led1_turn_start, 1000))
     {
+        led1_turn();
+    }
+
+    if ((sampling_flag == 1) || (msg_auto_sample_flag == 1))
+    {
+        led2_on();
         if (tim6_timeoutcheck(&rtc_refresh_start, 1000))
         {
-            rtc_current_time_get(&rtc_initpara);
-            OLED_Printf(0, 0, 16, "%02d:%02d:%02d    ",
-                    BCD2BYTE(rtc_initpara.hour),
-                    BCD2BYTE(rtc_initpara.minute),
-                    BCD2BYTE(rtc_initpara.second));
+            get_team_number(current_dev_id, sizeof(current_dev_id));
+            show_id = current_dev_id;
+            if (strncmp(show_id, "Device_ID:", 10) == 0) {
+                show_id += 10;
+            }
+            OLED_Printf(0, 0, 16, "%-16.16s", show_id);
+            OLED_Printf(0, 16, 16, "AutoSample      ");
             OLED_Refresh();
         }
-
-        // 实时计算电压
-        data_calc_eng_volt();
-
-        // LED 闪烁及超限灯逻辑
-        if (tim6_timeoutcheck(&led1_turn_start, led1_turn_time))
-        {
-            led1_turn();
-            if (overlimit_flag == 1)
-            {
-                led2_on(); // 超限点亮 LED2
-            }
-            else
-            {
-                led2_off();
-            }
-        }
-        if (tim6_timeoutcheck(&adc_sample_start, adc_sample_cycle))
+        if ((sampling_flag == 1) && tim6_timeoutcheck(&adc_sample_start, adc_sample_cycle))
         {
             sample_result_show();
         }
     }
     else
     {
-        led1_off();
         led2_off();
     }
-    
-    // 刚从采样状态切换到非采样状态，清空屏幕并显示 idle
-    if (last_sampling_flag == 1 && sampling_flag == 0) 
-    {
-        OLED_Printf(0, 0, 16, "system idle     "); 
-        OLED_Printf(0, 16, 16, "                ");
-        OLED_Refresh();
-    }
-    last_sampling_flag = sampling_flag;
 }
         //        OLED_Printf(0, 0, 16, "system idle"); // ????
         //       OLED_Printf(0, 16, 16, "            ");

@@ -14,6 +14,8 @@ static void data_config_default(data_cfg_t *cfg)
     cfg->limit_ch0    = 100.0f;
     cfg->limit_ch1    = 100.0f;
     cfg->dac_volt     = 1.0f;
+    cfg->alarm_report_mode = 2U;
+    cfg->baud_mode = 0x13U;
 }
 
 
@@ -42,6 +44,12 @@ static void data_config_check(data_cfg_t *cfg)
     }
     if (cfg->dac_volt < 0.0f || cfg->dac_volt > 3.0f) {
         cfg->dac_volt = 1.0f;
+    }
+    if ((cfg->alarm_report_mode != 1U) && (cfg->alarm_report_mode != 2U)) {
+        cfg->alarm_report_mode = 2U;
+    }
+    if ((cfg->baud_mode < 0x11U) || (cfg->baud_mode > 0x14U)) {
+        cfg->baud_mode = 0x13U;
     }
 }
 

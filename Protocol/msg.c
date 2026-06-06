@@ -3,11 +3,17 @@
 uint8_t msg_tx_buffer[MSG_TX_BUF_LEN] = {0};
 uint16_t msg_tx_len = 0U;
 uint16_t msg_device_id = 0x0001U;
+uint8_t msg_auto_sample_flag = 0U;
 
 static uint8_t msg_raw_buffer[MSG_RAW_BUF_LEN] = {0};
 static uint8_t msg_reboot_pending = 0U;
+static uint8_t msg_sleep_pending = 0U;
 static uint8_t msg_boot_heartbeat_sent = 0U;
 static uint8_t msg_auto_report_flag = 0U;
+static uint8_t msg_alarm_count = 0U;
+static char msg_alarm_channel[2][4] = {0};
+static float msg_alarm_value[2] = {0.0f};
+static float msg_alarm_limit[2] = {0.0f};
 static uint32_t msg_auto_report_start = 0U;
 
 #define MSG_CMD_HEART_FIND   0xFFFFU
@@ -29,19 +35,25 @@ static msg_result_t msg_cmd_get_time(msg_frame_t *frame);
 static msg_result_t msg_cmd_get_id(msg_frame_t *frame);
 static msg_result_t msg_cmd_get_baud(msg_frame_t *frame);
 static msg_result_t msg_cmd_set_id(msg_frame_t *frame);
+static msg_result_t msg_cmd_set_baud(msg_frame_t *frame);
 static msg_result_t msg_cmd_set_dac(msg_frame_t *frame);
 static msg_result_t msg_cmd_auto_start(msg_frame_t *frame);
 static msg_result_t msg_cmd_auto_stop(msg_frame_t *frame);
+static msg_result_t msg_cmd_sleep(msg_frame_t *frame);
 static msg_result_t msg_cmd_get_ch0(msg_frame_t *frame);
 static msg_result_t msg_cmd_get_ch1(msg_frame_t *frame);
 static msg_result_t msg_cmd_get_ch2(msg_frame_t *frame);
 static msg_result_t msg_cmd_set_ratio_ch0(msg_frame_t *frame);
 static msg_result_t msg_cmd_set_ratio_ch1(msg_frame_t *frame);
+static msg_result_t msg_cmd_set_sample_cycle(msg_frame_t *frame);
 static msg_result_t msg_cmd_get_limits(msg_frame_t *frame);
 static msg_result_t msg_cmd_get_limit0(msg_frame_t *frame);
 static msg_result_t msg_cmd_get_limit1(msg_frame_t *frame);
 static msg_result_t msg_cmd_set_limit0(msg_frame_t *frame);
 static msg_result_t msg_cmd_set_limit1(msg_frame_t *frame);
+static msg_result_t msg_cmd_set_alarm_report(msg_frame_t *frame);
+static msg_result_t msg_cmd_get_alarm_logs(msg_frame_t *frame);
+static msg_result_t msg_cmd_clear_alarm_logs(msg_frame_t *frame);
 
 static const msg_cmd_entry_t msg_cmd_table[] =
 {
@@ -50,6 +62,7 @@ static const msg_cmd_entry_t msg_cmd_table[] =
     {0x0105U, msg_cmd_set_time},
     {0x0106U, msg_cmd_get_time},
     {0x01A1U, msg_cmd_set_id},
+    {0x01A2U, msg_cmd_set_baud},
     {0x0111U, msg_cmd_get_id},
     {0x0112U, msg_cmd_get_baud},
     {0x0201U, msg_cmd_get_ch0},
@@ -57,14 +70,19 @@ static const msg_cmd_entry_t msg_cmd_table[] =
     {0x0221U, msg_cmd_get_ch2},
     {0x0241U, msg_cmd_set_ratio_ch0},
     {0x0242U, msg_cmd_set_ratio_ch1},
+    {0x0261U, msg_cmd_set_sample_cycle},
     {0x0301U, msg_cmd_set_dac},
     {0x0302U, msg_cmd_auto_start},
     {0x0303U, msg_cmd_auto_stop},
+    {0x03AAU, msg_cmd_sleep},
     {0x0400U, msg_cmd_get_limits},
     {0x0401U, msg_cmd_get_limit0},
     {0x0402U, msg_cmd_get_limit1},
     {0x0411U, msg_cmd_set_limit0},
     {0x0412U, msg_cmd_set_limit1},
+    {0x0601U, msg_cmd_set_alarm_report},
+    {0x0602U, msg_cmd_get_alarm_logs},
+    {0x0603U, msg_cmd_clear_alarm_logs},
 };
 
 /*------------------ CRC16 ------------------*/
@@ -347,6 +365,31 @@ static float msg_adc_raw_to_volt(uint16_t raw)
     return ((float)raw * 3.3f) / 4095.0f;
 }
 
+static void msg_alarm_check(const char *channel, float value, float limit)
+{
+    if (value > limit) {
+        append_over_log_ch(channel, value, limit);
+        if ((alarm_report_mode == 1U) && (msg_alarm_count < 2U)) {
+            strncpy(msg_alarm_channel[msg_alarm_count], channel, sizeof(msg_alarm_channel[msg_alarm_count]) - 1);
+            msg_alarm_channel[msg_alarm_count][sizeof(msg_alarm_channel[msg_alarm_count]) - 1] = '\0';
+            msg_alarm_value[msg_alarm_count] = value;
+            msg_alarm_limit[msg_alarm_count] = limit;
+            msg_alarm_count++;
+        }
+    }
+}
+
+static void msg_alarm_print(void)
+{
+    uint8_t i;
+
+    for (i = 0U; i < msg_alarm_count; i++) {
+        printf("%s | %s | %.2f | %.2f\r\n",
+               unix_to_str(get_unix_time()), msg_alarm_channel[i], msg_alarm_limit[i], msg_alarm_value[i]);
+    }
+    msg_alarm_count = 0U;
+}
+
 static msg_result_t msg_build_auto_report(void)
 {
     uint8_t payload[12];
@@ -355,6 +398,9 @@ static msg_result_t msg_build_auto_report(void)
 
     ch0_value = msg_adc_raw_to_volt(ADC_get()) * ratio_ch0;
     ch1_value = msg_adc_raw_to_volt(ADC_get_ch1()) * ratio_ch1;
+    msg_alarm_check("CH0", ch0_value, limit_ch0);
+    msg_alarm_check("CH1", ch1_value, limit_ch1);
+    overlimit_flag = ((ch0_value > limit_ch0) || (ch1_value > limit_ch1)) ? 1U : 0U;
 
     msg_write_u32(&payload[0], get_unix_time());
     msg_write_float(&payload[4], ch0_value);
@@ -420,6 +466,7 @@ static void msg_auto_report_poll(void)
     if (tim6_timeoutcheck(&msg_auto_report_start, adc_sample_cycle) != 0U) {
         if (msg_build_auto_report() == MSG_OK) {
             USART1_SendData(msg_tx_buffer, msg_tx_len);
+            msg_alarm_print();
         }
     }
 }
@@ -493,8 +540,31 @@ static msg_result_t msg_cmd_get_baud(msg_frame_t *frame)
 {
     uint8_t payload[1];
 
-    payload[0] = MSG_BAUD_19200;
+    payload[0] = usart1_baud_mode;
     return msg_build_frame(msg_device_id, MSG_TYPE_ACK, frame->cmd, payload, 1U);
+}
+
+static msg_result_t msg_cmd_set_baud(msg_frame_t *frame)
+{
+    data_cfg_t cfg;
+    uint8_t baud_mode;
+
+    if (frame->length != 1U) {
+        return msg_build_error();
+    }
+
+    baud_mode = frame->payload[0];
+    if ((baud_mode < 0x11U) || (baud_mode > MSG_BAUD_115200)) {
+        return msg_build_error();
+    }
+
+    usart1_baud_mode = baud_mode;
+    get_data_config(&cfg);
+    cfg.baud_mode = usart1_baud_mode;
+    set_data_config(&cfg);
+
+    msg_reboot_pending = 1U;
+    return msg_build_ok(frame->cmd);
 }
 
 static msg_result_t msg_cmd_set_dac(msg_frame_t *frame)
@@ -529,6 +599,8 @@ static msg_result_t msg_cmd_auto_start(msg_frame_t *frame)
     }
 
     msg_auto_report_flag = 1U;
+    msg_auto_sample_flag = 1U;
+    overlimit_flag = 0U;
     msg_auto_report_start = Gettim6Time();
 
     return msg_build_auto_report();
@@ -541,7 +613,24 @@ static msg_result_t msg_cmd_auto_stop(msg_frame_t *frame)
     }
 
     msg_auto_report_flag = 0U;
+    msg_auto_sample_flag = 0U;
+    overlimit_flag = 0U;
     msg_auto_report_start = 0U;
+
+    return msg_build_ok(frame->cmd);
+}
+
+static msg_result_t msg_cmd_sleep(msg_frame_t *frame)
+{
+    /*
+    if (frame->length != 0U) 
+    {
+        return msg_build_error();
+    }
+*/
+    msg_auto_report_flag = 0U;
+    msg_auto_sample_flag = 0U;
+    msg_sleep_pending = 1U;
 
     return msg_build_ok(frame->cmd);
 }
@@ -552,6 +641,7 @@ static msg_result_t msg_cmd_get_ch0(msg_frame_t *frame)
     float ch_value;
 
     ch_value = msg_adc_raw_to_volt(ADC_get()) * ratio_ch0;
+    msg_alarm_check("CH0", ch_value, limit_ch0);
     msg_write_float(payload, ch_value);
     return msg_build_frame(msg_device_id, MSG_TYPE_ACK, frame->cmd, payload, 4U);
 }
@@ -562,6 +652,7 @@ static msg_result_t msg_cmd_get_ch1(msg_frame_t *frame)
     float ch_value;
 
     ch_value = msg_adc_raw_to_volt(ADC_get_ch1()) * ratio_ch1;
+    msg_alarm_check("CH1", ch_value, limit_ch1);
     msg_write_float(payload, ch_value);
     return msg_build_frame(msg_device_id, MSG_TYPE_ACK, frame->cmd, payload, 4U);
 }
@@ -619,6 +710,32 @@ static msg_result_t msg_cmd_set_ratio_ch1(msg_frame_t *frame)
     get_data_config(&cfg);
     cfg.ratio_ch1 = ratio_ch1;
     set_data_config(&cfg);
+
+    return msg_build_ok(frame->cmd);
+}
+
+static msg_result_t msg_cmd_set_sample_cycle(msg_frame_t *frame)
+{
+    data_cfg_t cfg;
+    uint32_t cycle;
+
+    if (frame->length != 4U) {
+        return msg_build_error();
+    }
+
+    cycle = msg_read_u32(frame->payload);
+    if ((cycle < 1000U) || (cycle > 600000U)) {
+        return msg_build_error();
+    }
+
+    adc_sample_cycle = cycle;
+    get_data_config(&cfg);
+    cfg.sample_cycle = adc_sample_cycle;
+    set_data_config(&cfg);
+
+    if (msg_auto_report_flag != 0U) {
+        msg_auto_report_start = Gettim6Time();
+    }
 
     return msg_build_ok(frame->cmd);
 }
@@ -692,6 +809,48 @@ static msg_result_t msg_cmd_set_limit1(msg_frame_t *frame)
     return msg_build_ok(frame->cmd);
 }
 
+static msg_result_t msg_cmd_set_alarm_report(msg_frame_t *frame)
+{
+    data_cfg_t cfg;
+    uint8_t mode;
+
+    if (frame->length != 1U) {
+        return msg_build_error();
+    }
+
+    mode = frame->payload[0];
+    if ((mode != 1U) && (mode != 2U)) {
+        return msg_build_error();
+    }
+
+    alarm_report_mode = mode;
+    get_data_config(&cfg);
+    cfg.alarm_report_mode = alarm_report_mode;
+    set_data_config(&cfg);
+
+    return msg_build_ok(frame->cmd);
+}
+
+static msg_result_t msg_cmd_get_alarm_logs(msg_frame_t *frame)
+{
+    if (frame->length != 0U) {
+        return msg_build_error();
+    }
+
+    print_latest_over_logs(10);
+    return MSG_OK;
+}
+
+static msg_result_t msg_cmd_clear_alarm_logs(msg_frame_t *frame)
+{
+    if (frame->length != 0U) {
+        return msg_build_error();
+    }
+
+    clear_all_over_logs();
+    return msg_build_ok(frame->cmd);
+}
+
 static msg_result_t msg_handle_cmd(msg_frame_t *frame)
 {
     uint16_t i;
@@ -732,6 +891,10 @@ uint8_t msg_poll(void)
         return 0U;
     }
     if (msg_ascii_start_is_frame(usart1_rx_buffer, usart1_rx_len) == 0U) {
+        if (msg_auto_report_flag != 0U) {
+            USART1_ClearRxBuf();
+            return 1U;
+        }
         return 0U;
     }
 
@@ -753,6 +916,11 @@ uint8_t msg_poll(void)
         result = msg_parse_raw(msg_raw_buffer, raw_len, &frame);
     }
 
+    if ((result == MSG_OK) && (msg_auto_report_flag != 0U) && (frame.cmd != 0x0303U)) {
+        USART1_ClearRxBuf();
+        return 1U;
+    }
+
     if ((result == MSG_OK) && (msg_addr_match(frame.device_id) != 0U)) {
         result = msg_handle_cmd(&frame);
     } else if (result != MSG_OK) {
@@ -762,6 +930,7 @@ uint8_t msg_poll(void)
     if ((result == MSG_OK) && (msg_tx_len > 0U)) {
         USART1_SendData(msg_tx_buffer, msg_tx_len);
     }
+    msg_alarm_print();
 
     USART1_ClearRxBuf();
 
@@ -770,5 +939,20 @@ uint8_t msg_poll(void)
         NVIC_SystemReset();
     }
 
+    if (msg_sleep_pending != 0U) {
+        msg_sleep_pending = 0U;
+        delay_1ms(20U);
+        OLED_Printf(0, 0, 16, "Sleep Mode   ");
+        OLED_Refresh();
+        RTC_SetWakeup(10U);
+        pmu_flag_clear(PMU_FLAG_RESET_WAKEUP);
+        pmu_to_deepsleepmode(PMU_LDO_LOWPOWER, PMU_LOWDRIVER_ENABLE, WFI_CMD);
+        SystemInit();
+        USART1_Init();
+        printf("instrument wakeup\r\n");
+        OLED_Printf(0, 0, 16, "wake up ok    ");
+        OLED_Refresh();
+        oled_idle_time = 2000;
+    }
     return 1U;
 }
