@@ -10,6 +10,7 @@ static uint8_t msg_reboot_pending = 0U;
 static uint8_t msg_sleep_pending = 0U;
 static uint8_t msg_boot_heartbeat_sent = 0U;
 static uint8_t msg_auto_report_flag = 0U;
+static uint8_t msg_adc_boot_ready = 0U;
 static uint8_t msg_alarm_count = 0U;
 static char msg_alarm_channel[2][4] = {0};
 static float msg_alarm_value[2] = {0.0f};
@@ -54,6 +55,7 @@ static msg_result_t msg_cmd_set_limit1(msg_frame_t *frame);
 static msg_result_t msg_cmd_set_alarm_report(msg_frame_t *frame);
 static msg_result_t msg_cmd_get_alarm_logs(msg_frame_t *frame);
 static msg_result_t msg_cmd_clear_alarm_logs(msg_frame_t *frame);
+static void msg_wait_adc_boot_ready(void);
 
 static const msg_cmd_entry_t msg_cmd_table[] =
 {
@@ -396,6 +398,7 @@ static msg_result_t msg_build_auto_report(void)
     float ch0_value;
     float ch1_value;
 
+    msg_wait_adc_boot_ready();
     ch0_value = msg_adc_raw_to_volt(ADC_get()) * ratio_ch0;
     ch1_value = msg_adc_raw_to_volt(ADC_get_ch1()) * ratio_ch1;
     msg_alarm_check("CH0", ch0_value, limit_ch0);
@@ -455,6 +458,16 @@ void msg_send_heartbeat(void)
     if (msg_build_frame(msg_device_id, MSG_TYPE_HEART, MSG_CMD_HEART_BEAT, NULL, 0U) == MSG_OK) {
         USART1_SendData(msg_tx_buffer, msg_tx_len);
     }
+}
+
+static void msg_wait_adc_boot_ready(void)
+{
+    if (msg_adc_boot_ready != 0U) {
+        return;
+    }
+
+    delay_1ms(20U);
+    msg_adc_boot_ready = 1U;
 }
 
 static void msg_auto_report_poll(void)
@@ -617,17 +630,17 @@ static msg_result_t msg_cmd_auto_stop(msg_frame_t *frame)
     overlimit_flag = 0U;
     msg_auto_report_start = 0U;
 
+    oled_idle_time = 10;
+
     return msg_build_ok(frame->cmd);
 }
 
 static msg_result_t msg_cmd_sleep(msg_frame_t *frame)
 {
-    /*
-    if (frame->length != 0U) 
+    if (frame->length != 0U)
     {
         return msg_build_error();
     }
-*/
     msg_auto_report_flag = 0U;
     msg_auto_sample_flag = 0U;
     msg_sleep_pending = 1U;
@@ -640,6 +653,7 @@ static msg_result_t msg_cmd_get_ch0(msg_frame_t *frame)
     uint8_t payload[4];
     float ch_value;
 
+    msg_wait_adc_boot_ready();
     ch_value = msg_adc_raw_to_volt(ADC_get()) * ratio_ch0;
     msg_alarm_check("CH0", ch_value, limit_ch0);
     msg_write_float(payload, ch_value);
@@ -651,6 +665,7 @@ static msg_result_t msg_cmd_get_ch1(msg_frame_t *frame)
     uint8_t payload[4];
     float ch_value;
 
+    msg_wait_adc_boot_ready();
     ch_value = msg_adc_raw_to_volt(ADC_get_ch1()) * ratio_ch1;
     msg_alarm_check("CH1", ch_value, limit_ch1);
     msg_write_float(payload, ch_value);
@@ -719,13 +734,15 @@ static msg_result_t msg_cmd_set_sample_cycle(msg_frame_t *frame)
     data_cfg_t cfg;
     uint32_t cycle;
 
-    if (frame->length != 4U) {
+    if (frame->length != 1U) {
         return msg_build_error();
     }
 
-    cycle = msg_read_u32(frame->payload);
-    if ((cycle < 1000U) || (cycle > 600000U)) {
-        return msg_build_error();
+    switch (frame->payload[0]) {
+        case 0x01U: cycle = 1000U;  break;
+        case 0x02U: cycle = 3000U;  break;
+        case 0x03U: cycle = 5000U;  break;
+        default:    return msg_build_error();
     }
 
     adc_sample_cycle = cycle;

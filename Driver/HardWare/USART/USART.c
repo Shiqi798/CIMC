@@ -164,9 +164,11 @@ void USART1_SendData(uint8_t *buf, uint16_t len)
     memcpy(usart1_tx_buffer, buf, len);
 
     RS485_TX_MODE();
+    usart_flag_clear(USART1, USART_FLAG_TC);
     dma_enable(DMA0, DMA_CH6, len);
     while(dma_flag_get(DMA0, DMA_CH6, DMA_FLAG_FTF) == RESET);
     while(usart_flag_get(USART1, USART_FLAG_TC) == RESET);
+    delay_1ms(1);   // RS485 收发器关断前留足余量
     RS485_RX_MODE();
 }
 

@@ -10,7 +10,7 @@
  * @brief  初始化LED
  * @param  无
  * @retval 无
- * @note   初始化LED1(PB4)和LED2(PB6)为推挽输出，默认熄灭
+ * @note   初始化LED1(PB12)和LED2(PB14)为推挽输出，默认熄灭
  */
 void LED_Init(void)
 {

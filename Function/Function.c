@@ -16,7 +16,7 @@ uint8_t tx_buffer[TX_BUFFER_SIZE];
 uint8_t rx_buffer[TX_BUFFER_SIZE];
 uint16_t i = 0, count, result = 0;
 uint8_t is_successful = 0;
-char *DEVICE_ID = "Device_ID:2026-WUT-QRS-9\0"; // ??ID???64???
+char *DEVICE_ID = "2026639584\0";
 
 uint8_t sampling_flag = 0;  // 0: ???1: ???
 uint8_t overlimit_flag = 0; // 0: ???1: ??
@@ -49,7 +49,7 @@ void sysFunction_Init(void)
    spi_flash_init(); // ??? SPI Flash
 /* 
     printf("Erasing Flash... Please wait 5-20 seconds...\r\n");
-    spi_flash_bulk_erase(); //flashÈ«²Á³ý
+    spi_flash_bulk_erase(); //flashÈ«ï¿½ï¿½ï¿½ï¿½
    printf("Flash Erase Done!\r\n");
 */
 
@@ -72,8 +72,16 @@ void sysFunction_Init(void)
     }
 */
     OLED_Init();
-    OLED_Printf(0, 0, 16, "2026-WUT-QRS-9 ");
-    OLED_Printf(0, 16, 16, "IDLE           ");
+
+    char current_dev_id[64];
+    get_team_number(current_dev_id, sizeof(current_dev_id));
+    if (strcmp(current_dev_id, "DEFAULT_TEAM") == 0 ||
+        strncmp(current_dev_id, "Device_ID:", 10) == 0) {
+        set_team_number(DEVICE_ID);
+    }
+
+    OLED_ShowString(0, 0, (u8*)DEVICE_ID, 16);
+    OLED_ShowString(0, 16, "IDLE      ", 16);
     OLED_Refresh();
 //    Key_Init(); // ??? ??
 
@@ -88,32 +96,28 @@ void sysFunction_Init(void)
     limit_ch0 = sys_cfg.limit_ch0;
     limit_ch1 = sys_cfg.limit_ch1;
     dac_volt = sys_cfg.dac_volt;
+    DAC_SetVoltage(0, dac_volt);
+    DAC_SetVoltage(1, dac_volt);
     alarm_report_mode = sys_cfg.alarm_report_mode;
     usart1_baud_mode = sys_cfg.baud_mode;
     USART1_Init();
+    delay_1ms(5);
 
     overlimit_flag = 0;
     hide_flag = 0;                                 // ??????
-    char current_dev_id[64];
-    get_team_number(current_dev_id, sizeof(current_dev_id));
-    if (strcmp(current_dev_id, "DEFAULT_TEAM") == 0)
-    {
-        set_team_number(DEVICE_ID); 
-        get_team_number(current_dev_id, sizeof(current_dev_id));
-    }
-        delay_1ms(2);
-    printf("====system init====");
     delay_1ms(2);
-    printf("%s", current_dev_id);     
-    delay_1ms(2);
-    printf("Boot Mode:APP");
-    delay_1ms(2);
-    printf("====system ready====");
+//    printf("====system init====");
+//    delay_1ms(2);
+//    printf("%s", current_dev_id);
+//    delay_1ms(2);
+//    printf("Boot Mode:APP");
+//    delay_1ms(2);
+//    printf("====system ready====");
     if (is_power_on_reset())
     {
         set_power_count();
     }
-    uint32_t power_count = get_power_count();   // ??????
+ //   uint32_t power_count = get_power_count();   // ??????
  //   printf("SystemCoreClock = %ld\r\n", SystemCoreClock);
     AD3344_Init();
     tim6_functimer_init();
@@ -129,7 +133,7 @@ void sysFunction_loop(void)
         key_update();        // ????
 /**/
         if (msg_poll() == 0U) {
-            cmd_parse();      
+            //cmd_parse();
         }
 
         dac_test_tick();
@@ -142,18 +146,10 @@ void sysFunction_loop(void)
 
 void oled_idle_refresh(void)
 {
-    char current_dev_id[32];
-    char *show_id;
-
     if (oled_idle_refresh_flag == 1)
     {
-        get_team_number(current_dev_id, sizeof(current_dev_id));
-        show_id = current_dev_id;
-        if (strncmp(show_id, "Device_ID:", 10) == 0) {
-            show_id += 10;
-        }
-        OLED_Printf(0, 0, 16, "%-16.16s", show_id);
-        OLED_Printf(0, 16, 16, "%-16.16s", ((sampling_flag == 1) || (msg_auto_sample_flag == 1)) ? "AutoSample" : "IDLE");
+        OLED_ShowString(0, 0, (u8*)DEVICE_ID, 16);
+        OLED_ShowString(0, 16, "IDLE        ", 16);
         OLED_Refresh();
         oled_idle_refresh_flag = 0;
     }
@@ -163,8 +159,6 @@ void sample_led_update(void)
 {
     static uint32_t led1_turn_start = 0;
     static uint32_t rtc_refresh_start = 0;
-    char current_dev_id[32];
-    char *show_id;
 
     if (tim6_timeoutcheck(&led1_turn_start, 1000))
     {
@@ -176,13 +170,8 @@ void sample_led_update(void)
         led2_on();
         if (tim6_timeoutcheck(&rtc_refresh_start, 1000))
         {
-            get_team_number(current_dev_id, sizeof(current_dev_id));
-            show_id = current_dev_id;
-            if (strncmp(show_id, "Device_ID:", 10) == 0) {
-                show_id += 10;
-            }
-            OLED_Printf(0, 0, 16, "%-16.16s", show_id);
-            OLED_Printf(0, 16, 16, "AutoSample      ");
+            OLED_ShowString(0, 0, (u8*)DEVICE_ID, 16);
+            OLED_ShowString(0, 16, "AutoSample  ", 16);
             OLED_Refresh();
         }
         if ((sampling_flag == 1) && tim6_timeoutcheck(&adc_sample_start, adc_sample_cycle))
@@ -265,4 +254,3 @@ void update_sample_cycle(uint32_t new_cycle)
 }
 
 /****************************End*****************************/
-
