@@ -106,8 +106,6 @@ virtualFolder:
       files:
         - path: ../Function/Function.c
         - path: ../Function/Function.h
-        - path: ../Function/cmd_parse.c
-        - path: ../Function/cmd_parse.h
         - path: ../Function/data_process.c
         - path: ../Function/data_process.h
         - path: ../Function/pt100.c
@@ -120,6 +118,8 @@ virtualFolder:
         - path: ../Function/app_vars.h
         - path: ../Function/boot_param.c
         - path: ../Function/boot_param.h
+        - path: ../Function/msg_app.c
+        - path: ../Function/msg_app.h
       folders: []
     - name: Protocol
       files:

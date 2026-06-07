@@ -9,6 +9,7 @@ extern float dac_volt;
 extern char encrypt_buf[24];// 加密缓冲区：8字节HEX=16位字符串（赛题4）
 
 
+float data_adc_raw_to_volt(uint16_t raw);
 void data_calc_eng_volt(void);
 uint8_t data_check_overlimit(void);
 char* data_encrypt(void);

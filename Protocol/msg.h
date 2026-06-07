@@ -22,6 +22,9 @@
 #define MSG_OK_BYTE          0xFFU
 #define MSG_BAUD_19200       0x13U
 #define MSG_BAUD_115200      0x14U
+#define MSG_CMD_HEART_FIND   0xFFFFU
+#define MSG_CMD_HEART_BEAT   0x8888U
+#define MSG_CMD_ERR          0xEEEEU
 
 //结果枚举
 typedef enum {
@@ -46,16 +49,24 @@ typedef struct {
     uint16_t crc;
 } msg_frame_t;
 
-extern uint8_t msg_tx_buffer[MSG_TX_BUF_LEN];
-extern uint16_t msg_tx_len;
 extern uint16_t msg_device_id;
-extern uint8_t msg_auto_sample_flag;
 /*------------------ 外部接口定义 ------------------*/
 // CRC计算
 uint16_t Calculate_CRC16(uint8_t *data, uint16_t length);
+uint16_t msg_read_u16(const uint8_t *buf);
+uint32_t msg_read_u32(const uint8_t *buf);
+float msg_read_float(const uint8_t *buf);
+void msg_write_u16(uint8_t *buf, uint16_t value);
+void msg_write_u32(uint8_t *buf, uint32_t value);
+void msg_write_float(uint8_t *buf, float value);
+msg_result_t msg_build_frame(uint16_t device_id, uint8_t type, uint16_t cmd,
+                             uint8_t *payload, uint8_t payload_len);
+msg_result_t msg_build_ok(uint16_t cmd);
+msg_result_t msg_build_error(void);
 // 发送心跳包
 void msg_send_heartbeat(void);
-// id msg_send_heartbeat(void);
+void msg_send_current(void);
+void msg_send_string(uint8_t *str, uint16_t len);
 //报文处理
 uint8_t msg_poll(void);
 

@@ -411,10 +411,6 @@ void AD3344_cmd(void)
 {
     ad3344_sample_t ad3344_sample;
     uint8_t sample;
-    int32_t raw_sum = 0;
-    float voltage_sum = 0.0f;
-    int16_t raw_avg;
-    float voltage_avg;
     uint16_t extref_reg;
 
     AD3344_Config(AD3344_MUX_DIFF_0_1, AD3344_PGA_4_096V, AD3344_DR_1000SPS,

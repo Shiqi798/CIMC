@@ -1,93 +1,105 @@
 #include "HeaderFiles.h"
-//************************* ?? *************************
 
-#define SFLASH_ID 0xC84013
-#define BUFFER_SIZE 256
-#define TX_BUFFER_SIZE BUFFER_SIZE
-#define RX_BUFFER_SIZE BUFFER_SIZE
-#define FLASH_WRITE_ADDRESS 0x000000
-#define FLASH_READ_ADDRESS FLASH_WRITE_ADDRESS
-
-uint8_t oled_idle_refresh_flag=0; 
+uint8_t oled_idle_refresh_flag = 0;
 uint16_t oled_idle_time = 0;
-// ?? 
-uint32_t flash_id = 0;
-uint8_t tx_buffer[TX_BUFFER_SIZE];
-uint8_t rx_buffer[TX_BUFFER_SIZE];
-uint16_t i = 0, count, result = 0;
-uint8_t is_successful = 0;
-char *DEVICE_ID = "2026639584\0";
 
-uint8_t sampling_flag = 0;  // 0: ???1: ???
-uint8_t overlimit_flag = 0; // 0: ???1: ??
-uint8_t hide_flag = 0;      // 0: ???1: ??
+static uint8_t function_auto_sample_flag = 0;
 
-// ????
-void nvic_config(void);
-void sample_led_update(void);
-void key_update(void);
-uint8_t is_power_on_reset(void);
+char *DEVICE_ID = "2026639584";
+
+uint8_t sampling_flag = 0;
+uint8_t overlimit_flag = 0;
+uint8_t hide_flag = 0;
+
+////////////////////////////Func//////////////////////////////
+static void function_param_load(void);
+static void function_oled_show_idle(void);
+static void function_led_update(void);
+static void function_nvic_config(void);
+static uint8_t function_is_power_on_reset(void);
 
 void sysFunction_Init(void)
 {
-    	
+    char current_dev_id[64];
 
-//    SCB->VTOR = FLASH_BASE | 0x44000; 
-	__enable_irq(); 
+    __enable_irq();
     SystemInit();
-    systick_config(); // ?? systick
+    systick_config();
 
-    RTC_Init();      // ??? ????
-    USART1_Init();    
-    // USART1_DMA_All_Init();
-//    printf("\r\n");
+    RTC_Init();
+    USART1_Init();
     LED_Init();
-    ADC_port_init(); // ??? ADC
-
+    ADC_port_init();
     DAC_Init();
-
-   spi_flash_init(); // ??? SPI Flash
-/* 
-    printf("Erasing Flash... Please wait 5-20 seconds...\r\n");
-    spi_flash_bulk_erase(); //flashȫ����
-   printf("Flash Erase Done!\r\n");
-*/
-
+    spi_flash_init();
 
     fal_init();
     flashdata_init();
     flash_log_init();
+    exflash_erase_flag = 0;
 
-    exflash_erase_flag=0;
-
-    //    fal_show_part_table();
-/*
-    if (flashdata_init() == 0 && flash_log_init() == 0)
-    {
-        printf("[FlashDB] Env and Log DB init success!\r\n");
-    }
-    else
-    {
-        printf("[FlashDB] DB init failed!\r\n");
-    }
-*/
     OLED_Init();
 
-    char current_dev_id[64];
     get_team_number(current_dev_id, sizeof(current_dev_id));
-    if (strcmp(current_dev_id, "DEFAULT_TEAM") == 0 ||
-        strncmp(current_dev_id, "Device_ID:", 10) == 0) {
+    if ((strcmp(current_dev_id, "DEFAULT_TEAM") == 0) ||
+        (strncmp(current_dev_id, "Device_ID:", 10) == 0)) {
         set_team_number(DEVICE_ID);
     }
 
-    OLED_ShowString(0, 0, (u8*)DEVICE_ID, 16);
-    OLED_ShowString(0, 16, "IDLE      ", 16);
-    OLED_Refresh();
-//    Key_Init(); // ??? ??
+    function_oled_show_idle();
+    function_nvic_config();
+    function_param_load();
 
-    nvic_config(); // ?? NVIC
+    overlimit_flag = 0;
+    hide_flag = 0;
+    function_auto_sample_flag = 0;
 
+    if (function_is_power_on_reset() != 0U) {
+        set_power_count();
+    }
+
+    AD3344_Init();
+    tim6_functimer_init();
+}
+
+void sysFunction_loop(void)
+{
+    while (1)
+    {
+        function_led_update();
+        msg_poll();
+        oled_idle_refresh();
+    }
+}
+
+void function_sample_state_set(uint8_t on)
+{
+    function_auto_sample_flag = (on != 0U) ? 1U : 0U;
+}
+
+uint8_t function_sample_state_get(void)
+{
+    return function_auto_sample_flag;
+}
+
+void function_idle_refresh_request(void)
+{
+    oled_idle_refresh_flag = 1U;
+}
+
+void oled_idle_refresh(void)
+{
+    if (oled_idle_refresh_flag != 0U)
+    {
+        function_oled_show_idle();
+        oled_idle_refresh_flag = 0U;
+    }
+}
+
+static void function_param_load(void)
+{
     data_cfg_t sys_cfg;
+
     get_data_config(&sys_cfg);
     adc_sample_cycle = sys_cfg.sample_cycle;
     msg_device_id = sys_cfg.device_id;
@@ -96,161 +108,134 @@ void sysFunction_Init(void)
     limit_ch0 = sys_cfg.limit_ch0;
     limit_ch1 = sys_cfg.limit_ch1;
     dac_volt = sys_cfg.dac_volt;
-    DAC_SetVoltage(0, dac_volt);
-    DAC_SetVoltage(1, dac_volt);
     alarm_report_mode = sys_cfg.alarm_report_mode;
     usart1_baud_mode = sys_cfg.baud_mode;
+
+    DAC_SetVoltage(0, dac_volt);
+    DAC_SetVoltage(1, dac_volt);
+
     USART1_Init();
     delay_1ms(5);
-
-    overlimit_flag = 0;
-    hide_flag = 0;                                 // ??????
-    delay_1ms(2);
-//    printf("====system init====");
-//    delay_1ms(2);
-//    printf("%s", current_dev_id);
-//    delay_1ms(2);
-//    printf("Boot Mode:APP");
-//    delay_1ms(2);
-//    printf("====system ready====");
-    if (is_power_on_reset())
-    {
-        set_power_count();
-    }
- //   uint32_t power_count = get_power_count();   // ??????
- //   printf("SystemCoreClock = %ld\r\n", SystemCoreClock);
-    AD3344_Init();
-    tim6_functimer_init();
 }
 
-void sysFunction_loop(void)
+static void function_oled_show_idle(void)
 {
-
-    while (1)
-    {
-       
-        sample_led_update(); // ??????????
-        key_update();        // ????
-/**/
-        if (msg_poll() == 0U) {
-            //cmd_parse();
-        }
-
-        dac_test_tick();
-        oled_idle_refresh(); // OLED?????
- /*        
-       led1_off();
-       led2_off();*/
-    }
+    OLED_ShowString(0, 0, (u8*)DEVICE_ID, 16);
+    OLED_ShowString(0, 16, "IDLE        ", 16);
+    OLED_Refresh();
 }
 
-void oled_idle_refresh(void)
-{
-    if (oled_idle_refresh_flag == 1)
-    {
-        OLED_ShowString(0, 0, (u8*)DEVICE_ID, 16);
-        OLED_ShowString(0, 16, "IDLE        ", 16);
-        OLED_Refresh();
-        oled_idle_refresh_flag = 0;
-    }
-}
-
-void sample_led_update(void)
+static void function_led_update(void)
 {
     static uint32_t led1_turn_start = 0;
-    static uint32_t rtc_refresh_start = 0;
+    static uint32_t oled_sample_start = 0;
 
-    if (tim6_timeoutcheck(&led1_turn_start, 1000))
-    {
+    if (tim6_timeoutcheck(&led1_turn_start, 1000) != 0U) {
         led1_turn();
     }
 
-    if ((sampling_flag == 1) || (msg_auto_sample_flag == 1))
-    {
+    if ((sampling_flag != 0U) || (function_sample_state_get() != 0U)) {
         led2_on();
-        if (tim6_timeoutcheck(&rtc_refresh_start, 1000))
-        {
+        if (tim6_timeoutcheck(&oled_sample_start, 1000) != 0U) {
             OLED_ShowString(0, 0, (u8*)DEVICE_ID, 16);
             OLED_ShowString(0, 16, "AutoSample  ", 16);
             OLED_Refresh();
         }
-        if ((sampling_flag == 1) && tim6_timeoutcheck(&adc_sample_start, adc_sample_cycle))
-        {
-            sample_result_show();
-        }
-    }
-    else
-    {
+    } else {
         led2_off();
     }
 }
-        //        OLED_Printf(0, 0, 16, "system idle"); // ????
-        //       OLED_Printf(0, 16, 16, "            ");
-        //       OLED_Refresh();
-    
-void key_update(void)
+
+static void function_nvic_config(void)
 {
-    if (Key_Check(sample_s, KEY_DOWN))
-    {
-        if (sampling_flag == 0)
-        {
-            cmd_parse_start(); 
-            append_normal_log("Periodic Sampling START(Key)");
-        }
-        else
-        {
-            cmd_parse_stop(); 
-            append_normal_log("Periodic Sampling STOP(Key)");
-        }
-    }
-    if (Key_Check(sample_cycle1, KEY_DOWN))
-    {
-        update_sample_cycle(5000);
-        append_normal_log("Sample cycle set to 5s");
-    }
-    if (Key_Check(sample_cycle2, KEY_DOWN))
-    {
-        update_sample_cycle(10000);
-        append_normal_log("Sample cycle set to 10s");
-    }
-    if (Key_Check(sample_cycle3, KEY_DOWN))
-    {
-        update_sample_cycle(15000);
-        append_normal_log("Sample cycle set to 15s");
-    }
+    nvic_priority_group_set(NVIC_PRIGROUP_PRE1_SUB3);
+    nvic_irq_enable(SDIO_IRQn, 0, 0);
 }
 
-/**
- * @brief ?? NVIC
- */
-void nvic_config(void)
+static uint8_t function_is_power_on_reset(void)
 {
-    nvic_priority_group_set(NVIC_PRIGROUP_PRE1_SUB3); // set priority grouping
-    nvic_irq_enable(SDIO_IRQn, 0, 0);                 // enable SDIO IRQ
-}
+    uint8_t ret;
 
-uint8_t is_power_on_reset(void)
-{
-    uint8_t ret = (rcu_flag_get(RCU_FLAG_PORRST) == SET) ? 1 : 0;
-    rcu_all_reset_flag_clear(); // ???????
+    ret = (rcu_flag_get(RCU_FLAG_PORRST) == SET) ? 1U : 0U;
+    rcu_all_reset_flag_clear();
     return ret;
-}
-void update_sample_cycle(uint32_t new_cycle)
-{
-    data_cfg_t temp_cfg;
-    
-    get_data_config(&temp_cfg);
-
-    temp_cfg.sample_cycle = new_cycle;
-    set_data_config(&temp_cfg);
-
-    printf("\r\nsample cycle adjusted: %ds\r\n", new_cycle / 1000);
-
-    sample_result_show();
-    
-    adc_sample_cycle = new_cycle;
-    
-    adc_sample_start = 0; 
 }
 
 /****************************End*****************************/
+
+/*
+ * old debug path
+ *
+ * main loop:
+ *     function_key_update();
+ *     dac_test_tick();
+ *
+ * key sample start/stop:
+ * static void function_key_update(void)
+ * {
+ *     if (Key_Check(sample_s, KEY_DOWN) != 0U) {
+ *         if (sampling_flag == 0U) {
+ *             overlimit_flag = 0;
+ *             sampling_flag = 1;
+ *             adc_sample_start = 0;
+ *             append_normal_log("Periodic Sampling START(Key)");
+ *         } else {
+ *             sampling_flag = 0;
+ *             hide_flag = 0;
+ *             overlimit_flag = 0;
+ *             oled_idle_time = 10;
+ *             append_normal_log("Periodic Sampling STOP(Key)");
+ *         }
+ *     }
+ * }
+ *
+ * DAC test:
+ * volatile uint8_t dac_test_flag = 0;
+ * volatile uint16_t dac_test_count = 0;
+ * uint8_t dac_test_flag6 = 0;
+ * uint8_t dac_test_flag3 = 0;
+ * uint8_t dac_test_flag0 = 0;
+ *
+ * TIM6 used to count:
+ *     if (dac_test_count > 0) {
+ *         dac_test_count--;
+ *         if (dac_test_count == 6000) dac_test_flag6 = 1;
+ *         if (dac_test_count == 3000) dac_test_flag3 = 1;
+ *         if (dac_test_count == 0)    dac_test_flag0 = 1;
+ *     }
+ *
+ * void dac_test_tick(void)
+ * {
+ *     if (dac_test_flag == 1) {
+ *         OLED_Printf(0,0,16,"DAC Test     ");
+ *         OLED_Printf(0,16,16,"DAC:1.0V ");
+ *         OLED_Refresh();
+ *         printf("\r\nDAC Test Start\r\n");
+ *         DAC_SetVoltage(0, 1.0f);
+ *         DAC_SetVoltage(1, 1.0f);
+ *         dac_test_flag = 0;
+ *     }
+ *     if (dac_test_flag6 == 1) {
+ *         OLED_Printf(0,16,16,"DAC:1.5V ");
+ *         OLED_Refresh();
+ *         DAC_SetVoltage(0, 1.5f);
+ *         DAC_SetVoltage(1, 1.5f);
+ *         dac_test_flag6 = 0;
+ *     }
+ *     if (dac_test_flag3 == 1) {
+ *         OLED_Printf(0,16,16,"DAC:2.0V ");
+ *         OLED_Refresh();
+ *         DAC_SetVoltage(0, 2.0f);
+ *         DAC_SetVoltage(1, 2.0f);
+ *         dac_test_flag3 = 0;
+ *     }
+ *     if (dac_test_flag0 == 1) {
+ *         OLED_Clear();
+ *         OLED_Printf(0,0,16,"system idle");
+ *         OLED_Refresh();
+ *         DAC_SetVoltage(0, dac_volt);
+ *         DAC_SetVoltage(1, dac_volt);
+ *         dac_test_flag0 = 0;
+ *     }
+ * }
+ */

@@ -94,22 +94,11 @@ void TIMERX_INT_IRQHandler(void)
 
         }
 
-        if (dac_test_count > 0)
-        {
-
-            dac_test_count--;
-            if (dac_test_count == 6000)
-                dac_test_flag6 = 1;
-            if (dac_test_count == 3000)
-                dac_test_flag3 = 1;
-            if (dac_test_count == 0)
-                dac_test_flag0 = 1;
-        }
         if (oled_idle_time > 0)
         {
             if(oled_idle_time == 1)
             {
-                oled_idle_refresh_flag = 1;
+                function_idle_refresh_request();
             }
             oled_idle_time--;
         }

@@ -777,16 +777,6 @@
               <FilePath>..\Function\Function.h</FilePath>
             </File>
             <File>
-              <FileName>cmd_parse.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Function\cmd_parse.c</FilePath>
-            </File>
-            <File>
-              <FileName>cmd_parse.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Function\cmd_parse.h</FilePath>
-            </File>
-            <File>
               <FileName>data_process.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Function\data_process.c</FilePath>
@@ -835,6 +825,16 @@
               <FileName>myflashdb_log.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\Function\myflashdb_log.h</FilePath>
+            </File>
+            <File>
+              <FileName>msg_app.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Function\msg_app.c</FilePath>
+            </File>
+            <File>
+              <FileName>msg_app.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Function\msg_app.h</FilePath>
             </File>
           </Files>
         </Group>

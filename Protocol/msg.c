@@ -1,97 +1,15 @@
-#include "msg.h"
+﻿#include "msg.h"
+#include "msg_app.h"
 
-uint8_t msg_tx_buffer[MSG_TX_BUF_LEN] = {0};
-uint16_t msg_tx_len = 0U;
+static uint8_t msg_tx_buffer[MSG_TX_BUF_LEN] = {0};
+static uint16_t msg_tx_len = 0U;
 uint16_t msg_device_id = 0x0001U;
-uint8_t msg_auto_sample_flag = 0U;
 
 static uint8_t msg_raw_buffer[MSG_RAW_BUF_LEN] = {0};
-static uint8_t msg_reboot_pending = 0U;
-static uint8_t msg_sleep_pending = 0U;
 static uint8_t msg_boot_heartbeat_sent = 0U;
-static uint8_t msg_auto_report_flag = 0U;
-static uint8_t msg_adc_boot_ready = 0U;
-static uint8_t msg_alarm_count = 0U;
-static uint8_t msg_over_log_empty = 0U;
-static char msg_alarm_channel[2][4] = {0};
-static float msg_alarm_value[2] = {0.0f};
-static float msg_alarm_limit[2] = {0.0f};
-static uint32_t msg_auto_report_start = 0U;
-
-#define MSG_CMD_HEART_FIND   0xFFFFU
-#define MSG_CMD_HEART_BEAT   0x8888U
-#define MSG_CMD_ERR          0xEEEEU
-
-typedef msg_result_t (*msg_handler_t)(msg_frame_t *frame);
-
-typedef struct
-{
-    uint16_t cmd;
-    msg_handler_t handler;
-} msg_cmd_entry_t;
-
-static msg_result_t msg_cmd_reboot(msg_frame_t *frame);
-static msg_result_t msg_cmd_version(msg_frame_t *frame);
-static msg_result_t msg_cmd_set_time(msg_frame_t *frame);
-static msg_result_t msg_cmd_get_time(msg_frame_t *frame);
-static msg_result_t msg_cmd_get_id(msg_frame_t *frame);
-static msg_result_t msg_cmd_get_baud(msg_frame_t *frame);
-static msg_result_t msg_cmd_set_id(msg_frame_t *frame);
-static msg_result_t msg_cmd_set_baud(msg_frame_t *frame);
-static msg_result_t msg_cmd_set_dac(msg_frame_t *frame);
-static msg_result_t msg_cmd_auto_start(msg_frame_t *frame);
-static msg_result_t msg_cmd_auto_stop(msg_frame_t *frame);
-static msg_result_t msg_cmd_sleep(msg_frame_t *frame);
-static msg_result_t msg_cmd_get_ch0(msg_frame_t *frame);
-static msg_result_t msg_cmd_get_ch1(msg_frame_t *frame);
-static msg_result_t msg_cmd_get_ch2(msg_frame_t *frame);
-static msg_result_t msg_cmd_set_ratio_ch0(msg_frame_t *frame);
-static msg_result_t msg_cmd_set_ratio_ch1(msg_frame_t *frame);
-static msg_result_t msg_cmd_set_sample_cycle(msg_frame_t *frame);
-static msg_result_t msg_cmd_get_limits(msg_frame_t *frame);
-static msg_result_t msg_cmd_get_limit0(msg_frame_t *frame);
-static msg_result_t msg_cmd_get_limit1(msg_frame_t *frame);
-static msg_result_t msg_cmd_set_limit0(msg_frame_t *frame);
-static msg_result_t msg_cmd_set_limit1(msg_frame_t *frame);
-static msg_result_t msg_cmd_set_alarm_report(msg_frame_t *frame);
-static msg_result_t msg_cmd_get_alarm_logs(msg_frame_t *frame);
-static msg_result_t msg_cmd_clear_alarm_logs(msg_frame_t *frame);
-static msg_result_t msg_cmd_enter_upgrade(msg_frame_t *frame);
-static void msg_wait_adc_boot_ready(void);
-
-static const msg_cmd_entry_t msg_cmd_table[] =
-{
-    {0x0101U, msg_cmd_reboot},
-    {0x0104U, msg_cmd_version},
-    {0x0105U, msg_cmd_set_time},
-    {0x0106U, msg_cmd_get_time},
-    {0x01A1U, msg_cmd_set_id},
-    {0x01A2U, msg_cmd_set_baud},
-    {0x0111U, msg_cmd_get_id},
-    {0x0112U, msg_cmd_get_baud},
-    {0x0201U, msg_cmd_get_ch0},
-    {0x0202U, msg_cmd_get_ch1},
-    {0x0221U, msg_cmd_get_ch2},
-    {0x0241U, msg_cmd_set_ratio_ch0},
-    {0x0242U, msg_cmd_set_ratio_ch1},
-    {0x0261U, msg_cmd_set_sample_cycle},
-    {0x0301U, msg_cmd_set_dac},
-    {0x0302U, msg_cmd_auto_start},
-    {0x0303U, msg_cmd_auto_stop},
-    {0x03AAU, msg_cmd_sleep},
-    {0x0400U, msg_cmd_get_limits},
-    {0x0401U, msg_cmd_get_limit0},
-    {0x0402U, msg_cmd_get_limit1},
-    {0x0411U, msg_cmd_set_limit0},
-    {0x0412U, msg_cmd_set_limit1},
-    {0x0501U, msg_cmd_enter_upgrade},
-    {0x0601U, msg_cmd_set_alarm_report},
-    {0x0602U, msg_cmd_get_alarm_logs},
-    {0x0603U, msg_cmd_clear_alarm_logs},
-};
 
 /*------------------ CRC16 ------------------*/
-// 计算16位CRC校验码 (MODBUS)
+// 璁＄畻16浣岰RC鏍￠獙鐮?(MODBUS)
 uint16_t Calculate_CRC16(uint8_t *data, uint16_t length)
 {
     uint16_t crc = 0xFFFFU;
@@ -115,22 +33,22 @@ uint16_t Calculate_CRC16(uint8_t *data, uint16_t length)
     return crc;
 }
 
-/*------------------ 基础读写 ------------------*/
-// 读取2字节为u16 (高位在前)
-static uint16_t msg_read_u16(const uint8_t *buf)
+/*------------------ 鍩虹璇诲啓 ------------------*/
+// 璇诲彇2瀛楄妭涓簎16 (楂樹綅鍦ㄥ墠)
+uint16_t msg_read_u16(const uint8_t *buf)
 {
     return (uint16_t)(((uint16_t)buf[0] << 8) | buf[1]);
 }
 
-// 写入u16 (高位在前)
-static void msg_write_u16(uint8_t *buf, uint16_t value)
+// 鍐欏叆u16 (楂樹綅鍦ㄥ墠)
+void msg_write_u16(uint8_t *buf, uint16_t value)
 {
     buf[0] = (uint8_t)(value >> 8);
     buf[1] = (uint8_t)(value & 0xFFU);
 }
 
-// 写入u32 (高位在前)
-static void msg_write_u32(uint8_t *buf, uint32_t value)
+// 鍐欏叆u32 (楂樹綅鍦ㄥ墠)
+void msg_write_u32(uint8_t *buf, uint32_t value)
 {
     buf[0] = (uint8_t)(value >> 24);
     buf[1] = (uint8_t)(value >> 16);
@@ -138,7 +56,7 @@ static void msg_write_u32(uint8_t *buf, uint32_t value)
     buf[3] = (uint8_t)(value & 0xFFU);
 }
 
-static uint32_t msg_read_u32(const uint8_t *buf)
+uint32_t msg_read_u32(const uint8_t *buf)
 {
     return (((uint32_t)buf[0] << 24) |
             ((uint32_t)buf[1] << 16) |
@@ -146,7 +64,7 @@ static uint32_t msg_read_u32(const uint8_t *buf)
             (uint32_t)buf[3]);
 }
 
-static void msg_write_float(uint8_t *buf, float value)
+void msg_write_float(uint8_t *buf, float value)
 {
     union {
         float f;
@@ -157,7 +75,7 @@ static void msg_write_float(uint8_t *buf, float value)
     msg_write_u32(buf, data.u);
 }
 
-static float msg_read_float(const uint8_t *buf)
+float msg_read_float(const uint8_t *buf)
 {
     union {
         float f;
@@ -168,7 +86,7 @@ static float msg_read_float(const uint8_t *buf)
     return data.f;
 }
 
-// ASCII字符转半字节
+// ASCII瀛楃杞崐瀛楄妭
 static uint8_t msg_hex_to_nibble(uint8_t ch, uint8_t *value)
 {
     if ((ch >= '0') && (ch <= '9')) {
@@ -186,15 +104,15 @@ static uint8_t msg_hex_to_nibble(uint8_t ch, uint8_t *value)
     return 0U;
 }
 
-// 半字节转ASCII字符
+// 鍗婂瓧鑺傝浆ASCII瀛楃
 static uint8_t msg_nibble_to_hex(uint8_t value)
 {
     value &= 0x0FU;
     return (value < 10U) ? (uint8_t)('0' + value) : (uint8_t)('A' + value - 10U);
 }
 
-/*------------------ ASCII HEX转换 ------------------*/
-// 检查是否以ASCII帧头 A5B6 开始
+/*------------------ ASCII HEX杞崲 ------------------*/
+// 妫€鏌ユ槸鍚︿互ASCII甯уご A5B6 寮€濮?
 static uint8_t msg_ascii_start_is_frame(uint8_t *buf, uint16_t len)
 {
     uint16_t i = 0U;
@@ -213,7 +131,7 @@ static uint8_t msg_ascii_start_is_frame(uint8_t *buf, uint16_t len)
            (buf[i + 3U] == '6');
 }
 
-// ASCII格式转原始二进制
+// ASCII鏍煎紡杞師濮嬩簩杩涘埗
 static msg_result_t msg_ascii_to_raw(uint8_t *ascii, uint16_t ascii_len,
                                      uint8_t *raw, uint16_t *raw_len)
 {
@@ -251,7 +169,7 @@ static msg_result_t msg_ascii_to_raw(uint8_t *ascii, uint16_t ascii_len,
     return MSG_OK;
 }
 
-// 原始二进制转ASCII
+// 鍘熷浜岃繘鍒惰浆ASCII
 static uint16_t msg_raw_to_ascii(uint8_t *raw, uint16_t raw_len,
                                  uint8_t *ascii, uint16_t ascii_len)
 {
@@ -269,8 +187,8 @@ static uint16_t msg_raw_to_ascii(uint8_t *raw, uint16_t raw_len,
     return (uint16_t)(raw_len * 2U);
 }
 
-/*------------------ 报文解析 ------------------*/
-// 解析并校验报文
+/*------------------ 鎶ユ枃瑙ｆ瀽 ------------------*/
+// 瑙ｆ瀽骞舵牎楠屾姤鏂?
 static msg_result_t msg_parse_raw(uint8_t *raw, uint16_t raw_len, msg_frame_t *frame)
 {
     uint16_t calc_crc;
@@ -293,7 +211,7 @@ static msg_result_t msg_parse_raw(uint8_t *raw, uint16_t raw_len, msg_frame_t *f
     frame->length = raw[7];
     frame->version = raw[8];
 
-    // 长度校验
+    // 闀垮害鏍￠獙
     if (raw_len != (uint16_t)(MSG_MIN_RAW_LEN + frame->length)) {
         return MSG_ERR_LENGTH;
     }
@@ -313,14 +231,14 @@ static msg_result_t msg_parse_raw(uint8_t *raw, uint16_t raw_len, msg_frame_t *f
     return MSG_OK;
 }
 
-// 地址匹配
+// 鍦板潃鍖归厤
 static uint8_t msg_addr_match(uint16_t device_id)
 {
     return (device_id == msg_device_id) || (device_id == MSG_BROADCAST_ID);
 }
 
-/*------------------ 报文组装 ------------------*/
-static msg_result_t msg_build_frame(uint16_t device_id, uint8_t type, uint16_t cmd,
+/*------------------ 鎶ユ枃缁勮 ------------------*/
+msg_result_t msg_build_frame(uint16_t device_id, uint8_t type, uint16_t cmd,
                                     uint8_t *payload, uint8_t payload_len)
 {
     uint8_t raw[MSG_RAW_BUF_LEN];
@@ -353,588 +271,40 @@ static msg_result_t msg_build_frame(uint16_t device_id, uint8_t type, uint16_t c
     return (msg_tx_len > 0U) ? MSG_OK : MSG_ERR_BUF;
 }
 
-/*------------------ 应答 ------------------*/
-static msg_result_t msg_build_ok(uint16_t cmd)
+/*------------------ 搴旂瓟 ------------------*/
+msg_result_t msg_build_ok(uint16_t cmd)
 {
     uint8_t payload = MSG_OK_BYTE;
     return msg_build_frame(msg_device_id, MSG_TYPE_ACK, cmd, &payload, 1U);
 }
 
-static msg_result_t msg_build_error(void)
+msg_result_t msg_build_error(void)
 {
     return msg_build_frame(msg_device_id, MSG_TYPE_ERR, MSG_CMD_ERR, NULL, 0U);
-}
-
-static float msg_adc_raw_to_volt(uint16_t raw)
-{
-    return ((float)raw * 3.3f) / 4095.0f;
-}
-
-static void msg_alarm_check(const char *channel, float value, float limit)
-{
-    if (value > limit) {
-        append_over_log_ch(channel, value, limit);
-        msg_over_log_empty = 0U;
-        if ((alarm_report_mode == 1U) && (msg_alarm_count < 2U)) {
-            strncpy(msg_alarm_channel[msg_alarm_count], channel, sizeof(msg_alarm_channel[msg_alarm_count]) - 1);
-            msg_alarm_channel[msg_alarm_count][sizeof(msg_alarm_channel[msg_alarm_count]) - 1] = '\0';
-            msg_alarm_value[msg_alarm_count] = value;
-            msg_alarm_limit[msg_alarm_count] = limit;
-            msg_alarm_count++;
-        }
-    }
-}
-
-static void msg_alarm_print(void)
-{
-    uint8_t i;
-
-    for (i = 0U; i < msg_alarm_count; i++) {
-        printf("%s | %s | %.2f | %.2f\r\n",
-               unix_to_str(get_unix_time()), msg_alarm_channel[i], msg_alarm_limit[i], msg_alarm_value[i]);
-    }
-    msg_alarm_count = 0U;
-}
-
-static msg_result_t msg_build_auto_report(void)
-{
-    uint8_t payload[12];
-    float ch0_value;
-    float ch1_value;
-
-    msg_wait_adc_boot_ready();
-    ch0_value = msg_adc_raw_to_volt(ADC_get()) * ratio_ch0;
-    ch1_value = msg_adc_raw_to_volt(ADC_get_ch1()) * ratio_ch1;
-    msg_alarm_check("CH0", ch0_value, limit_ch0);
-    msg_alarm_check("CH1", ch1_value, limit_ch1);
-    overlimit_flag = ((ch0_value > limit_ch0) || (ch1_value > limit_ch1)) ? 1U : 0U;
-
-    msg_write_u32(&payload[0], get_unix_time());
-    msg_write_float(&payload[4], ch0_value);
-    msg_write_float(&payload[8], ch1_value);
-
-    return msg_build_frame(msg_device_id, MSG_TYPE_ACK, 0x0302U, payload, 12U);
-}
-
-static void msg_set_time_by_unix(uint32_t timestamp)
-{
-    uint32_t rem;
-    uint32_t h;
-    uint32_t m;
-    uint32_t s;
-    uint32_t days;
-    uint32_t era;
-    uint32_t doe;
-    uint32_t yoe;
-    uint32_t year;
-    uint32_t doy;
-    uint32_t mp;
-    uint32_t day;
-    uint32_t month;
-
-    timestamp += 28800U;
-    rem = timestamp % 86400U;
-    h = rem / 3600U;
-    m = (rem % 3600U) / 60U;
-    s = rem % 60U;
-
-    days = timestamp / 86400U + 719468U;
-    era = days / 146097U;
-    doe = days - era * 146097U;
-    yoe = (doe - doe / 1460U + doe / 36524U - doe / 146096U) / 365U;
-    year = yoe + era * 400U;
-    doy = doe - (365U * yoe + yoe / 4U - yoe / 100U);
-    mp = (5U * doy + 2U) / 153U;
-    day = doy - (153U * mp + 2U) / 5U + 1U;
-    if (mp < 10U) {
-        month = mp + 3U;
-    } else {
-        month = mp - 9U;
-    }
-    year += (month <= 2U);
-
-    rtc_setup((uint16_t)year, (uint8_t)month, (uint8_t)day,
-              (uint8_t)h, (uint8_t)m, (uint8_t)s);
 }
 
 void msg_send_heartbeat(void)
 {
     if (msg_build_frame(msg_device_id, MSG_TYPE_HEART, MSG_CMD_HEART_BEAT, NULL, 0U) == MSG_OK) {
-        USART1_SendData(msg_tx_buffer, msg_tx_len);
+        msg_send_current();
     }
 }
 
-static void msg_wait_adc_boot_ready(void)
+void msg_send_current(void)
 {
-    if (msg_adc_boot_ready != 0U) {
-        return;
-    }
-
-    delay_1ms(20U);
-    msg_adc_boot_ready = 1U;
-}
-
-static void msg_auto_report_poll(void)
-{
-    if (msg_auto_report_flag == 0U) {
-        return;
-    }
-
-    if (tim6_timeoutcheck(&msg_auto_report_start, adc_sample_cycle) != 0U) {
-        if (msg_build_auto_report() == MSG_OK) {
-            USART1_SendData(msg_tx_buffer, msg_tx_len);
-            msg_alarm_print();
-        }
-    }
-}
-
-/*------------------ 命令处理 ------------------*/
-static msg_result_t msg_cmd_reboot(msg_frame_t *frame)
-{
-    msg_reboot_pending = 1U;
-    return msg_build_ok(frame->cmd);
-}
-
-static msg_result_t msg_cmd_version(msg_frame_t *frame)
-{
-    uint8_t payload[4];
-
-    payload[0] = 0x02U;
-    payload[1] = 0x00U;
-    payload[2] = 0x01U;
-    payload[3] = 0x00U;
-    return msg_build_frame(msg_device_id, MSG_TYPE_ACK, frame->cmd, payload, 4U);
-}
-
-static msg_result_t msg_cmd_set_time(msg_frame_t *frame)
-{
-    if (frame->length != 4U) {
-        return msg_build_error();
-    }
-    msg_set_time_by_unix(msg_read_u32(frame->payload));
-    return msg_build_ok(frame->cmd);
-}
-
-static msg_result_t msg_cmd_get_time(msg_frame_t *frame)
-{
-    uint8_t payload[4];
-
-    msg_write_u32(payload, get_unix_time());
-    return msg_build_frame(msg_device_id, MSG_TYPE_ACK, frame->cmd, payload, 4U);
-}
-
-static msg_result_t msg_cmd_set_id(msg_frame_t *frame)
-{
-    uint16_t new_id;
-    data_cfg_t cfg;
-
-    if (frame->length != 2U) {
-        return msg_build_error();
-    }
-
-    new_id = msg_read_u16(frame->payload);
-    if ((new_id == 0U) || (new_id == MSG_BROADCAST_ID)) {
-        return msg_build_error();
-    }
-
-    msg_device_id = new_id;
-    get_data_config(&cfg);
-    cfg.device_id = msg_device_id;
-    set_data_config(&cfg);
-
-    return msg_build_ok(frame->cmd);
-}
-
-static msg_result_t msg_cmd_get_id(msg_frame_t *frame)
-{
-    uint8_t payload[2];
-
-    msg_write_u16(payload, msg_device_id);
-    return msg_build_frame(msg_device_id, MSG_TYPE_ACK, frame->cmd, payload, 2U);
-}
-
-static msg_result_t msg_cmd_get_baud(msg_frame_t *frame)
-{
-    uint8_t payload[1];
-
-    payload[0] = usart1_baud_mode;
-    return msg_build_frame(msg_device_id, MSG_TYPE_ACK, frame->cmd, payload, 1U);
-}
-
-static msg_result_t msg_cmd_set_baud(msg_frame_t *frame)
-{
-    data_cfg_t cfg;
-    uint8_t baud_mode;
-
-    if (frame->length != 1U) {
-        return msg_build_error();
-    }
-
-    baud_mode = frame->payload[0];
-    if ((baud_mode < 0x11U) || (baud_mode > MSG_BAUD_115200)) {
-        return msg_build_error();
-    }
-
-    usart1_baud_mode = baud_mode;
-    get_data_config(&cfg);
-    cfg.baud_mode = usart1_baud_mode;
-    set_data_config(&cfg);
-
-    msg_reboot_pending = 1U;
-    return msg_build_ok(frame->cmd);
-}
-
-static msg_result_t msg_cmd_set_dac(msg_frame_t *frame)
-{
-    uint16_t dac_raw;
-    data_cfg_t cfg;
-
-    if (frame->length != 2U) {
-        return msg_build_error();
-    }
-
-    dac_raw = msg_read_u16(frame->payload);
-    if (dac_raw > 4095U) {
-        return msg_build_error();
-    }
-
-    dac_volt = msg_adc_raw_to_volt(dac_raw);
-    DAC_Set(DAC_OUT0, dac_raw);
-    DAC_Set(DAC_OUT1, dac_raw);
-
-    get_data_config(&cfg);
-    cfg.dac_volt = dac_volt;
-    set_data_config(&cfg);
-
-    return msg_build_ok(frame->cmd);
-}
-
-static msg_result_t msg_cmd_auto_start(msg_frame_t *frame)
-{
-    if (frame->length != 0U) {
-        return msg_build_error();
-    }
-
-    msg_auto_report_flag = 1U;
-    msg_auto_sample_flag = 1U;
-    overlimit_flag = 0U;
-    msg_auto_report_start = Gettim6Time();
-
-    return msg_build_auto_report();
-}
-
-static msg_result_t msg_cmd_auto_stop(msg_frame_t *frame)
-{
-    if (frame->length != 0U) {
-        return msg_build_error();
-    }
-
-    msg_auto_report_flag = 0U;
-    msg_auto_sample_flag = 0U;
-    overlimit_flag = 0U;
-    msg_auto_report_start = 0U;
-
-    oled_idle_time = 10;
-
-    return msg_build_ok(frame->cmd);
-}
-
-static msg_result_t msg_cmd_sleep(msg_frame_t *frame)
-{
-    if (frame->length != 0U)
-    {
-        return msg_build_error();
-    }
-    msg_auto_report_flag = 0U;
-    msg_auto_sample_flag = 0U;
-    msg_sleep_pending = 1U;
-
-    return msg_build_ok(frame->cmd);
-}
-
-static msg_result_t msg_cmd_get_ch0(msg_frame_t *frame)
-{
-    uint8_t payload[4];
-    float ch_value;
-
-    msg_wait_adc_boot_ready();
-    ch_value = msg_adc_raw_to_volt(ADC_get()) * ratio_ch0;
-    msg_alarm_check("CH0", ch_value, limit_ch0);
-    msg_write_float(payload, ch_value);
-    return msg_build_frame(msg_device_id, MSG_TYPE_ACK, frame->cmd, payload, 4U);
-}
-
-static msg_result_t msg_cmd_get_ch1(msg_frame_t *frame)
-{
-    uint8_t payload[4];
-    float ch_value;
-
-    msg_wait_adc_boot_ready();
-    ch_value = msg_adc_raw_to_volt(ADC_get_ch1()) * ratio_ch1;
-    msg_alarm_check("CH1", ch_value, limit_ch1);
-    msg_write_float(payload, ch_value);
-    return msg_build_frame(msg_device_id, MSG_TYPE_ACK, frame->cmd, payload, 4U);
-}
-
-static msg_result_t msg_cmd_get_ch2(msg_frame_t *frame)
-{
-    uint8_t payload[4];
-    float pt_res;
-    float pt_temp;
-
-    if (PT100_Read(&pt_res, &pt_temp) == 0U) {
-        return msg_build_error();
-    }
-    msg_write_float(payload, pt_temp);
-    return msg_build_frame(msg_device_id, MSG_TYPE_ACK, frame->cmd, payload, 4U);
-}
-
-static msg_result_t msg_cmd_set_ratio_ch0(msg_frame_t *frame)
-{
-    data_cfg_t cfg;
-    float value;
-
-    if (frame->length != 4U) {
-        return msg_build_error();
-    }
-
-    value = msg_read_float(frame->payload);
-    if ((value < 0.0f) || (value > 100.0f)) {
-        return msg_build_error();
-    }
-
-    ratio_ch0 = value;
-    get_data_config(&cfg);
-    cfg.ratio_ch0 = ratio_ch0;
-    set_data_config(&cfg);
-
-    return msg_build_ok(frame->cmd);
-}
-
-static msg_result_t msg_cmd_set_ratio_ch1(msg_frame_t *frame)
-{
-    data_cfg_t cfg;
-    float value;
-
-    if (frame->length != 4U) {
-        return msg_build_error();
-    }
-
-    value = msg_read_float(frame->payload);
-    if ((value < 0.0f) || (value > 100.0f)) {
-        return msg_build_error();
-    }
-
-    ratio_ch1 = value;
-    get_data_config(&cfg);
-    cfg.ratio_ch1 = ratio_ch1;
-    set_data_config(&cfg);
-
-    return msg_build_ok(frame->cmd);
-}
-
-static msg_result_t msg_cmd_set_sample_cycle(msg_frame_t *frame)
-{
-    data_cfg_t cfg;
-    uint32_t cycle;
-
-    if (frame->length != 1U) {
-        return msg_build_error();
-    }
-
-    switch (frame->payload[0]) {
-        case 0x01U: cycle = 1000U;  break;
-        case 0x02U: cycle = 3000U;  break;
-        case 0x03U: cycle = 5000U;  break;
-        default:    return msg_build_error();
-    }
-
-    adc_sample_cycle = cycle;
-    get_data_config(&cfg);
-    cfg.sample_cycle = adc_sample_cycle;
-    set_data_config(&cfg);
-
-    if (msg_auto_report_flag != 0U) {
-        msg_auto_report_start = Gettim6Time();
-    }
-
-    return msg_build_ok(frame->cmd);
-}
-
-static msg_result_t msg_cmd_get_limits(msg_frame_t *frame)
-{
-    uint8_t payload[8];
-
-    msg_write_float(&payload[0], limit_ch0);
-    msg_write_float(&payload[4], limit_ch1);
-    return msg_build_frame(msg_device_id, MSG_TYPE_ACK, frame->cmd, payload, 8U);
-}
-
-static msg_result_t msg_cmd_get_limit0(msg_frame_t *frame)
-{
-    uint8_t payload[4];
-
-    msg_write_float(payload, limit_ch0);
-    return msg_build_frame(msg_device_id, MSG_TYPE_ACK, frame->cmd, payload, 4U);
-}
-
-static msg_result_t msg_cmd_get_limit1(msg_frame_t *frame)
-{
-    uint8_t payload[4];
-
-    msg_write_float(payload, limit_ch1);
-    return msg_build_frame(msg_device_id, MSG_TYPE_ACK, frame->cmd, payload, 4U);
-}
-
-static msg_result_t msg_cmd_set_limit0(msg_frame_t *frame)
-{
-    data_cfg_t cfg;
-    float value;
-
-    if (frame->length != 4U) {
-        return msg_build_error();
-    }
-
-    value = msg_read_float(frame->payload);
-    if ((value < 0.0f) || (value > 500.0f)) {
-        return msg_build_error();
-    }
-
-    limit_ch0 = value;
-    get_data_config(&cfg);
-    cfg.limit_ch0 = limit_ch0;
-    set_data_config(&cfg);
-
-    return msg_build_ok(frame->cmd);
-}
-
-static msg_result_t msg_cmd_set_limit1(msg_frame_t *frame)
-{
-    data_cfg_t cfg;
-    float value;
-
-    if (frame->length != 4U) {
-        return msg_build_error();
-    }
-
-    value = msg_read_float(frame->payload);
-    if ((value < 0.0f) || (value > 500.0f)) {
-        return msg_build_error();
-    }
-
-    limit_ch1 = value;
-    get_data_config(&cfg);
-    cfg.limit_ch1 = limit_ch1;
-    set_data_config(&cfg);
-
-    return msg_build_ok(frame->cmd);
-}
-
-static msg_result_t msg_cmd_set_alarm_report(msg_frame_t *frame)
-{
-    data_cfg_t cfg;
-    uint8_t mode;
-
-    if (frame->length != 1U) {
-        return msg_build_error();
-    }
-
-    mode = frame->payload[0];
-    if ((mode != 1U) && (mode != 2U)) {
-        return msg_build_error();
-    }
-
-    alarm_report_mode = mode;
-    get_data_config(&cfg);
-    cfg.alarm_report_mode = alarm_report_mode;
-    set_data_config(&cfg);
-
-    return msg_build_ok(frame->cmd);
-}
-
-static msg_result_t msg_cmd_get_alarm_logs(msg_frame_t *frame)
-{
-    static uint8_t empty_str[] = "empty\r\n";
-
-    if (frame->length != 0U) {
-        return msg_build_error();
-    }
-
-    USART1_SendData(empty_str, 7U);
-    msg_tx_len = 0U;
-    return MSG_OK;
-}
-
-static msg_result_t msg_cmd_clear_alarm_logs(msg_frame_t *frame)
-{
-    if (frame->length != 0U) {
-        return msg_build_error();
-    }
-
-    clear_all_over_logs();
-    msg_alarm_count = 0U;
-    msg_over_log_empty = 1U;
-    overlimit_flag = 0U;
-    delay_1ms(100U);
-    return msg_build_ok(frame->cmd);
-}
-
-static msg_result_t msg_cmd_enter_upgrade(msg_frame_t *frame)
-{
-    msg_result_t ret;
-
-    if (frame->length != 0U) {
-        return msg_build_error();
-    }
-
-    /* 1. Build OK response */
-    ret = msg_build_ok(frame->cmd);
-    if (ret != MSG_OK) {
-        return ret;
-    }
-
-    /* 2. Send response immediately (synchronous, waits DMA+TC) */
     if (msg_tx_len > 0U) {
         USART1_SendData(msg_tx_buffer, msg_tx_len);
     }
-
-    /* 3. Allow RS485 transceiver and peer to settle */
-    delay_1ms(50);
-
-    /* 4. Write boot_flag = 0xA5 to parameter area (FMC page erase + program) */
-    boot_param_set_flag(BOOT_FLAG_UPDATE);
-
-    /* 5. Soft reset → Bootloader sees boot_flag=0xA5 → upgrade console */
-    delay_1ms(10);
-    NVIC_SystemReset();
-
-    /* Never reached */
-    return MSG_OK;
 }
 
-static msg_result_t msg_handle_cmd(msg_frame_t *frame)
+void msg_send_string(uint8_t *str, uint16_t len)
 {
-    uint16_t i;
-
-    if ((frame->type == MSG_TYPE_HEART) && (frame->cmd == MSG_CMD_HEART_FIND) &&
-        (frame->device_id == MSG_BROADCAST_ID)) {
-        return msg_build_frame(msg_device_id, MSG_TYPE_HEART, MSG_CMD_HEART_BEAT, NULL, 0U);
+    if ((str != NULL) && (len > 0U)) {
+        USART1_SendData(str, len);
     }
-
-    if (frame->type != MSG_TYPE_CMD) {
-        return msg_build_error();
-    }
-
-    for (i = 0U; i < (sizeof(msg_cmd_table) / sizeof(msg_cmd_table[0])); i++) {
-        if (frame->cmd == msg_cmd_table[i].cmd) {
-            return msg_cmd_table[i].handler(frame);
-        }
-    }
-
-    return msg_build_error();
 }
 
-//外部调用接口
+//澶栭儴璋冪敤鎺ュ彛
 uint8_t msg_poll(void)
 {
     msg_frame_t frame;
@@ -948,11 +318,11 @@ uint8_t msg_poll(void)
     }
 
     if (usart1_rx_flag == 0U) {
-        msg_auto_report_poll();
+        msg_app_auto_report_poll();
         return 0U;
     }
     if (msg_ascii_start_is_frame(usart1_rx_buffer, usart1_rx_len) == 0U) {
-        if (msg_auto_report_flag != 0U) {
+        if (msg_app_auto_report_is_active() != 0U) {
             USART1_ClearRxBuf();
             return 1U;
         }
@@ -977,42 +347,24 @@ uint8_t msg_poll(void)
         result = msg_parse_raw(msg_raw_buffer, raw_len, &frame);
     }
 
-    if ((result == MSG_OK) && (msg_auto_report_flag != 0U) && (frame.cmd != 0x0303U)) {
+    if ((result == MSG_OK) && (msg_app_auto_report_is_active() != 0U) && (frame.cmd != 0x0303U)) {
         USART1_ClearRxBuf();
         return 1U;
     }
 
     if ((result == MSG_OK) && (msg_addr_match(frame.device_id) != 0U)) {
-        result = msg_handle_cmd(&frame);
+        result = msg_app_handle_cmd(&frame);
     } else if (result != MSG_OK) {
         result = msg_build_error();
     }
 
-    if ((result == MSG_OK) && (msg_tx_len > 0U)) {
-        USART1_SendData(msg_tx_buffer, msg_tx_len);
+    if (result == MSG_OK) {
+        msg_send_current();
     }
-    msg_alarm_print();
+    msg_app_alarm_print();
 
     USART1_ClearRxBuf();
 
-    if (msg_reboot_pending != 0U) {
-        delay_1ms(80U);
-        NVIC_SystemReset();
-    }
-
-    if (msg_sleep_pending != 0U) {
-        msg_sleep_pending = 0U;
-        delay_1ms(20U);
-        oled_idle_refresh_flag = 1;
-        oled_idle_refresh();
-        RTC_SetWakeup(10U);
-        pmu_flag_clear(PMU_FLAG_RESET_WAKEUP);
-        pmu_to_deepsleepmode(PMU_LDO_LOWPOWER, PMU_LOWDRIVER_ENABLE, WFI_CMD);
-        SystemInit();
-        USART1_Init();
-        printf("instrument wakeup\r\n");
-        oled_idle_refresh_flag = 1;
-        oled_idle_refresh();
-    }
+    msg_app_after_send();
     return 1U;
 }

@@ -4,6 +4,11 @@ float adc_volt = 0.00f;      // ADC实际电压值
 float eng_volt = 0.00f;      // 工程值=adc_volt*ratio
 char encrypt_buf[24] = {0}; // 加密缓冲区，，8字节HEX=16位字符串
 
+float data_adc_raw_to_volt(uint16_t raw)
+{
+    return ((float)raw * 3.3f) / 4095.0f;
+}
+
 void data_calc_eng_volt(void)
 {
     // 将ADC值转换为电压

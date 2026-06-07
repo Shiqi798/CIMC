@@ -18,6 +18,7 @@ static const pt100_temp_point_t g_pt100_temp_table[] = {
     {154.00f, 141.11f},
 };
 
+#if (PT100_RES_CAL_MODE == PT100_RES_CAL_TABLE)
 static const pt100_res_point_t g_pt100_res_table[] = {
     {0.1018880f, 80.60f},
     {0.1040408f, 82.50f},
@@ -31,7 +32,9 @@ static const pt100_res_point_t g_pt100_res_table[] = {
     {0.1897100f, 150.00f},
     {0.1948470f, 154.00f},
 };
+#endif
 
+#if (PT100_TEMP_ALGO == PT100_ALGO_TABLE)
 static float pt100_temp_table_interp(float res_ohm)
 {
     uint16_t i;
@@ -57,7 +60,9 @@ static float pt100_temp_table_interp(float res_ohm)
 
     return g_pt100_temp_table[count - 1U].temperature;
 }
+#endif
 
+#if (PT100_RES_CAL_MODE == PT100_RES_CAL_TABLE)
 static float pt100_res_table_interp(float voltage)
 {
     uint16_t i;
@@ -83,6 +88,7 @@ static float pt100_res_table_interp(float voltage)
 
     return g_pt100_res_table[count - 1U].resistance;
 }
+#endif
 
 static float pt100_snap_resistance(float res_ohm)
 {
@@ -104,6 +110,7 @@ static float pt100_snap_resistance(float res_ohm)
     return res_ohm;
 }
 
+#if (PT100_TEMP_ALGO == PT100_ALGO_QUADRATIC)
 static float pt100_quadratic_fit(float res_ohm)
 {
     const float a = 7.80690197e-4f;
@@ -112,7 +119,9 @@ static float pt100_quadratic_fit(float res_ohm)
 
     return (a * res_ohm * res_ohm) + (b * res_ohm) + c;
 }
+#endif
 
+#if (PT100_TEMP_ALGO == PT100_ALGO_PIECEWISE_QUADRATIC)
 static float pt100_piecewise_quadratic_fit(float res_ohm)
 {
     float a;
@@ -143,6 +152,7 @@ static float pt100_piecewise_quadratic_fit(float res_ohm)
 
     return (a * res_ohm * res_ohm) + (b * res_ohm) + c;
 }
+#endif
 
 static void pt100_sort_samples(float *samples, uint8_t count)
 {

@@ -45,7 +45,6 @@
 /***********************DRIVER_END*************************
 ************************Function************************/
 #include "app_vars.h"
-#include "cmd_parse.h"
 #include "data_process.h"
 #include "pt100.h"
 #include "Function.h"
