@@ -379,6 +379,10 @@ static msg_result_t msg_cmd_get_ch0(msg_frame_t *frame)
     uint8_t payload[4];
     float ch_value;
 
+    if (frame->length != 0U) {
+        return msg_build_error();
+    }
+
     msg_wait_adc_boot_ready();
     ch_value = data_get_ch0_value();
     msg_alarm_check("CH0", ch_value, limit_ch0);
@@ -390,6 +394,10 @@ static msg_result_t msg_cmd_get_ch1(msg_frame_t *frame)
 {
     uint8_t payload[4];
     float ch_value;
+
+    if (frame->length != 0U) {
+        return msg_build_error();
+    }
 
     msg_wait_adc_boot_ready();
     ch_value = data_get_ch1_value();
@@ -403,6 +411,10 @@ static msg_result_t msg_cmd_get_ch2(msg_frame_t *frame)
     uint8_t payload[4];
     float pt_res;
     float pt_temp;
+
+    if (frame->length != 0U) {
+        return msg_build_error();
+    }
 
     if (PT100_Read(&pt_res, &pt_temp) == 0U) {
         return msg_build_error();
@@ -626,14 +638,12 @@ static msg_result_t msg_cmd_set_alarm_report(msg_frame_t *frame)
 
 static msg_result_t msg_cmd_get_alarm_logs(msg_frame_t *frame)
 {
-    static uint8_t empty_str[] = "empty\r\n";
-
     if (frame->length != 0U) {
         return msg_build_error();
     }
 
     //上位机自动流程这里要先拿到字符串
-    msg_send_string(empty_str, 7U);
+    print_latest_over_logs(10);
     return MSG_OK;
 }
 

@@ -20,6 +20,7 @@ int main(void)
 
 // 函数指针：指向App复位中断
 typedef void (*pFunction)(void);
+/*
 void backto_bootloader(void);
 
 void backto_bootloader(void)
@@ -37,7 +38,7 @@ void backto_bootloader(void)
 	JumpToBootloader = (pFunction)*(uint32_t*)(BOOTLOADER_ADDR + 4);
 	JumpToBootloader();
 }
-
+*/
 /*
 int main(void)
 {

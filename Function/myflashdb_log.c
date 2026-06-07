@@ -210,7 +210,7 @@ void print_latest_over_logs(int count) {
         return;
     }
 //    printf("--- 最新 %d 条 [超限日志] (实际读出 %d 条) ---\n", count, ctx.count);
-    for (int i = ctx.count - 1; i >= 0; i--) {
+    for (int i = 0; i < ctx.count; i++) {
         printf("%s | %s | %.2f | %.2f\r\n",
                unix_to_str(ctx.cache[i].time), ctx.cache[i].data.channel,
                ctx.cache[i].data.limit, ctx.cache[i].data.voltage);
