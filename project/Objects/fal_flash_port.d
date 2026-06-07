@@ -57,14 +57,16 @@
 .\objects\fal_flash_port.o: D:\AsusMCenterDownload\keil5 MDK\core\ARM\ARMCC\Bin\..\include\stddef.h
 .\objects\fal_flash_port.o: ..\Driver\FlashDB\flashdb\fdb_cfg.h
 .\objects\fal_flash_port.o: ..\Driver\FlashDB\flashdb\fdb_def.h
-.\objects\fal_flash_port.o: ..\Driver\HardWare\OLED\OLED.h
+.\objects\fal_flash_port.o: ..\Function\app_param.h
 .\objects\fal_flash_port.o: ..\Driver\HeaderFiles\HeaderFiles.h
+.\objects\fal_flash_port.o: ..\Driver\HardWare\OLED\OLED.h
 .\objects\fal_flash_port.o: ..\Driver\System\DAC\DAC.h
 .\objects\fal_flash_port.o: ..\Driver\HardWare\USART\USART.h
 .\objects\fal_flash_port.o: ..\Driver\HardWare\RTC\RTC.h
 .\objects\fal_flash_port.o: ..\Driver\HardWare\SPI_FLASH\SPI_FLASH.h
 .\objects\fal_flash_port.o: ..\Driver\HardWare\SDCARD\sdcard.h
 .\objects\fal_flash_port.o: ..\Driver\System\ADC\ADC.h
+.\objects\fal_flash_port.o: ..\Driver\System\AD3344\AD3344.h
 .\objects\fal_flash_port.o: ..\Driver\System\TIM6\tim6_functimer.h
 .\objects\fal_flash_port.o: ..\Driver\HardWare\LED\LED.h
 .\objects\fal_flash_port.o: ..\Driver\Fatfs\ff.h
@@ -73,9 +75,10 @@
 .\objects\fal_flash_port.o: ..\Driver\Fatfs\diskio.h
 .\objects\fal_flash_port.o: ..\Driver\HardWare\KEY\Key.h
 .\objects\fal_flash_port.o: ..\Driver\System\myDMA\myDMA.h
-.\objects\fal_flash_port.o: ..\sysFunction\cmd_parse.h
-.\objects\fal_flash_port.o: ..\sysFunction\data_process.h
-.\objects\fal_flash_port.o: ..\sysFunction\Function.h
-.\objects\fal_flash_port.o: ..\sysFunction\myflashdb_log.h
-.\objects\fal_flash_port.o: ..\sysFunction\myflashdb_data.h
+.\objects\fal_flash_port.o: ..\Function\data_process.h
+.\objects\fal_flash_port.o: ..\Function\pt100.h
+.\objects\fal_flash_port.o: ..\Function\Function.h
+.\objects\fal_flash_port.o: ..\Function\myflashdb_log.h
+.\objects\fal_flash_port.o: ..\Function\myflashdb_data.h
 .\objects\fal_flash_port.o: ..\Driver\HardWare\sleep_wake\sleep_wake.h
+.\objects\fal_flash_port.o: ..\Protocol\msg.h

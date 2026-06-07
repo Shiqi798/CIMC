@@ -1,17 +1,40 @@
 #include "data_process.h"
 
-float adc_volt = 0.00f;      // ADC实际电压值
-float eng_volt = 0.00f;      // 工程值=adc_volt*ratio
-char encrypt_buf[24] = {0};  // 加密缓冲区，8字节HEX转字符串
-
 float data_adc_raw_to_volt(uint16_t raw)
 {
     return ((float)raw * 3.3f) / 4095.0f;
 }
 
+float data_get_ch0_value(void)
+{
+    return data_adc_raw_to_volt(ADC_get()) * ratio_ch0;
+}
+
+float data_get_ch1_value(void)
+{
+    return data_adc_raw_to_volt(ADC_get_ch1()) * ratio_ch1;
+}
+
+uint8_t data_is_over_limit(float value, float limit)
+{
+    return (value > limit) ? 1U : 0U;
+}
+
+uint8_t data_update_overlimit(float ch0, float ch1)
+{
+    overlimit_flag = ((data_is_over_limit(ch0, limit_ch0) != 0U) ||
+                      (data_is_over_limit(ch1, limit_ch1) != 0U)) ? 1U : 0U;
+    return overlimit_flag;
+}
+
+/*
+
+float adc_volt = 0.00f;
+float eng_volt = 0.00f;
+char encrypt_buf[24] = {0};
+
 void data_calc_eng_volt(void)
 {
-    //旧命令行采样还用这个，先保留
     adc_volt = round(((ADC_get() / 4095.0) * 3.3) * 100) / 100;
     eng_volt = round(adc_volt * ratio_ch0 * 100) / 100;
 }
@@ -29,38 +52,7 @@ uint8_t data_check_overlimit(void)
         return 0;
     }
 }
-
-//加密字符串
-char* data_encrypt(void)
-{
-    uint32_t unix_time = get_unix_time();
-
-    //整数和小数分开塞到HEX里
-    uint16_t eng_volt_int = (uint16_t)eng_volt;
-    float frac_part = eng_volt - (float)eng_volt_int;
-    uint32_t frac_scaled = (uint32_t)lroundf(frac_part * 65536.0f);
-    if (frac_scaled >= 65536UL) {
-        eng_volt_int++;
-        frac_scaled = 0;
-    }
-    uint16_t eng_volt_frac = (uint16_t)frac_scaled;
-    //格式化成16位HEX字符串
-    snprintf(encrypt_buf, sizeof(encrypt_buf),
-             "%08X%04X%04X",
-             unix_time,
-             eng_volt_int,
-             eng_volt_frac);
-    //超限就在末尾补一个*
-    if (overlimit_flag == 1) {
-        size_t current_len = strlen(encrypt_buf);
-        if (current_len < sizeof(encrypt_buf) - 1) {
-            encrypt_buf[current_len] = '*';
-            encrypt_buf[current_len + 1] = '\0';
-        }
-    }
-    
-    return encrypt_buf;
-}
+*/
 
 
 #define BCD2DEC(val) (((val) >> 4) * 10 + ((val) & 0x0F))
@@ -134,3 +126,36 @@ char* unix_to_str(uint32_t timestamp)
 }
 
 
+/*
+//加密字符串
+char* data_encrypt(void)
+{
+    uint32_t unix_time = get_unix_time();
+
+    //整数和小数分开塞到HEX里
+    uint16_t eng_volt_int = (uint16_t)eng_volt;
+    float frac_part = eng_volt - (float)eng_volt_int;
+    uint32_t frac_scaled = (uint32_t)lroundf(frac_part * 65536.0f);
+    if (frac_scaled >= 65536UL) {
+        eng_volt_int++;
+        frac_scaled = 0;
+    }
+    uint16_t eng_volt_frac = (uint16_t)frac_scaled;
+    //格式化成16位HEX字符串
+    snprintf(encrypt_buf, sizeof(encrypt_buf),
+             "%08X%04X%04X",
+             unix_time,
+             eng_volt_int,
+             eng_volt_frac);
+    //超限就在末尾补一个*
+    if (overlimit_flag == 1) {
+        size_t current_len = strlen(encrypt_buf);
+        if (current_len < sizeof(encrypt_buf) - 1) {
+            encrypt_buf[current_len] = '*';
+            encrypt_buf[current_len + 1] = '\0';
+        }
+    }
+
+    return encrypt_buf;
+}
+*/

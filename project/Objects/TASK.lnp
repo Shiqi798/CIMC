@@ -22,6 +22,7 @@
 ".\objects\fdb_port.o"
 ".\objects\fdb_tsdb.o"
 ".\objects\startup_gd32f450_470.o"
+".\objects\ad3344.o"
 ".\objects\adc.o"
 ".\objects\tim6_functimer.o"
 ".\objects\mydma.o"
@@ -57,10 +58,13 @@
 ".\objects\gd32f4xx_wwdgt.o"
 ".\objects\system_gd32f4xx.o"
 ".\objects\function.o"
-".\objects\cmd_parse.o"
 ".\objects\data_process.o"
+".\objects\pt100.o"
+".\objects\app_param.o"
 ".\objects\myflashdb_data.o"
 ".\objects\myflashdb_log.o"
+".\objects\msg_app.o"
+".\objects\msg.o"
 --library_type=microlib --strict --scatter ".\Objects\TASK.sct"
 --summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

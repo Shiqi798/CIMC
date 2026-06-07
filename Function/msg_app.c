@@ -303,11 +303,11 @@ static msg_result_t msg_build_auto_report(void)
     float ch1_value;
 
     msg_wait_adc_boot_ready();
-    ch0_value = data_adc_raw_to_volt(ADC_get()) * ratio_ch0;
-    ch1_value = data_adc_raw_to_volt(ADC_get_ch1()) * ratio_ch1;
+    ch0_value = data_get_ch0_value();
+    ch1_value = data_get_ch1_value();
     msg_alarm_check("CH0", ch0_value, limit_ch0);
     msg_alarm_check("CH1", ch1_value, limit_ch1);
-    overlimit_flag = ((ch0_value > limit_ch0) || (ch1_value > limit_ch1)) ? 1U : 0U;
+    data_update_overlimit(ch0_value, ch1_value);
 
     msg_write_u32(&payload[0], get_unix_time());
     msg_write_float(&payload[4], ch0_value);
@@ -380,7 +380,7 @@ static msg_result_t msg_cmd_get_ch0(msg_frame_t *frame)
     float ch_value;
 
     msg_wait_adc_boot_ready();
-    ch_value = data_adc_raw_to_volt(ADC_get()) * ratio_ch0;
+    ch_value = data_get_ch0_value();
     msg_alarm_check("CH0", ch_value, limit_ch0);
     msg_write_float(payload, ch_value);
     return msg_build_frame(msg_device_id, MSG_TYPE_ACK, frame->cmd, payload, 4U);
@@ -392,7 +392,7 @@ static msg_result_t msg_cmd_get_ch1(msg_frame_t *frame)
     float ch_value;
 
     msg_wait_adc_boot_ready();
-    ch_value = data_adc_raw_to_volt(ADC_get_ch1()) * ratio_ch1;
+    ch_value = data_get_ch1_value();
     msg_alarm_check("CH1", ch_value, limit_ch1);
     msg_write_float(payload, ch_value);
     return msg_build_frame(msg_device_id, MSG_TYPE_ACK, frame->cmd, payload, 4U);

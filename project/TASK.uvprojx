@@ -275,7 +275,7 @@
               <OCR_RVCT4>
                 <Type>1</Type>
                 <StartAddress>0x8000000</StartAddress>
-                <Size>0x800000</Size>
+                <Size>0x80000</Size>
               </OCR_RVCT4>
               <OCR_RVCT5>
                 <Type>1</Type>
@@ -445,6 +445,16 @@
               <FileName>RTC.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\Driver\HardWare\RTC\RTC.h</FilePath>
+            </File>
+            <File>
+              <FileName>sdcard.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\Driver\HardWare\SDCARD\sdcard.c</FilePath>
+            </File>
+            <File>
+              <FileName>sdcard.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\Driver\HardWare\SDCARD\sdcard.h</FilePath>
             </File>
             <File>
               <FileName>SPI_FLASH.c</FileName>
