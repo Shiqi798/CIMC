@@ -465,3 +465,80 @@ Bootloader在另一个工程，本工程只处理APP侧。
 
 - EIDE 编译确认 warning 清理结果。
 - 如果还有旧文件 warning，再按“先判断是否仍被使用，再移走或条件编译”的方式继续收。
+
+### Step 13：合并app_vars和boot_param
+
+状态：已完成，待EIDE编译确认
+
+已做：
+
+- 新增 `Function/app_param.c/.h`。
+- `app_vars.c` 中运行参数定义已迁入 `app_param.c`。
+- `boot_param.c/.h` 中 bootloader 参数区宏、结构体和 `boot_param_set_flag()` 已迁入 `app_param.c/.h`。
+- `HeaderFiles.h` 已改为 include `app_param.h`，并删除重复的 `app_vars.h` 和 `boot_param.h` 引用。
+- `TASK.uvprojx` 和 `.eide/eide.yml` 都已改为包含 `app_param.c/.h`。
+- 旧 `app_vars.c/.h`、`boot_param.c/.h` 已移到桌面备份目录。
+
+检查：
+
+- `app_param.c/.h` 在 `TASK.uvprojx` 和 `.eide/eide.yml` 中都能搜到。
+- `app_vars` 旧名在工程源码和配置中已无残留。
+- `boot_param_set_flag()`、`BOOT_FLAG_UPDATE`、`ratio_ch0`、`dac_volt`、`usart1_baud_mode` 仍能正常从新模块找到。
+- `D:\desktop\V02.2_old_function_backup\app_vars_old.c/.h` 和 `boot_param_old.c/.h` 存在。
+- `git diff --check` 只有 CRLF/LF 换行提示，没有空白错误。
+
+下一步建议：
+
+- 用 EIDE 编译确认合并后的参数模块。
+- 编译通过后再做 Step 14：继续瘦身 `msg_app.c`，优先拆告警/日志或参数保存 helper。
+
+### Step 14：逻辑层注释风格整理
+
+状态：已完成，待EIDE编译确认
+
+已做：
+
+- 按 `comment_writing_guide.md` 把最近新增文件里的英文分区注释改成中文短注释。
+- `app_param.c/.h` 的参数区、boot参数区注释改成更自然的中文写法，`define` 不再刻意排成很整齐的一列。
+- `Function.c/.h` 补了主控层关键说明，旧调试块改成中文说明。
+- `msg_app.c` 只补关键时序注释：UTC转RTC、应答后复位/睡眠、ADC首帧等待、告警缓存、DAC输出、升级前发OK。
+- `data_process.c/.h` 顺手清掉明显乱码和太啰嗦的注释。
+- 没改命令号、结构体布局、协议返回值、FlashDB字段。
+
+检查：
+
+- `APP PARAM / BOOT PARAM / Step 4 / Step 5` 这类重构痕迹已清掉。
+- `brief / param / retval` 这类模板注释未新增；搜索到的 `boot_param` 是保留接口名，不是注释模板。
+- `Func` 搜索会命中 `sysFunction_*` 函数名，属于误报，不是分区注释残留。
+- `git diff --check` 只有 CRLF/LF 换行提示，没有空白错误。
+
+下一步建议：
+
+- EIDE 编译确认注释整理没有带来编码问题。
+- 之后再做 Step 15：把 `msg_app.c` 里告警/日志或参数保存 helper 拆出去，让业务文件继续瘦身。
+
+### Step 15：调整Function手写感和编码
+
+状态：已完成，待EIDE编译确认
+
+已做：
+
+- `Function.c` 重新保存为合法 UTF-8，无 BOM。
+- 修掉 `Function.c` 中文注释里的坏字节和乱码。
+- `Function.c` 函数之间和函数内部不再保持完全一样的空行节奏，短状态接口贴近一点。
+- 主循环、参数恢复、LED刷新这些逻辑顺序未改，只调整注释和局部排版。
+- `Function.h` 的注释改短，不写成模板分组。
+- `app_param.h` 的分区和 define 轻微松了一下，不再刻意排得很规整。
+
+检查：
+
+- Python `decode('utf-8')` 检查 `Function.c/.h/app_param.h` 成功。
+- 三个文件都无 UTF-8 BOM。
+- `rg "�|\\?\\?" Function.c/Function.h/app_param.h` 无结果。
+- `sysFunction_Init`、`function_param_load`、`function_sample_state_*` 仍在。
+- `git diff --check` 只有 CRLF/LF 换行提示，没有空白错误。
+
+下一步建议：
+
+- 用 EIDE 编译确认编码和排版调整没有引入问题。
+- 之后再继续处理 `msg_app.c` 太长的问题，优先从告警/日志或参数保存 helper 下手。

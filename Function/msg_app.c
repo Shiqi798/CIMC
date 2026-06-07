@@ -101,6 +101,7 @@ static void msg_set_time_by_unix(uint32_t timestamp)
     uint32_t day;
     uint32_t month;
 
+    //上位机给的是UTC，这里转成北京时间再写RTC
     timestamp += 28800U;
     rem = timestamp % 86400U;
     h = rem / 3600U;
@@ -246,6 +247,7 @@ msg_result_t msg_app_handle_cmd(msg_frame_t *frame)
 void msg_app_after_send(void)
 {
     if (msg_reboot_pending != 0U) {
+        //OK先发出去，再给上位机一点切换时间
         delay_1ms(80U);
         NVIC_SystemReset();
     }
@@ -253,6 +255,7 @@ void msg_app_after_send(void)
     if (msg_sleep_pending != 0U) {
         msg_sleep_pending = 0U;
         delay_1ms(20U);
+        //03AA也是先应答，再进低功耗
         function_idle_refresh_request();
         oled_idle_refresh();
         RTC_SetWakeup(10U);
@@ -273,6 +276,7 @@ static void msg_wait_adc_boot_ready(void)
         return;
     }
 
+    //刚启动DMA第一帧可能不稳，稍微等一下
     delay_1ms(20U);
     msg_adc_boot_ready = 1U;
 }
@@ -282,6 +286,7 @@ static void msg_alarm_check(const char *channel, float value, float limit)
     if (value > limit) {
         append_over_log_ch(channel, value, limit);
         if ((alarm_report_mode == 1U) && (msg_alarm_count < 2U)) {
+            //先缓存，当前应答发完后再printf上报
             strncpy(msg_alarm_channel[msg_alarm_count], channel, sizeof(msg_alarm_channel[msg_alarm_count]) - 1);
             msg_alarm_channel[msg_alarm_count][sizeof(msg_alarm_channel[msg_alarm_count]) - 1] = '\0';
             msg_alarm_value[msg_alarm_count] = value;
@@ -327,6 +332,7 @@ static msg_result_t msg_cmd_set_dac(msg_frame_t *frame)
     }
 
     dac_volt = data_adc_raw_to_volt(dac_raw);
+    //两个DAC口都打出去，CH1靠ADC回读
     DAC_Set(DAC_OUT0, dac_raw);
     DAC_Set(DAC_OUT1, dac_raw);
 
@@ -477,7 +483,7 @@ static msg_result_t msg_cmd_set_sample_cycle(msg_frame_t *frame)
     return msg_build_ok(frame->cmd);
 }
 
-////////////////////////////外部调用//////////////////////////////
+////////////////////////////外部调用//////////////
 void msg_app_auto_report_poll(void)
 {
     if (msg_auto_report_flag == 0U) {
@@ -513,7 +519,7 @@ void msg_app_reset_alarm_state(void)
     msg_alarm_count = 0U;
 }
 
-////////////////////////////其他命令//////////////////////////////
+//////////其他命令////////////////////
 static msg_result_t msg_cmd_sleep(msg_frame_t *frame)
 {
     if (frame->length != 0U)
@@ -626,6 +632,7 @@ static msg_result_t msg_cmd_get_alarm_logs(msg_frame_t *frame)
         return msg_build_error();
     }
 
+    //上位机自动流程这里要先拿到字符串
     msg_send_string(empty_str, 7U);
     return MSG_OK;
 }
@@ -651,25 +658,23 @@ static msg_result_t msg_cmd_enter_upgrade(msg_frame_t *frame)
         return msg_build_error();
     }
 
-    /* 1. Build OK response */
+    //先组OK
     ret = msg_build_ok(frame->cmd);
     if (ret != MSG_OK) {
         return ret;
     }
 
-    /* 2. Send response immediately (synchronous, waits DMA+TC) */
+    //升级前必须先把OK发完
     msg_send_current();
 
-    /* 3. Allow RS485 transceiver and peer to settle */
+    //RS485和上位机都缓一下
     delay_1ms(50);
 
-    /* 4. Write boot_flag = 0xA5 to parameter area (FMC page erase + program) */
+    //写内部flash参数区，bootloader看这个标志
     boot_param_set_flag(BOOT_FLAG_UPDATE);
 
-    /* 5. Soft reset 鈫?Bootloader sees boot_flag=0xA5 鈫?upgrade console */
     delay_1ms(10);
     NVIC_SystemReset();
 
-    /* Never reached */
     return MSG_OK;
 }

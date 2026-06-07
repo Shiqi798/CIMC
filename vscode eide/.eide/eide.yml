@@ -114,10 +114,8 @@ virtualFolder:
         - path: ../Function/myflashdb_data.h
         - path: ../Function/myflashdb_log.c
         - path: ../Function/myflashdb_log.h
-        - path: ../Function/app_vars.c
-        - path: ../Function/app_vars.h
-        - path: ../Function/boot_param.c
-        - path: ../Function/boot_param.h
+        - path: ../Function/app_param.c
+        - path: ../Function/app_param.h
         - path: ../Function/msg_app.c
         - path: ../Function/msg_app.h
       folders: []

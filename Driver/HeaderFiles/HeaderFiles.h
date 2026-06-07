@@ -22,8 +22,8 @@
 #include <flashdb.h>
 
 #define BCD2BYTE(val) ((((val) >> 4) * 10) + ((val) & 0x0F))
-/************************* APP VARS *************************/
-#include "app_vars.h"
+/************************* APP PARAM *************************/
+#include "app_param.h"
 /************************* DRIVER *************************/  
 #include "fal.h"
 #include "fal_cfg.h"
@@ -44,7 +44,6 @@
 #include "AD3344.h"
 /***********************DRIVER_END*************************
 ************************Function************************/
-#include "app_vars.h"
 #include "data_process.h"
 #include "pt100.h"
 #include "Function.h"
@@ -53,7 +52,6 @@
 #include "myflashdb_data.h"
 #include "sleep_wake.h"
 #include "msg.h"
-#include "boot_param.h"
 
 /**********************Function_END*********************/
 /****************************End*****************************/
