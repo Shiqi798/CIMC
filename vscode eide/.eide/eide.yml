@@ -118,6 +118,8 @@ virtualFolder:
         - path: ../Function/myflashdb_log.h
         - path: ../Function/app_vars.c
         - path: ../Function/app_vars.h
+        - path: ../Function/boot_param.c
+        - path: ../Function/boot_param.h
       folders: []
     - name: Protocol
       files:

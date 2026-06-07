@@ -97,6 +97,8 @@ virtualFolder:
         - path: ../sysfunction/file_mgr.h
         - path: ../Function/myflash.c
         - path: ../Function/myflash.h
+        - path: ../Function/boot_param.c
+        - path: ../Function/boot_param.h
       folders: []
 dependenceList: []
 outDir: build

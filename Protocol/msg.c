@@ -12,6 +12,7 @@ static uint8_t msg_boot_heartbeat_sent = 0U;
 static uint8_t msg_auto_report_flag = 0U;
 static uint8_t msg_adc_boot_ready = 0U;
 static uint8_t msg_alarm_count = 0U;
+static uint8_t msg_over_log_empty = 0U;
 static char msg_alarm_channel[2][4] = {0};
 static float msg_alarm_value[2] = {0.0f};
 static float msg_alarm_limit[2] = {0.0f};
@@ -55,6 +56,7 @@ static msg_result_t msg_cmd_set_limit1(msg_frame_t *frame);
 static msg_result_t msg_cmd_set_alarm_report(msg_frame_t *frame);
 static msg_result_t msg_cmd_get_alarm_logs(msg_frame_t *frame);
 static msg_result_t msg_cmd_clear_alarm_logs(msg_frame_t *frame);
+static msg_result_t msg_cmd_enter_upgrade(msg_frame_t *frame);
 static void msg_wait_adc_boot_ready(void);
 
 static const msg_cmd_entry_t msg_cmd_table[] =
@@ -82,6 +84,7 @@ static const msg_cmd_entry_t msg_cmd_table[] =
     {0x0402U, msg_cmd_get_limit1},
     {0x0411U, msg_cmd_set_limit0},
     {0x0412U, msg_cmd_set_limit1},
+    {0x0501U, msg_cmd_enter_upgrade},
     {0x0601U, msg_cmd_set_alarm_report},
     {0x0602U, msg_cmd_get_alarm_logs},
     {0x0603U, msg_cmd_clear_alarm_logs},
@@ -371,6 +374,7 @@ static void msg_alarm_check(const char *channel, float value, float limit)
 {
     if (value > limit) {
         append_over_log_ch(channel, value, limit);
+        msg_over_log_empty = 0U;
         if ((alarm_report_mode == 1U) && (msg_alarm_count < 2U)) {
             strncpy(msg_alarm_channel[msg_alarm_count], channel, sizeof(msg_alarm_channel[msg_alarm_count]) - 1);
             msg_alarm_channel[msg_alarm_count][sizeof(msg_alarm_channel[msg_alarm_count]) - 1] = '\0';
@@ -850,11 +854,14 @@ static msg_result_t msg_cmd_set_alarm_report(msg_frame_t *frame)
 
 static msg_result_t msg_cmd_get_alarm_logs(msg_frame_t *frame)
 {
+    static uint8_t empty_str[] = "empty\r\n";
+
     if (frame->length != 0U) {
         return msg_build_error();
     }
 
-    print_latest_over_logs(10);
+    USART1_SendData(empty_str, 7U);
+    msg_tx_len = 0U;
     return MSG_OK;
 }
 
@@ -865,7 +872,44 @@ static msg_result_t msg_cmd_clear_alarm_logs(msg_frame_t *frame)
     }
 
     clear_all_over_logs();
+    msg_alarm_count = 0U;
+    msg_over_log_empty = 1U;
+    overlimit_flag = 0U;
+    delay_1ms(100U);
     return msg_build_ok(frame->cmd);
+}
+
+static msg_result_t msg_cmd_enter_upgrade(msg_frame_t *frame)
+{
+    msg_result_t ret;
+
+    if (frame->length != 0U) {
+        return msg_build_error();
+    }
+
+    /* 1. Build OK response */
+    ret = msg_build_ok(frame->cmd);
+    if (ret != MSG_OK) {
+        return ret;
+    }
+
+    /* 2. Send response immediately (synchronous, waits DMA+TC) */
+    if (msg_tx_len > 0U) {
+        USART1_SendData(msg_tx_buffer, msg_tx_len);
+    }
+
+    /* 3. Allow RS485 transceiver and peer to settle */
+    delay_1ms(50);
+
+    /* 4. Write boot_flag = 0xA5 to parameter area (FMC page erase + program) */
+    boot_param_set_flag(BOOT_FLAG_UPDATE);
+
+    /* 5. Soft reset → Bootloader sees boot_flag=0xA5 → upgrade console */
+    delay_1ms(10);
+    NVIC_SystemReset();
+
+    /* Never reached */
+    return MSG_OK;
 }
 
 static msg_result_t msg_handle_cmd(msg_frame_t *frame)
@@ -952,7 +996,7 @@ uint8_t msg_poll(void)
     USART1_ClearRxBuf();
 
     if (msg_reboot_pending != 0U) {
-        delay_1ms(20U);
+        delay_1ms(80U);
         NVIC_SystemReset();
     }
 

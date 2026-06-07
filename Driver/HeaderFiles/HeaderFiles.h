@@ -54,6 +54,7 @@
 #include "myflashdb_data.h"
 #include "sleep_wake.h"
 #include "msg.h"
+#include "boot_param.h"
 
 /**********************Function_END*********************/
 /****************************End*****************************/

@@ -34,8 +34,8 @@ void ADC_Init(void)
     
     adc_routine_channel_config(ADC0, 0, ADC_CHANNEL_10, ADC_SAMPLETIME_56);   // 配置PC0/ADC_IN10
     adc_routine_channel_config(ADC0, 1, ADC_CHANNEL_11, ADC_SAMPLETIME_56);   // 配置PC1/ADC_IN11
-    adc_oversample_mode_config(ADC0, ADC_OVERSAMPLING_ALL_CONVERT, ADC_OVERSAMPLING_SHIFT_6B, ADC_OVERSAMPLING_RATIO_MUL64);
-    adc_oversample_mode_enable(ADC0);   // 配置并使能过采样模式，64倍采样，移位6位
+    adc_oversample_mode_config(ADC0, ADC_OVERSAMPLING_ALL_CONVERT, ADC_OVERSAMPLING_SHIFT_4B, ADC_OVERSAMPLING_RATIO_MUL16);
+    adc_oversample_mode_enable(ADC0);   // 配置并使能过采样模式，16倍采样，移位4位
     adc_dma_mode_enable(ADC0);          // 使能ADC DMA请求
     adc_dma_request_after_last_enable(ADC0);
     adc_external_trigger_config(ADC0, ADC_ROUTINE_CHANNEL, DISABLE);           // 使用软件触发

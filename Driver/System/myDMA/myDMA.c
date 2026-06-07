@@ -148,6 +148,4 @@ void USART1_DMA_All_Init(void)
     dma_usart_tx_config(DMA0, DMA_CH6, (uint32_t)&USART_DATA(USART1), (uint32_t)usart1_tx_buffer);
     // RX配置
     dma_usart1_rx_config();
-
-    DMA_ADC_Init();
 }
