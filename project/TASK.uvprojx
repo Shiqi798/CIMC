@@ -447,16 +447,6 @@
               <FilePath>..\Driver\HardWare\RTC\RTC.h</FilePath>
             </File>
             <File>
-              <FileName>sdcard.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\Driver\HardWare\SDCARD\sdcard.c</FilePath>
-            </File>
-            <File>
-              <FileName>sdcard.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>..\Driver\HardWare\SDCARD\sdcard.h</FilePath>
-            </File>
-            <File>
               <FileName>SPI_FLASH.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\Driver\HardWare\SPI_FLASH\SPI_FLASH.c</FilePath>

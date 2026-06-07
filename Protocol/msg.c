@@ -1003,17 +1003,16 @@ uint8_t msg_poll(void)
     if (msg_sleep_pending != 0U) {
         msg_sleep_pending = 0U;
         delay_1ms(20U);
-        OLED_Printf(0, 0, 16, "Sleep Mode   ");
-        OLED_Refresh();
+        oled_idle_refresh_flag = 1;
+        oled_idle_refresh();
         RTC_SetWakeup(10U);
         pmu_flag_clear(PMU_FLAG_RESET_WAKEUP);
         pmu_to_deepsleepmode(PMU_LDO_LOWPOWER, PMU_LOWDRIVER_ENABLE, WFI_CMD);
         SystemInit();
         USART1_Init();
         printf("instrument wakeup\r\n");
-        OLED_Printf(0, 0, 16, "wake up ok    ");
-        OLED_Refresh();
-        oled_idle_time = 2000;
+        oled_idle_refresh_flag = 1;
+        oled_idle_refresh();
     }
     return 1U;
 }
