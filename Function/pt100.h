@@ -37,7 +37,7 @@
 
 #define PT100_VOLT_TO_RES_K    789.62198f
 #define PT100_VOLT_TO_RES_B    0.15362f
-#define PT100_RES_SNAP_OHM     0.12f
+#define PT100_RES_SNAP_OHM     0.3f
 
 typedef struct {
     float resistance;

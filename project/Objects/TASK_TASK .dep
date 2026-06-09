@@ -41,8 +41,8 @@ I (..\Driver\Library\GD32F4xx_standard_peripheral\Include\gd32f4xx_ipa.h)(0x65A7
 I (..\Driver\Library\GD32F4xx_standard_peripheral\Include\gd32f4xx_tli.h)(0x65A7AAB6)
 I (..\User\systick.h)(0x61ADC344)
 I (..\Driver\HardWare\SDCARD\sdcard.h)(0x6985E489)
-F (..\User\main.c)(0x6A268096)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Driver\HardWare\KEY -I ..\Driver\HardWare\LED -I ..\Driver\HardWare\OLED -I ..\Driver\HardWare\RTC -I ..\Driver\HardWare\SDCARD -I ..\Driver\HardWare\SPI_FLASH -I ..\Driver\HardWare\USART -I ..\Driver\HeaderFiles -I ..\Driver\Library -I ..\Driver\Start\CMSIS -I ..\Driver\Start\Startup -I ..\Driver\System\ADC -I ..\Driver\System\AD3344 -I ..\Driver\System\TIM6 -I ..\User -I ..\Driver\Library\GD32F4xx_standard_peripheral\Include -I ..\Driver\Library\GD32F4xx_standard_peripheral\Source -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Include -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Source -I ..\Function -I ..\Protocol -I ..\Driver\Fatfs -I ..\Driver\System\myDMA -I ..\Driver\FlashDB\fal -I ..\Driver\FlashDB\flashdb -I ..\Driver\FlashDB -I ..\Driver\HardWare\sleep_wake -I ..\Driver\System\DAC-I.\RTE\_TASK_-I"D:\AsusMCenterDownload\keil5 MDK\pack\GigaDevice\GD32F4xx_DFP\3.4.0\Device\F4XX\Include"-I"D:\AsusMCenterDownload\keil5 MDK\core\ARM\CMSIS\Include"-D__UVISION_VERSION="524" -D_RTE_ -DGD32F470 -DUSE_STDPERIPH_DRIVER -DGD32F470-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
-I (..\Driver\HeaderFiles\HeaderFiles.h)(0x6A268095)
+F (..\User\main.c)(0x6A269733)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Driver\HardWare\KEY -I ..\Driver\HardWare\LED -I ..\Driver\HardWare\OLED -I ..\Driver\HardWare\RTC -I ..\Driver\HardWare\SDCARD -I ..\Driver\HardWare\SPI_FLASH -I ..\Driver\HardWare\USART -I ..\Driver\HeaderFiles -I ..\Driver\Library -I ..\Driver\Start\CMSIS -I ..\Driver\Start\Startup -I ..\Driver\System\ADC -I ..\Driver\System\AD3344 -I ..\Driver\System\TIM6 -I ..\User -I ..\Driver\Library\GD32F4xx_standard_peripheral\Include -I ..\Driver\Library\GD32F4xx_standard_peripheral\Source -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Include -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Source -I ..\Function -I ..\Protocol -I ..\Driver\Fatfs -I ..\Driver\System\myDMA -I ..\Driver\FlashDB\fal -I ..\Driver\FlashDB\flashdb -I ..\Driver\FlashDB -I ..\Driver\HardWare\sleep_wake -I ..\Driver\System\DAC-I.\RTE\_TASK_-I"D:\AsusMCenterDownload\keil5 MDK\pack\GigaDevice\GD32F4xx_DFP\3.4.0\Device\F4XX\Include"-I"D:\AsusMCenterDownload\keil5 MDK\core\ARM\CMSIS\Include"-D__UVISION_VERSION="524" -D_RTE_ -DGD32F470 -DUSE_STDPERIPH_DRIVER -DGD32F470-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
+I (..\Driver\HeaderFiles\HeaderFiles.h)(0x6A269733)
 I (..\Driver\Start\CMSIS\GD\GD32F4xx\Include\gd32f4xx.h)(0x67D920AE)
 I (..\Driver\Start\CMSIS\core_cm4.h)(0x65A7AAB6)
 I (D:\AsusMCenterDownload\keil5 MDK\core\ARM\ARMCC\include\stdint.h)(0x588B8344)
@@ -97,14 +97,14 @@ I (..\Driver\FlashDB\fal\rtconfig.h)(0x6A04757C)
 I (..\Driver\FlashDB\fal/fal_cfg.h)(0x6A0DAD56)
 I (..\Driver\FlashDB\fal/fal_def.h)(0x6A047733)
 I (..\Driver\FlashDB\flashdb\fdb_def.h)(0x6A0AD9F3)
-I (..\Function\app_param.h)(0x6A268096)
+I (..\Function\app_param.h)(0x6A269733)
 I (..\Driver\HardWare\OLED\OLED.h)(0x6988BAB9)
 I (..\Driver\System\DAC\DAC.h)(0x6A020191)
 I (..\Driver\HardWare\USART\USART.h)(0x6A215EC9)
 I (..\Driver\HardWare\RTC\RTC.h)(0x6A086EC3)
 I (..\Driver\HardWare\SPI_FLASH\SPI_FLASH.h)(0x6A055861)
 I (..\Driver\HardWare\SDCARD\sdcard.h)(0x6985E489)
-I (..\Driver\System\ADC\ADC.h)(0x6A268095)
+I (..\Driver\System\ADC\ADC.h)(0x6A269733)
 I (..\Driver\System\AD3344\AD3344.h)(0x6A1D9CA5)
 I (..\Driver\System\TIM6\tim6_functimer.h)(0x6A040AF2)
 I (..\Driver\HardWare\LED\LED.h)(0x69864771)
@@ -113,14 +113,14 @@ I (..\Driver\Fatfs\integer.h)(0x4BD31212)
 I (..\Driver\Fatfs\ffconf.h)(0x698C904D)
 I (..\Driver\Fatfs\diskio.h)(0x4D21CB12)
 I (..\Driver\HardWare\KEY\Key.h)(0x6A041558)
-I (..\Driver\System\myDMA\myDMA.h)(0x6A268095)
-I (..\Function\data_process.h)(0x6A268096)
-I (..\Function\pt100.h)(0x6A268096)
-I (..\Function\Function.h)(0x6A268095)
-I (..\Function\myflashdb_log.h)(0x6A268096)
-I (..\Function\myflashdb_data.h)(0x6A268096)
+I (..\Driver\System\myDMA\myDMA.h)(0x6A269733)
+I (..\Function\data_process.h)(0x6A269733)
+I (..\Function\pt100.h)(0x6A269838)
+I (..\Function\Function.h)(0x6A269733)
+I (..\Function\myflashdb_log.h)(0x6A269733)
+I (..\Function\myflashdb_data.h)(0x6A269733)
 I (..\Driver\HardWare\sleep_wake\sleep_wake.h)(0x6A1D190B)
-I (..\Protocol\msg.h)(0x6A268096)
+I (..\Protocol\msg.h)(0x6A269733)
 F (..\User\systick.c)(0x6A0DAFF6)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Driver\HardWare\KEY -I ..\Driver\HardWare\LED -I ..\Driver\HardWare\OLED -I ..\Driver\HardWare\RTC -I ..\Driver\HardWare\SDCARD -I ..\Driver\HardWare\SPI_FLASH -I ..\Driver\HardWare\USART -I ..\Driver\HeaderFiles -I ..\Driver\Library -I ..\Driver\Start\CMSIS -I ..\Driver\Start\Startup -I ..\Driver\System\ADC -I ..\Driver\System\AD3344 -I ..\Driver\System\TIM6 -I ..\User -I ..\Driver\Library\GD32F4xx_standard_peripheral\Include -I ..\Driver\Library\GD32F4xx_standard_peripheral\Source -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Include -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Source -I ..\Function -I ..\Protocol -I ..\Driver\Fatfs -I ..\Driver\System\myDMA -I ..\Driver\FlashDB\fal -I ..\Driver\FlashDB\flashdb -I ..\Driver\FlashDB -I ..\Driver\HardWare\sleep_wake -I ..\Driver\System\DAC-I.\RTE\_TASK_-I"D:\AsusMCenterDownload\keil5 MDK\pack\GigaDevice\GD32F4xx_DFP\3.4.0\Device\F4XX\Include"-I"D:\AsusMCenterDownload\keil5 MDK\core\ARM\CMSIS\Include"-D__UVISION_VERSION="524" -D_RTE_ -DGD32F470 -DUSE_STDPERIPH_DRIVER -DGD32F470-o .\objects\systick.o --omf_browse .\objects\systick.crf --depend .\objects\systick.d)
 I (..\Driver\Start\CMSIS\GD\GD32F4xx\Include\gd32f4xx.h)(0x67D920AE)
 I (..\Driver\Start\CMSIS\core_cm4.h)(0x65A7AAB6)
@@ -163,7 +163,7 @@ I (..\Driver\Library\GD32F4xx_standard_peripheral\Include\gd32f4xx_tli.h)(0x65A7
 I (..\User\systick.h)(0x61ADC344)
 F (..\Driver\HardWare\KEY\Key.c)(0x6A1C2269)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Driver\HardWare\KEY -I ..\Driver\HardWare\LED -I ..\Driver\HardWare\OLED -I ..\Driver\HardWare\RTC -I ..\Driver\HardWare\SDCARD -I ..\Driver\HardWare\SPI_FLASH -I ..\Driver\HardWare\USART -I ..\Driver\HeaderFiles -I ..\Driver\Library -I ..\Driver\Start\CMSIS -I ..\Driver\Start\Startup -I ..\Driver\System\ADC -I ..\Driver\System\AD3344 -I ..\Driver\System\TIM6 -I ..\User -I ..\Driver\Library\GD32F4xx_standard_peripheral\Include -I ..\Driver\Library\GD32F4xx_standard_peripheral\Source -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Include -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Source -I ..\Function -I ..\Protocol -I ..\Driver\Fatfs -I ..\Driver\System\myDMA -I ..\Driver\FlashDB\fal -I ..\Driver\FlashDB\flashdb -I ..\Driver\FlashDB -I ..\Driver\HardWare\sleep_wake -I ..\Driver\System\DAC-I.\RTE\_TASK_-I"D:\AsusMCenterDownload\keil5 MDK\pack\GigaDevice\GD32F4xx_DFP\3.4.0\Device\F4XX\Include"-I"D:\AsusMCenterDownload\keil5 MDK\core\ARM\CMSIS\Include"-D__UVISION_VERSION="524" -D_RTE_ -DGD32F470 -DUSE_STDPERIPH_DRIVER -DGD32F470-o .\objects\key.o --omf_browse .\objects\key.crf --depend .\objects\key.d)
 I (..\Driver\HardWare\KEY\Key.h)(0x6A041558)
-I (..\Driver\HeaderFiles\HeaderFiles.h)(0x6A268095)
+I (..\Driver\HeaderFiles\HeaderFiles.h)(0x6A269733)
 I (..\Driver\Start\CMSIS\GD\GD32F4xx\Include\gd32f4xx.h)(0x67D920AE)
 I (..\Driver\Start\CMSIS\core_cm4.h)(0x65A7AAB6)
 I (D:\AsusMCenterDownload\keil5 MDK\core\ARM\ARMCC\include\stdint.h)(0x588B8344)
@@ -218,14 +218,14 @@ I (..\Driver\FlashDB\fal\rtconfig.h)(0x6A04757C)
 I (..\Driver\FlashDB\fal/fal_cfg.h)(0x6A0DAD56)
 I (..\Driver\FlashDB\fal/fal_def.h)(0x6A047733)
 I (..\Driver\FlashDB\flashdb\fdb_def.h)(0x6A0AD9F3)
-I (..\Function\app_param.h)(0x6A268096)
+I (..\Function\app_param.h)(0x6A269733)
 I (..\Driver\HardWare\OLED\OLED.h)(0x6988BAB9)
 I (..\Driver\System\DAC\DAC.h)(0x6A020191)
 I (..\Driver\HardWare\USART\USART.h)(0x6A215EC9)
 I (..\Driver\HardWare\RTC\RTC.h)(0x6A086EC3)
 I (..\Driver\HardWare\SPI_FLASH\SPI_FLASH.h)(0x6A055861)
 I (..\Driver\HardWare\SDCARD\sdcard.h)(0x6985E489)
-I (..\Driver\System\ADC\ADC.h)(0x6A268095)
+I (..\Driver\System\ADC\ADC.h)(0x6A269733)
 I (..\Driver\System\AD3344\AD3344.h)(0x6A1D9CA5)
 I (..\Driver\System\TIM6\tim6_functimer.h)(0x6A040AF2)
 I (..\Driver\HardWare\LED\LED.h)(0x69864771)
@@ -233,17 +233,17 @@ I (..\Driver\Fatfs\ff.h)(0x698EC021)
 I (..\Driver\Fatfs\integer.h)(0x4BD31212)
 I (..\Driver\Fatfs\ffconf.h)(0x698C904D)
 I (..\Driver\Fatfs\diskio.h)(0x4D21CB12)
-I (..\Driver\System\myDMA\myDMA.h)(0x6A268095)
-I (..\Function\data_process.h)(0x6A268096)
-I (..\Function\pt100.h)(0x6A268096)
-I (..\Function\Function.h)(0x6A268095)
-I (..\Function\myflashdb_log.h)(0x6A268096)
-I (..\Function\myflashdb_data.h)(0x6A268096)
+I (..\Driver\System\myDMA\myDMA.h)(0x6A269733)
+I (..\Function\data_process.h)(0x6A269733)
+I (..\Function\pt100.h)(0x6A269838)
+I (..\Function\Function.h)(0x6A269733)
+I (..\Function\myflashdb_log.h)(0x6A269733)
+I (..\Function\myflashdb_data.h)(0x6A269733)
 I (..\Driver\HardWare\sleep_wake\sleep_wake.h)(0x6A1D190B)
-I (..\Protocol\msg.h)(0x6A268096)
+I (..\Protocol\msg.h)(0x6A269733)
 F (..\Driver\HardWare\KEY\Key.h)(0x6A041558)()
-F (..\Driver\HardWare\LED\LED.c)(0x6A268095)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Driver\HardWare\KEY -I ..\Driver\HardWare\LED -I ..\Driver\HardWare\OLED -I ..\Driver\HardWare\RTC -I ..\Driver\HardWare\SDCARD -I ..\Driver\HardWare\SPI_FLASH -I ..\Driver\HardWare\USART -I ..\Driver\HeaderFiles -I ..\Driver\Library -I ..\Driver\Start\CMSIS -I ..\Driver\Start\Startup -I ..\Driver\System\ADC -I ..\Driver\System\AD3344 -I ..\Driver\System\TIM6 -I ..\User -I ..\Driver\Library\GD32F4xx_standard_peripheral\Include -I ..\Driver\Library\GD32F4xx_standard_peripheral\Source -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Include -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Source -I ..\Function -I ..\Protocol -I ..\Driver\Fatfs -I ..\Driver\System\myDMA -I ..\Driver\FlashDB\fal -I ..\Driver\FlashDB\flashdb -I ..\Driver\FlashDB -I ..\Driver\HardWare\sleep_wake -I ..\Driver\System\DAC-I.\RTE\_TASK_-I"D:\AsusMCenterDownload\keil5 MDK\pack\GigaDevice\GD32F4xx_DFP\3.4.0\Device\F4XX\Include"-I"D:\AsusMCenterDownload\keil5 MDK\core\ARM\CMSIS\Include"-D__UVISION_VERSION="524" -D_RTE_ -DGD32F470 -DUSE_STDPERIPH_DRIVER -DGD32F470-o .\objects\led.o --omf_browse .\objects\led.crf --depend .\objects\led.d)
-I (..\Driver\HeaderFiles\HeaderFiles.h)(0x6A268095)
+F (..\Driver\HardWare\LED\LED.c)(0x6A269733)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Driver\HardWare\KEY -I ..\Driver\HardWare\LED -I ..\Driver\HardWare\OLED -I ..\Driver\HardWare\RTC -I ..\Driver\HardWare\SDCARD -I ..\Driver\HardWare\SPI_FLASH -I ..\Driver\HardWare\USART -I ..\Driver\HeaderFiles -I ..\Driver\Library -I ..\Driver\Start\CMSIS -I ..\Driver\Start\Startup -I ..\Driver\System\ADC -I ..\Driver\System\AD3344 -I ..\Driver\System\TIM6 -I ..\User -I ..\Driver\Library\GD32F4xx_standard_peripheral\Include -I ..\Driver\Library\GD32F4xx_standard_peripheral\Source -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Include -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Source -I ..\Function -I ..\Protocol -I ..\Driver\Fatfs -I ..\Driver\System\myDMA -I ..\Driver\FlashDB\fal -I ..\Driver\FlashDB\flashdb -I ..\Driver\FlashDB -I ..\Driver\HardWare\sleep_wake -I ..\Driver\System\DAC-I.\RTE\_TASK_-I"D:\AsusMCenterDownload\keil5 MDK\pack\GigaDevice\GD32F4xx_DFP\3.4.0\Device\F4XX\Include"-I"D:\AsusMCenterDownload\keil5 MDK\core\ARM\CMSIS\Include"-D__UVISION_VERSION="524" -D_RTE_ -DGD32F470 -DUSE_STDPERIPH_DRIVER -DGD32F470-o .\objects\led.o --omf_browse .\objects\led.crf --depend .\objects\led.d)
+I (..\Driver\HeaderFiles\HeaderFiles.h)(0x6A269733)
 I (..\Driver\Start\CMSIS\GD\GD32F4xx\Include\gd32f4xx.h)(0x67D920AE)
 I (..\Driver\Start\CMSIS\core_cm4.h)(0x65A7AAB6)
 I (D:\AsusMCenterDownload\keil5 MDK\core\ARM\ARMCC\include\stdint.h)(0x588B8344)
@@ -298,14 +298,14 @@ I (..\Driver\FlashDB\fal\rtconfig.h)(0x6A04757C)
 I (..\Driver\FlashDB\fal/fal_cfg.h)(0x6A0DAD56)
 I (..\Driver\FlashDB\fal/fal_def.h)(0x6A047733)
 I (..\Driver\FlashDB\flashdb\fdb_def.h)(0x6A0AD9F3)
-I (..\Function\app_param.h)(0x6A268096)
+I (..\Function\app_param.h)(0x6A269733)
 I (..\Driver\HardWare\OLED\OLED.h)(0x6988BAB9)
 I (..\Driver\System\DAC\DAC.h)(0x6A020191)
 I (..\Driver\HardWare\USART\USART.h)(0x6A215EC9)
 I (..\Driver\HardWare\RTC\RTC.h)(0x6A086EC3)
 I (..\Driver\HardWare\SPI_FLASH\SPI_FLASH.h)(0x6A055861)
 I (..\Driver\HardWare\SDCARD\sdcard.h)(0x6985E489)
-I (..\Driver\System\ADC\ADC.h)(0x6A268095)
+I (..\Driver\System\ADC\ADC.h)(0x6A269733)
 I (..\Driver\System\AD3344\AD3344.h)(0x6A1D9CA5)
 I (..\Driver\System\TIM6\tim6_functimer.h)(0x6A040AF2)
 I (..\Driver\HardWare\LED\LED.h)(0x69864771)
@@ -314,18 +314,18 @@ I (..\Driver\Fatfs\integer.h)(0x4BD31212)
 I (..\Driver\Fatfs\ffconf.h)(0x698C904D)
 I (..\Driver\Fatfs\diskio.h)(0x4D21CB12)
 I (..\Driver\HardWare\KEY\Key.h)(0x6A041558)
-I (..\Driver\System\myDMA\myDMA.h)(0x6A268095)
-I (..\Function\data_process.h)(0x6A268096)
-I (..\Function\pt100.h)(0x6A268096)
-I (..\Function\Function.h)(0x6A268095)
-I (..\Function\myflashdb_log.h)(0x6A268096)
-I (..\Function\myflashdb_data.h)(0x6A268096)
+I (..\Driver\System\myDMA\myDMA.h)(0x6A269733)
+I (..\Function\data_process.h)(0x6A269733)
+I (..\Function\pt100.h)(0x6A269838)
+I (..\Function\Function.h)(0x6A269733)
+I (..\Function\myflashdb_log.h)(0x6A269733)
+I (..\Function\myflashdb_data.h)(0x6A269733)
 I (..\Driver\HardWare\sleep_wake\sleep_wake.h)(0x6A1D190B)
-I (..\Protocol\msg.h)(0x6A268096)
+I (..\Protocol\msg.h)(0x6A269733)
 F (..\Driver\HardWare\LED\LED.h)(0x69864771)()
 F (..\Driver\HardWare\OLED\OLED.c)(0x69FE249F)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Driver\HardWare\KEY -I ..\Driver\HardWare\LED -I ..\Driver\HardWare\OLED -I ..\Driver\HardWare\RTC -I ..\Driver\HardWare\SDCARD -I ..\Driver\HardWare\SPI_FLASH -I ..\Driver\HardWare\USART -I ..\Driver\HeaderFiles -I ..\Driver\Library -I ..\Driver\Start\CMSIS -I ..\Driver\Start\Startup -I ..\Driver\System\ADC -I ..\Driver\System\AD3344 -I ..\Driver\System\TIM6 -I ..\User -I ..\Driver\Library\GD32F4xx_standard_peripheral\Include -I ..\Driver\Library\GD32F4xx_standard_peripheral\Source -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Include -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Source -I ..\Function -I ..\Protocol -I ..\Driver\Fatfs -I ..\Driver\System\myDMA -I ..\Driver\FlashDB\fal -I ..\Driver\FlashDB\flashdb -I ..\Driver\FlashDB -I ..\Driver\HardWare\sleep_wake -I ..\Driver\System\DAC-I.\RTE\_TASK_-I"D:\AsusMCenterDownload\keil5 MDK\pack\GigaDevice\GD32F4xx_DFP\3.4.0\Device\F4XX\Include"-I"D:\AsusMCenterDownload\keil5 MDK\core\ARM\CMSIS\Include"-D__UVISION_VERSION="524" -D_RTE_ -DGD32F470 -DUSE_STDPERIPH_DRIVER -DGD32F470-o .\objects\oled.o --omf_browse .\objects\oled.crf --depend .\objects\oled.d)
 I (..\Driver\HardWare\OLED\oled.h)(0x6988BAB9)
-I (..\Driver\HeaderFiles\HeaderFiles.h)(0x6A268095)
+I (..\Driver\HeaderFiles\HeaderFiles.h)(0x6A269733)
 I (..\Driver\Start\CMSIS\GD\GD32F4xx\Include\gd32f4xx.h)(0x67D920AE)
 I (..\Driver\Start\CMSIS\core_cm4.h)(0x65A7AAB6)
 I (D:\AsusMCenterDownload\keil5 MDK\core\ARM\ARMCC\include\stdint.h)(0x588B8344)
@@ -380,13 +380,13 @@ I (..\Driver\FlashDB\fal\rtconfig.h)(0x6A04757C)
 I (..\Driver\FlashDB\fal/fal_cfg.h)(0x6A0DAD56)
 I (..\Driver\FlashDB\fal/fal_def.h)(0x6A047733)
 I (..\Driver\FlashDB\flashdb\fdb_def.h)(0x6A0AD9F3)
-I (..\Function\app_param.h)(0x6A268096)
+I (..\Function\app_param.h)(0x6A269733)
 I (..\Driver\System\DAC\DAC.h)(0x6A020191)
 I (..\Driver\HardWare\USART\USART.h)(0x6A215EC9)
 I (..\Driver\HardWare\RTC\RTC.h)(0x6A086EC3)
 I (..\Driver\HardWare\SPI_FLASH\SPI_FLASH.h)(0x6A055861)
 I (..\Driver\HardWare\SDCARD\sdcard.h)(0x6985E489)
-I (..\Driver\System\ADC\ADC.h)(0x6A268095)
+I (..\Driver\System\ADC\ADC.h)(0x6A269733)
 I (..\Driver\System\AD3344\AD3344.h)(0x6A1D9CA5)
 I (..\Driver\System\TIM6\tim6_functimer.h)(0x6A040AF2)
 I (..\Driver\HardWare\LED\LED.h)(0x69864771)
@@ -395,20 +395,20 @@ I (..\Driver\Fatfs\integer.h)(0x4BD31212)
 I (..\Driver\Fatfs\ffconf.h)(0x698C904D)
 I (..\Driver\Fatfs\diskio.h)(0x4D21CB12)
 I (..\Driver\HardWare\KEY\Key.h)(0x6A041558)
-I (..\Driver\System\myDMA\myDMA.h)(0x6A268095)
-I (..\Function\data_process.h)(0x6A268096)
-I (..\Function\pt100.h)(0x6A268096)
-I (..\Function\Function.h)(0x6A268095)
-I (..\Function\myflashdb_log.h)(0x6A268096)
-I (..\Function\myflashdb_data.h)(0x6A268096)
+I (..\Driver\System\myDMA\myDMA.h)(0x6A269733)
+I (..\Function\data_process.h)(0x6A269733)
+I (..\Function\pt100.h)(0x6A269838)
+I (..\Function\Function.h)(0x6A269733)
+I (..\Function\myflashdb_log.h)(0x6A269733)
+I (..\Function\myflashdb_data.h)(0x6A269733)
 I (..\Driver\HardWare\sleep_wake\sleep_wake.h)(0x6A1D190B)
-I (..\Protocol\msg.h)(0x6A268096)
-I (..\Driver\HardWare\OLED\oledfont.h)(0x6A268095)
+I (..\Protocol\msg.h)(0x6A269733)
+I (..\Driver\HardWare\OLED\oledfont.h)(0x6A269733)
 F (..\Driver\HardWare\OLED\OLED.h)(0x6988BAB9)()
-F (..\Driver\HardWare\OLED\OLEDfont.h)(0x6A268095)()
+F (..\Driver\HardWare\OLED\OLEDfont.h)(0x6A269733)()
 F (..\Driver\HardWare\RTC\RTC.c)(0x6A0DAFF6)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Driver\HardWare\KEY -I ..\Driver\HardWare\LED -I ..\Driver\HardWare\OLED -I ..\Driver\HardWare\RTC -I ..\Driver\HardWare\SDCARD -I ..\Driver\HardWare\SPI_FLASH -I ..\Driver\HardWare\USART -I ..\Driver\HeaderFiles -I ..\Driver\Library -I ..\Driver\Start\CMSIS -I ..\Driver\Start\Startup -I ..\Driver\System\ADC -I ..\Driver\System\AD3344 -I ..\Driver\System\TIM6 -I ..\User -I ..\Driver\Library\GD32F4xx_standard_peripheral\Include -I ..\Driver\Library\GD32F4xx_standard_peripheral\Source -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Include -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Source -I ..\Function -I ..\Protocol -I ..\Driver\Fatfs -I ..\Driver\System\myDMA -I ..\Driver\FlashDB\fal -I ..\Driver\FlashDB\flashdb -I ..\Driver\FlashDB -I ..\Driver\HardWare\sleep_wake -I ..\Driver\System\DAC-I.\RTE\_TASK_-I"D:\AsusMCenterDownload\keil5 MDK\pack\GigaDevice\GD32F4xx_DFP\3.4.0\Device\F4XX\Include"-I"D:\AsusMCenterDownload\keil5 MDK\core\ARM\CMSIS\Include"-D__UVISION_VERSION="524" -D_RTE_ -DGD32F470 -DUSE_STDPERIPH_DRIVER -DGD32F470-o .\objects\rtc.o --omf_browse .\objects\rtc.crf --depend .\objects\rtc.d)
 I (..\Driver\HardWare\RTC\RTC.h)(0x6A086EC3)
-I (..\Driver\HeaderFiles\HeaderFiles.h)(0x6A268095)
+I (..\Driver\HeaderFiles\HeaderFiles.h)(0x6A269733)
 I (..\Driver\Start\CMSIS\GD\GD32F4xx\Include\gd32f4xx.h)(0x67D920AE)
 I (..\Driver\Start\CMSIS\core_cm4.h)(0x65A7AAB6)
 I (D:\AsusMCenterDownload\keil5 MDK\core\ARM\ARMCC\include\stdint.h)(0x588B8344)
@@ -463,13 +463,13 @@ I (..\Driver\FlashDB\fal\rtconfig.h)(0x6A04757C)
 I (..\Driver\FlashDB\fal/fal_cfg.h)(0x6A0DAD56)
 I (..\Driver\FlashDB\fal/fal_def.h)(0x6A047733)
 I (..\Driver\FlashDB\flashdb\fdb_def.h)(0x6A0AD9F3)
-I (..\Function\app_param.h)(0x6A268096)
+I (..\Function\app_param.h)(0x6A269733)
 I (..\Driver\HardWare\OLED\OLED.h)(0x6988BAB9)
 I (..\Driver\System\DAC\DAC.h)(0x6A020191)
 I (..\Driver\HardWare\USART\USART.h)(0x6A215EC9)
 I (..\Driver\HardWare\SPI_FLASH\SPI_FLASH.h)(0x6A055861)
 I (..\Driver\HardWare\SDCARD\sdcard.h)(0x6985E489)
-I (..\Driver\System\ADC\ADC.h)(0x6A268095)
+I (..\Driver\System\ADC\ADC.h)(0x6A269733)
 I (..\Driver\System\AD3344\AD3344.h)(0x6A1D9CA5)
 I (..\Driver\System\TIM6\tim6_functimer.h)(0x6A040AF2)
 I (..\Driver\HardWare\LED\LED.h)(0x69864771)
@@ -478,14 +478,14 @@ I (..\Driver\Fatfs\integer.h)(0x4BD31212)
 I (..\Driver\Fatfs\ffconf.h)(0x698C904D)
 I (..\Driver\Fatfs\diskio.h)(0x4D21CB12)
 I (..\Driver\HardWare\KEY\Key.h)(0x6A041558)
-I (..\Driver\System\myDMA\myDMA.h)(0x6A268095)
-I (..\Function\data_process.h)(0x6A268096)
-I (..\Function\pt100.h)(0x6A268096)
-I (..\Function\Function.h)(0x6A268095)
-I (..\Function\myflashdb_log.h)(0x6A268096)
-I (..\Function\myflashdb_data.h)(0x6A268096)
+I (..\Driver\System\myDMA\myDMA.h)(0x6A269733)
+I (..\Function\data_process.h)(0x6A269733)
+I (..\Function\pt100.h)(0x6A269838)
+I (..\Function\Function.h)(0x6A269733)
+I (..\Function\myflashdb_log.h)(0x6A269733)
+I (..\Function\myflashdb_data.h)(0x6A269733)
 I (..\Driver\HardWare\sleep_wake\sleep_wake.h)(0x6A1D190B)
-I (..\Protocol\msg.h)(0x6A268096)
+I (..\Protocol\msg.h)(0x6A269733)
 F (..\Driver\HardWare\RTC\RTC.h)(0x6A086EC3)()
 F (..\Driver\HardWare\SDCARD\sdcard.c)(0x698C97FF)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Driver\HardWare\KEY -I ..\Driver\HardWare\LED -I ..\Driver\HardWare\OLED -I ..\Driver\HardWare\RTC -I ..\Driver\HardWare\SDCARD -I ..\Driver\HardWare\SPI_FLASH -I ..\Driver\HardWare\USART -I ..\Driver\HeaderFiles -I ..\Driver\Library -I ..\Driver\Start\CMSIS -I ..\Driver\Start\Startup -I ..\Driver\System\ADC -I ..\Driver\System\AD3344 -I ..\Driver\System\TIM6 -I ..\User -I ..\Driver\Library\GD32F4xx_standard_peripheral\Include -I ..\Driver\Library\GD32F4xx_standard_peripheral\Source -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Include -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Source -I ..\Function -I ..\Protocol -I ..\Driver\Fatfs -I ..\Driver\System\myDMA -I ..\Driver\FlashDB\fal -I ..\Driver\FlashDB\flashdb -I ..\Driver\FlashDB -I ..\Driver\HardWare\sleep_wake -I ..\Driver\System\DAC-I.\RTE\_TASK_-I"D:\AsusMCenterDownload\keil5 MDK\pack\GigaDevice\GD32F4xx_DFP\3.4.0\Device\F4XX\Include"-I"D:\AsusMCenterDownload\keil5 MDK\core\ARM\CMSIS\Include"-D__UVISION_VERSION="524" -D_RTE_ -DGD32F470 -DUSE_STDPERIPH_DRIVER -DGD32F470-o .\objects\sdcard.o --omf_browse .\objects\sdcard.crf --depend .\objects\sdcard.d)
 I (..\Driver\HardWare\SDCARD\sdcard.h)(0x6985E489)
@@ -531,7 +531,7 @@ I (D:\AsusMCenterDownload\keil5 MDK\core\ARM\ARMCC\include\stddef.h)(0x588B8344)
 F (..\Driver\HardWare\SDCARD\sdcard.h)(0x6985E489)()
 F (..\Driver\HardWare\SPI_FLASH\SPI_FLASH.c)(0x6A0487C4)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Driver\HardWare\KEY -I ..\Driver\HardWare\LED -I ..\Driver\HardWare\OLED -I ..\Driver\HardWare\RTC -I ..\Driver\HardWare\SDCARD -I ..\Driver\HardWare\SPI_FLASH -I ..\Driver\HardWare\USART -I ..\Driver\HeaderFiles -I ..\Driver\Library -I ..\Driver\Start\CMSIS -I ..\Driver\Start\Startup -I ..\Driver\System\ADC -I ..\Driver\System\AD3344 -I ..\Driver\System\TIM6 -I ..\User -I ..\Driver\Library\GD32F4xx_standard_peripheral\Include -I ..\Driver\Library\GD32F4xx_standard_peripheral\Source -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Include -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Source -I ..\Function -I ..\Protocol -I ..\Driver\Fatfs -I ..\Driver\System\myDMA -I ..\Driver\FlashDB\fal -I ..\Driver\FlashDB\flashdb -I ..\Driver\FlashDB -I ..\Driver\HardWare\sleep_wake -I ..\Driver\System\DAC-I.\RTE\_TASK_-I"D:\AsusMCenterDownload\keil5 MDK\pack\GigaDevice\GD32F4xx_DFP\3.4.0\Device\F4XX\Include"-I"D:\AsusMCenterDownload\keil5 MDK\core\ARM\CMSIS\Include"-D__UVISION_VERSION="524" -D_RTE_ -DGD32F470 -DUSE_STDPERIPH_DRIVER -DGD32F470-o .\objects\spi_flash.o --omf_browse .\objects\spi_flash.crf --depend .\objects\spi_flash.d)
 I (..\Driver\HardWare\SPI_FLASH\SPI_FLASH.h)(0x6A055861)
-I (..\Driver\HeaderFiles\HeaderFiles.h)(0x6A268095)
+I (..\Driver\HeaderFiles\HeaderFiles.h)(0x6A269733)
 I (..\Driver\Start\CMSIS\GD\GD32F4xx\Include\gd32f4xx.h)(0x67D920AE)
 I (..\Driver\Start\CMSIS\core_cm4.h)(0x65A7AAB6)
 I (D:\AsusMCenterDownload\keil5 MDK\core\ARM\ARMCC\include\stdint.h)(0x588B8344)
@@ -586,13 +586,13 @@ I (..\Driver\FlashDB\fal\rtconfig.h)(0x6A04757C)
 I (..\Driver\FlashDB\fal/fal_cfg.h)(0x6A0DAD56)
 I (..\Driver\FlashDB\fal/fal_def.h)(0x6A047733)
 I (..\Driver\FlashDB\flashdb\fdb_def.h)(0x6A0AD9F3)
-I (..\Function\app_param.h)(0x6A268096)
+I (..\Function\app_param.h)(0x6A269733)
 I (..\Driver\HardWare\OLED\OLED.h)(0x6988BAB9)
 I (..\Driver\System\DAC\DAC.h)(0x6A020191)
 I (..\Driver\HardWare\USART\USART.h)(0x6A215EC9)
 I (..\Driver\HardWare\RTC\RTC.h)(0x6A086EC3)
 I (..\Driver\HardWare\SDCARD\sdcard.h)(0x6985E489)
-I (..\Driver\System\ADC\ADC.h)(0x6A268095)
+I (..\Driver\System\ADC\ADC.h)(0x6A269733)
 I (..\Driver\System\AD3344\AD3344.h)(0x6A1D9CA5)
 I (..\Driver\System\TIM6\tim6_functimer.h)(0x6A040AF2)
 I (..\Driver\HardWare\LED\LED.h)(0x69864771)
@@ -601,18 +601,18 @@ I (..\Driver\Fatfs\integer.h)(0x4BD31212)
 I (..\Driver\Fatfs\ffconf.h)(0x698C904D)
 I (..\Driver\Fatfs\diskio.h)(0x4D21CB12)
 I (..\Driver\HardWare\KEY\Key.h)(0x6A041558)
-I (..\Driver\System\myDMA\myDMA.h)(0x6A268095)
-I (..\Function\data_process.h)(0x6A268096)
-I (..\Function\pt100.h)(0x6A268096)
-I (..\Function\Function.h)(0x6A268095)
-I (..\Function\myflashdb_log.h)(0x6A268096)
-I (..\Function\myflashdb_data.h)(0x6A268096)
+I (..\Driver\System\myDMA\myDMA.h)(0x6A269733)
+I (..\Function\data_process.h)(0x6A269733)
+I (..\Function\pt100.h)(0x6A269838)
+I (..\Function\Function.h)(0x6A269733)
+I (..\Function\myflashdb_log.h)(0x6A269733)
+I (..\Function\myflashdb_data.h)(0x6A269733)
 I (..\Driver\HardWare\sleep_wake\sleep_wake.h)(0x6A1D190B)
-I (..\Protocol\msg.h)(0x6A268096)
+I (..\Protocol\msg.h)(0x6A269733)
 F (..\Driver\HardWare\SPI_FLASH\SPI_FLASH.h)(0x6A055861)()
-F (..\Driver\HardWare\USART\USART.c)(0x6A268095)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Driver\HardWare\KEY -I ..\Driver\HardWare\LED -I ..\Driver\HardWare\OLED -I ..\Driver\HardWare\RTC -I ..\Driver\HardWare\SDCARD -I ..\Driver\HardWare\SPI_FLASH -I ..\Driver\HardWare\USART -I ..\Driver\HeaderFiles -I ..\Driver\Library -I ..\Driver\Start\CMSIS -I ..\Driver\Start\Startup -I ..\Driver\System\ADC -I ..\Driver\System\AD3344 -I ..\Driver\System\TIM6 -I ..\User -I ..\Driver\Library\GD32F4xx_standard_peripheral\Include -I ..\Driver\Library\GD32F4xx_standard_peripheral\Source -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Include -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Source -I ..\Function -I ..\Protocol -I ..\Driver\Fatfs -I ..\Driver\System\myDMA -I ..\Driver\FlashDB\fal -I ..\Driver\FlashDB\flashdb -I ..\Driver\FlashDB -I ..\Driver\HardWare\sleep_wake -I ..\Driver\System\DAC-I.\RTE\_TASK_-I"D:\AsusMCenterDownload\keil5 MDK\pack\GigaDevice\GD32F4xx_DFP\3.4.0\Device\F4XX\Include"-I"D:\AsusMCenterDownload\keil5 MDK\core\ARM\CMSIS\Include"-D__UVISION_VERSION="524" -D_RTE_ -DGD32F470 -DUSE_STDPERIPH_DRIVER -DGD32F470-o .\objects\usart.o --omf_browse .\objects\usart.crf --depend .\objects\usart.d)
+F (..\Driver\HardWare\USART\USART.c)(0x6A269733)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Driver\HardWare\KEY -I ..\Driver\HardWare\LED -I ..\Driver\HardWare\OLED -I ..\Driver\HardWare\RTC -I ..\Driver\HardWare\SDCARD -I ..\Driver\HardWare\SPI_FLASH -I ..\Driver\HardWare\USART -I ..\Driver\HeaderFiles -I ..\Driver\Library -I ..\Driver\Start\CMSIS -I ..\Driver\Start\Startup -I ..\Driver\System\ADC -I ..\Driver\System\AD3344 -I ..\Driver\System\TIM6 -I ..\User -I ..\Driver\Library\GD32F4xx_standard_peripheral\Include -I ..\Driver\Library\GD32F4xx_standard_peripheral\Source -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Include -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Source -I ..\Function -I ..\Protocol -I ..\Driver\Fatfs -I ..\Driver\System\myDMA -I ..\Driver\FlashDB\fal -I ..\Driver\FlashDB\flashdb -I ..\Driver\FlashDB -I ..\Driver\HardWare\sleep_wake -I ..\Driver\System\DAC-I.\RTE\_TASK_-I"D:\AsusMCenterDownload\keil5 MDK\pack\GigaDevice\GD32F4xx_DFP\3.4.0\Device\F4XX\Include"-I"D:\AsusMCenterDownload\keil5 MDK\core\ARM\CMSIS\Include"-D__UVISION_VERSION="524" -D_RTE_ -DGD32F470 -DUSE_STDPERIPH_DRIVER -DGD32F470-o .\objects\usart.o --omf_browse .\objects\usart.crf --depend .\objects\usart.d)
 I (..\Driver\HardWare\USART\USART.h)(0x6A215EC9)
-I (..\Driver\HeaderFiles\HeaderFiles.h)(0x6A268095)
+I (..\Driver\HeaderFiles\HeaderFiles.h)(0x6A269733)
 I (..\Driver\Start\CMSIS\GD\GD32F4xx\Include\gd32f4xx.h)(0x67D920AE)
 I (..\Driver\Start\CMSIS\core_cm4.h)(0x65A7AAB6)
 I (D:\AsusMCenterDownload\keil5 MDK\core\ARM\ARMCC\include\stdint.h)(0x588B8344)
@@ -667,13 +667,13 @@ I (..\Driver\FlashDB\fal\rtconfig.h)(0x6A04757C)
 I (..\Driver\FlashDB\fal/fal_cfg.h)(0x6A0DAD56)
 I (..\Driver\FlashDB\fal/fal_def.h)(0x6A047733)
 I (..\Driver\FlashDB\flashdb\fdb_def.h)(0x6A0AD9F3)
-I (..\Function\app_param.h)(0x6A268096)
+I (..\Function\app_param.h)(0x6A269733)
 I (..\Driver\HardWare\OLED\OLED.h)(0x6988BAB9)
 I (..\Driver\System\DAC\DAC.h)(0x6A020191)
 I (..\Driver\HardWare\RTC\RTC.h)(0x6A086EC3)
 I (..\Driver\HardWare\SPI_FLASH\SPI_FLASH.h)(0x6A055861)
 I (..\Driver\HardWare\SDCARD\sdcard.h)(0x6985E489)
-I (..\Driver\System\ADC\ADC.h)(0x6A268095)
+I (..\Driver\System\ADC\ADC.h)(0x6A269733)
 I (..\Driver\System\AD3344\AD3344.h)(0x6A1D9CA5)
 I (..\Driver\System\TIM6\tim6_functimer.h)(0x6A040AF2)
 I (..\Driver\HardWare\LED\LED.h)(0x69864771)
@@ -682,14 +682,14 @@ I (..\Driver\Fatfs\integer.h)(0x4BD31212)
 I (..\Driver\Fatfs\ffconf.h)(0x698C904D)
 I (..\Driver\Fatfs\diskio.h)(0x4D21CB12)
 I (..\Driver\HardWare\KEY\Key.h)(0x6A041558)
-I (..\Driver\System\myDMA\myDMA.h)(0x6A268095)
-I (..\Function\data_process.h)(0x6A268096)
-I (..\Function\pt100.h)(0x6A268096)
-I (..\Function\Function.h)(0x6A268095)
-I (..\Function\myflashdb_log.h)(0x6A268096)
-I (..\Function\myflashdb_data.h)(0x6A268096)
+I (..\Driver\System\myDMA\myDMA.h)(0x6A269733)
+I (..\Function\data_process.h)(0x6A269733)
+I (..\Function\pt100.h)(0x6A269838)
+I (..\Function\Function.h)(0x6A269733)
+I (..\Function\myflashdb_log.h)(0x6A269733)
+I (..\Function\myflashdb_data.h)(0x6A269733)
 I (..\Driver\HardWare\sleep_wake\sleep_wake.h)(0x6A1D190B)
-I (..\Protocol\msg.h)(0x6A268096)
+I (..\Protocol\msg.h)(0x6A269733)
 F (..\Driver\HardWare\USART\USART.h)(0x6A215EC9)()
 F (..\Driver\Fatfs\diskio.c)(0x5C8751B4)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Driver\HardWare\KEY -I ..\Driver\HardWare\LED -I ..\Driver\HardWare\OLED -I ..\Driver\HardWare\RTC -I ..\Driver\HardWare\SDCARD -I ..\Driver\HardWare\SPI_FLASH -I ..\Driver\HardWare\USART -I ..\Driver\HeaderFiles -I ..\Driver\Library -I ..\Driver\Start\CMSIS -I ..\Driver\Start\Startup -I ..\Driver\System\ADC -I ..\Driver\System\AD3344 -I ..\Driver\System\TIM6 -I ..\User -I ..\Driver\Library\GD32F4xx_standard_peripheral\Include -I ..\Driver\Library\GD32F4xx_standard_peripheral\Source -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Include -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Source -I ..\Function -I ..\Protocol -I ..\Driver\Fatfs -I ..\Driver\System\myDMA -I ..\Driver\FlashDB\fal -I ..\Driver\FlashDB\flashdb -I ..\Driver\FlashDB -I ..\Driver\HardWare\sleep_wake -I ..\Driver\System\DAC-I.\RTE\_TASK_-I"D:\AsusMCenterDownload\keil5 MDK\pack\GigaDevice\GD32F4xx_DFP\3.4.0\Device\F4XX\Include"-I"D:\AsusMCenterDownload\keil5 MDK\core\ARM\CMSIS\Include"-D__UVISION_VERSION="524" -D_RTE_ -DGD32F470 -DUSE_STDPERIPH_DRIVER -DGD32F470-o .\objects\diskio.o --omf_browse .\objects\diskio.crf --depend .\objects\diskio.d)
 I (..\Driver\Fatfs\diskio.h)(0x4D21CB12)
@@ -749,7 +749,7 @@ I (D:\AsusMCenterDownload\keil5 MDK\core\ARM\ARMCC\include\stdint.h)(0x588B8344)
 I (D:\AsusMCenterDownload\keil5 MDK\core\ARM\ARMCC\include\string.h)(0x588B8344)
 I (..\Driver\FlashDB\fal/fal_cfg.h)(0x6A0DAD56)
 I (..\Driver\FlashDB\fal/fal_def.h)(0x6A047733)
-I (..\Driver\HeaderFiles\HeaderFiles.h)(0x6A268095)
+I (..\Driver\HeaderFiles\HeaderFiles.h)(0x6A269733)
 I (..\Driver\Start\CMSIS\GD\GD32F4xx\Include\gd32f4xx.h)(0x67D920AE)
 I (..\Driver\Start\CMSIS\core_cm4.h)(0x65A7AAB6)
 I (..\Driver\Start\CMSIS\core_cmInstr.h)(0x65A7AAB6)
@@ -797,14 +797,14 @@ I (..\Driver\FlashDB\flashdb\flashdb.h)(0x6A0480AF)
 I (D:\AsusMCenterDownload\keil5 MDK\core\ARM\ARMCC\include\stddef.h)(0x588B8344)
 I (..\Driver\FlashDB\flashdb\fdb_cfg.h)(0x6A0DAFF6)
 I (..\Driver\FlashDB\flashdb\fdb_def.h)(0x6A0AD9F3)
-I (..\Function\app_param.h)(0x6A268096)
+I (..\Function\app_param.h)(0x6A269733)
 I (..\Driver\HardWare\OLED\OLED.h)(0x6988BAB9)
 I (..\Driver\System\DAC\DAC.h)(0x6A020191)
 I (..\Driver\HardWare\USART\USART.h)(0x6A215EC9)
 I (..\Driver\HardWare\RTC\RTC.h)(0x6A086EC3)
 I (..\Driver\HardWare\SPI_FLASH\SPI_FLASH.h)(0x6A055861)
 I (..\Driver\HardWare\SDCARD\sdcard.h)(0x6985E489)
-I (..\Driver\System\ADC\ADC.h)(0x6A268095)
+I (..\Driver\System\ADC\ADC.h)(0x6A269733)
 I (..\Driver\System\AD3344\AD3344.h)(0x6A1D9CA5)
 I (..\Driver\System\TIM6\tim6_functimer.h)(0x6A040AF2)
 I (..\Driver\HardWare\LED\LED.h)(0x69864771)
@@ -813,14 +813,14 @@ I (..\Driver\Fatfs\integer.h)(0x4BD31212)
 I (..\Driver\Fatfs\ffconf.h)(0x698C904D)
 I (..\Driver\Fatfs\diskio.h)(0x4D21CB12)
 I (..\Driver\HardWare\KEY\Key.h)(0x6A041558)
-I (..\Driver\System\myDMA\myDMA.h)(0x6A268095)
-I (..\Function\data_process.h)(0x6A268096)
-I (..\Function\pt100.h)(0x6A268096)
-I (..\Function\Function.h)(0x6A268095)
-I (..\Function\myflashdb_log.h)(0x6A268096)
-I (..\Function\myflashdb_data.h)(0x6A268096)
+I (..\Driver\System\myDMA\myDMA.h)(0x6A269733)
+I (..\Function\data_process.h)(0x6A269733)
+I (..\Function\pt100.h)(0x6A269838)
+I (..\Function\Function.h)(0x6A269733)
+I (..\Function\myflashdb_log.h)(0x6A269733)
+I (..\Function\myflashdb_data.h)(0x6A269733)
 I (..\Driver\HardWare\sleep_wake\sleep_wake.h)(0x6A1D190B)
-I (..\Protocol\msg.h)(0x6A268096)
+I (..\Protocol\msg.h)(0x6A269733)
 F (..\Driver\FlashDB\fal\fal_flash.c)(0x6A0562D2)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Driver\HardWare\KEY -I ..\Driver\HardWare\LED -I ..\Driver\HardWare\OLED -I ..\Driver\HardWare\RTC -I ..\Driver\HardWare\SDCARD -I ..\Driver\HardWare\SPI_FLASH -I ..\Driver\HardWare\USART -I ..\Driver\HeaderFiles -I ..\Driver\Library -I ..\Driver\Start\CMSIS -I ..\Driver\Start\Startup -I ..\Driver\System\ADC -I ..\Driver\System\AD3344 -I ..\Driver\System\TIM6 -I ..\User -I ..\Driver\Library\GD32F4xx_standard_peripheral\Include -I ..\Driver\Library\GD32F4xx_standard_peripheral\Source -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Include -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Source -I ..\Function -I ..\Protocol -I ..\Driver\Fatfs -I ..\Driver\System\myDMA -I ..\Driver\FlashDB\fal -I ..\Driver\FlashDB\flashdb -I ..\Driver\FlashDB -I ..\Driver\HardWare\sleep_wake -I ..\Driver\System\DAC-I.\RTE\_TASK_-I"D:\AsusMCenterDownload\keil5 MDK\pack\GigaDevice\GD32F4xx_DFP\3.4.0\Device\F4XX\Include"-I"D:\AsusMCenterDownload\keil5 MDK\core\ARM\CMSIS\Include"-D__UVISION_VERSION="524" -D_RTE_ -DGD32F470 -DUSE_STDPERIPH_DRIVER -DGD32F470-o .\objects\fal_flash.o --omf_browse .\objects\fal_flash.crf --depend .\objects\fal_flash.d)
 I (..\Driver\FlashDB\fal\fal.h)(0x6A0A98A9)
 I (..\Driver\FlashDB\fal\rtconfig.h)(0x6A04757C)
@@ -839,7 +839,7 @@ I (..\Driver\FlashDB\fal/fal_cfg.h)(0x6A0DAD56)
 I (..\Driver\FlashDB\fal\fal.h)(0x6A0A98A9)
 I (..\Driver\FlashDB\fal/fal_def.h)(0x6A047733)
 I (..\Driver\HardWare\SPI_FLASH\SPI_Flash.h)(0x6A055861)
-I (..\Driver\HeaderFiles\HeaderFiles.h)(0x6A268095)
+I (..\Driver\HeaderFiles\HeaderFiles.h)(0x6A269733)
 I (..\Driver\Start\CMSIS\GD\GD32F4xx\Include\gd32f4xx.h)(0x67D920AE)
 I (..\Driver\Start\CMSIS\core_cm4.h)(0x65A7AAB6)
 I (..\Driver\Start\CMSIS\core_cmInstr.h)(0x65A7AAB6)
@@ -887,13 +887,13 @@ I (..\Driver\FlashDB\flashdb\flashdb.h)(0x6A0480AF)
 I (D:\AsusMCenterDownload\keil5 MDK\core\ARM\ARMCC\include\stddef.h)(0x588B8344)
 I (..\Driver\FlashDB\flashdb\fdb_cfg.h)(0x6A0DAFF6)
 I (..\Driver\FlashDB\flashdb\fdb_def.h)(0x6A0AD9F3)
-I (..\Function\app_param.h)(0x6A268096)
+I (..\Function\app_param.h)(0x6A269733)
 I (..\Driver\HardWare\OLED\OLED.h)(0x6988BAB9)
 I (..\Driver\System\DAC\DAC.h)(0x6A020191)
 I (..\Driver\HardWare\USART\USART.h)(0x6A215EC9)
 I (..\Driver\HardWare\RTC\RTC.h)(0x6A086EC3)
 I (..\Driver\HardWare\SDCARD\sdcard.h)(0x6985E489)
-I (..\Driver\System\ADC\ADC.h)(0x6A268095)
+I (..\Driver\System\ADC\ADC.h)(0x6A269733)
 I (..\Driver\System\AD3344\AD3344.h)(0x6A1D9CA5)
 I (..\Driver\System\TIM6\tim6_functimer.h)(0x6A040AF2)
 I (..\Driver\HardWare\LED\LED.h)(0x69864771)
@@ -902,14 +902,14 @@ I (..\Driver\Fatfs\integer.h)(0x4BD31212)
 I (..\Driver\Fatfs\ffconf.h)(0x698C904D)
 I (..\Driver\Fatfs\diskio.h)(0x4D21CB12)
 I (..\Driver\HardWare\KEY\Key.h)(0x6A041558)
-I (..\Driver\System\myDMA\myDMA.h)(0x6A268095)
-I (..\Function\data_process.h)(0x6A268096)
-I (..\Function\pt100.h)(0x6A268096)
-I (..\Function\Function.h)(0x6A268095)
-I (..\Function\myflashdb_log.h)(0x6A268096)
-I (..\Function\myflashdb_data.h)(0x6A268096)
+I (..\Driver\System\myDMA\myDMA.h)(0x6A269733)
+I (..\Function\data_process.h)(0x6A269733)
+I (..\Function\pt100.h)(0x6A269838)
+I (..\Function\Function.h)(0x6A269733)
+I (..\Function\myflashdb_log.h)(0x6A269733)
+I (..\Function\myflashdb_data.h)(0x6A269733)
 I (..\Driver\HardWare\sleep_wake\sleep_wake.h)(0x6A1D190B)
-I (..\Protocol\msg.h)(0x6A268096)
+I (..\Protocol\msg.h)(0x6A269733)
 F (..\Driver\FlashDB\fal\fal_partition.c)(0x627CCCDB)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Driver\HardWare\KEY -I ..\Driver\HardWare\LED -I ..\Driver\HardWare\OLED -I ..\Driver\HardWare\RTC -I ..\Driver\HardWare\SDCARD -I ..\Driver\HardWare\SPI_FLASH -I ..\Driver\HardWare\USART -I ..\Driver\HeaderFiles -I ..\Driver\Library -I ..\Driver\Start\CMSIS -I ..\Driver\Start\Startup -I ..\Driver\System\ADC -I ..\Driver\System\AD3344 -I ..\Driver\System\TIM6 -I ..\User -I ..\Driver\Library\GD32F4xx_standard_peripheral\Include -I ..\Driver\Library\GD32F4xx_standard_peripheral\Source -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Include -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Source -I ..\Function -I ..\Protocol -I ..\Driver\Fatfs -I ..\Driver\System\myDMA -I ..\Driver\FlashDB\fal -I ..\Driver\FlashDB\flashdb -I ..\Driver\FlashDB -I ..\Driver\HardWare\sleep_wake -I ..\Driver\System\DAC-I.\RTE\_TASK_-I"D:\AsusMCenterDownload\keil5 MDK\pack\GigaDevice\GD32F4xx_DFP\3.4.0\Device\F4XX\Include"-I"D:\AsusMCenterDownload\keil5 MDK\core\ARM\CMSIS\Include"-D__UVISION_VERSION="524" -D_RTE_ -DGD32F470 -DUSE_STDPERIPH_DRIVER -DGD32F470-o .\objects\fal_partition.o --omf_browse .\objects\fal_partition.crf --depend .\objects\fal_partition.d)
 I (..\Driver\FlashDB\fal\fal.h)(0x6A0A98A9)
 I (..\Driver\FlashDB\fal\rtconfig.h)(0x6A04757C)
@@ -968,7 +968,7 @@ I (..\Driver\FlashDB\flashdb\fdb_def.h)(0x6A0AD9F3)
 I (..\Driver\FlashDB\flashdb\fdb_low_lvl.h)(0x6A0480B0)
 F (..\Driver\System\DAC\DAC.c)(0x6A0DAFF6)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Driver\HardWare\KEY -I ..\Driver\HardWare\LED -I ..\Driver\HardWare\OLED -I ..\Driver\HardWare\RTC -I ..\Driver\HardWare\SDCARD -I ..\Driver\HardWare\SPI_FLASH -I ..\Driver\HardWare\USART -I ..\Driver\HeaderFiles -I ..\Driver\Library -I ..\Driver\Start\CMSIS -I ..\Driver\Start\Startup -I ..\Driver\System\ADC -I ..\Driver\System\AD3344 -I ..\Driver\System\TIM6 -I ..\User -I ..\Driver\Library\GD32F4xx_standard_peripheral\Include -I ..\Driver\Library\GD32F4xx_standard_peripheral\Source -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Include -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Source -I ..\Function -I ..\Protocol -I ..\Driver\Fatfs -I ..\Driver\System\myDMA -I ..\Driver\FlashDB\fal -I ..\Driver\FlashDB\flashdb -I ..\Driver\FlashDB -I ..\Driver\HardWare\sleep_wake -I ..\Driver\System\DAC-I.\RTE\_TASK_-I"D:\AsusMCenterDownload\keil5 MDK\pack\GigaDevice\GD32F4xx_DFP\3.4.0\Device\F4XX\Include"-I"D:\AsusMCenterDownload\keil5 MDK\core\ARM\CMSIS\Include"-D__UVISION_VERSION="524" -D_RTE_ -DGD32F470 -DUSE_STDPERIPH_DRIVER -DGD32F470-o .\objects\dac.o --omf_browse .\objects\dac.crf --depend .\objects\dac.d)
 I (..\Driver\System\DAC\DAC.h)(0x6A020191)
-I (..\Driver\HeaderFiles\HeaderFiles.h)(0x6A268095)
+I (..\Driver\HeaderFiles\HeaderFiles.h)(0x6A269733)
 I (..\Driver\Start\CMSIS\GD\GD32F4xx\Include\gd32f4xx.h)(0x67D920AE)
 I (..\Driver\Start\CMSIS\core_cm4.h)(0x65A7AAB6)
 I (D:\AsusMCenterDownload\keil5 MDK\core\ARM\ARMCC\include\stdint.h)(0x588B8344)
@@ -1023,13 +1023,13 @@ I (..\Driver\FlashDB\fal\rtconfig.h)(0x6A04757C)
 I (..\Driver\FlashDB\fal/fal_cfg.h)(0x6A0DAD56)
 I (..\Driver\FlashDB\fal/fal_def.h)(0x6A047733)
 I (..\Driver\FlashDB\flashdb\fdb_def.h)(0x6A0AD9F3)
-I (..\Function\app_param.h)(0x6A268096)
+I (..\Function\app_param.h)(0x6A269733)
 I (..\Driver\HardWare\OLED\OLED.h)(0x6988BAB9)
 I (..\Driver\HardWare\USART\USART.h)(0x6A215EC9)
 I (..\Driver\HardWare\RTC\RTC.h)(0x6A086EC3)
 I (..\Driver\HardWare\SPI_FLASH\SPI_FLASH.h)(0x6A055861)
 I (..\Driver\HardWare\SDCARD\sdcard.h)(0x6985E489)
-I (..\Driver\System\ADC\ADC.h)(0x6A268095)
+I (..\Driver\System\ADC\ADC.h)(0x6A269733)
 I (..\Driver\System\AD3344\AD3344.h)(0x6A1D9CA5)
 I (..\Driver\System\TIM6\tim6_functimer.h)(0x6A040AF2)
 I (..\Driver\HardWare\LED\LED.h)(0x69864771)
@@ -1038,14 +1038,14 @@ I (..\Driver\Fatfs\integer.h)(0x4BD31212)
 I (..\Driver\Fatfs\ffconf.h)(0x698C904D)
 I (..\Driver\Fatfs\diskio.h)(0x4D21CB12)
 I (..\Driver\HardWare\KEY\Key.h)(0x6A041558)
-I (..\Driver\System\myDMA\myDMA.h)(0x6A268095)
-I (..\Function\data_process.h)(0x6A268096)
-I (..\Function\pt100.h)(0x6A268096)
-I (..\Function\Function.h)(0x6A268095)
-I (..\Function\myflashdb_log.h)(0x6A268096)
-I (..\Function\myflashdb_data.h)(0x6A268096)
+I (..\Driver\System\myDMA\myDMA.h)(0x6A269733)
+I (..\Function\data_process.h)(0x6A269733)
+I (..\Function\pt100.h)(0x6A269838)
+I (..\Function\Function.h)(0x6A269733)
+I (..\Function\myflashdb_log.h)(0x6A269733)
+I (..\Function\myflashdb_data.h)(0x6A269733)
 I (..\Driver\HardWare\sleep_wake\sleep_wake.h)(0x6A1D190B)
-I (..\Protocol\msg.h)(0x6A268096)
+I (..\Protocol\msg.h)(0x6A269733)
 F (..\Driver\System\DAC\DAC.h)(0x6A020191)()
 F (..\Driver\FlashDB\flashdb\fdb_port.c)(0x6A0486A2)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Driver\HardWare\KEY -I ..\Driver\HardWare\LED -I ..\Driver\HardWare\OLED -I ..\Driver\HardWare\RTC -I ..\Driver\HardWare\SDCARD -I ..\Driver\HardWare\SPI_FLASH -I ..\Driver\HardWare\USART -I ..\Driver\HeaderFiles -I ..\Driver\Library -I ..\Driver\Start\CMSIS -I ..\Driver\Start\Startup -I ..\Driver\System\ADC -I ..\Driver\System\AD3344 -I ..\Driver\System\TIM6 -I ..\User -I ..\Driver\Library\GD32F4xx_standard_peripheral\Include -I ..\Driver\Library\GD32F4xx_standard_peripheral\Source -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Include -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Source -I ..\Function -I ..\Protocol -I ..\Driver\Fatfs -I ..\Driver\System\myDMA -I ..\Driver\FlashDB\fal -I ..\Driver\FlashDB\flashdb -I ..\Driver\FlashDB -I ..\Driver\HardWare\sleep_wake -I ..\Driver\System\DAC-I.\RTE\_TASK_-I"D:\AsusMCenterDownload\keil5 MDK\pack\GigaDevice\GD32F4xx_DFP\3.4.0\Device\F4XX\Include"-I"D:\AsusMCenterDownload\keil5 MDK\core\ARM\CMSIS\Include"-D__UVISION_VERSION="524" -D_RTE_ -DGD32F470 -DUSE_STDPERIPH_DRIVER -DGD32F470-o .\objects\fdb_port.o --omf_browse .\objects\fdb_port.crf --depend .\objects\fdb_port.d)
 I (..\Driver\FlashDB\flashdb\flashdb.h)(0x6A0480AF)
@@ -1078,11 +1078,11 @@ I (..\Driver\FlashDB\fal/fal_cfg.h)(0x6A0DAD56)
 I (..\Driver\FlashDB\fal/fal_def.h)(0x6A047733)
 I (..\Driver\FlashDB\flashdb\fdb_def.h)(0x6A0AD9F3)
 I (..\Driver\FlashDB\flashdb\fdb_low_lvl.h)(0x6A0480B0)
-F (..\Driver\HeaderFiles\HeaderFiles.h)(0x6A268095)()
+F (..\Driver\HeaderFiles\HeaderFiles.h)(0x6A269733)()
 F (..\Driver\Start\CMSIS\GD\GD32F4xx\Source\ARM\startup_gd32f450_470.s)(0x69FE1F38)(--cpu Cortex-M4.fp -g --apcs=interwork --pd "__MICROLIB SETA 1"-I.\RTE\_TASK_-I"D:\AsusMCenterDownload\keil5 MDK\pack\GigaDevice\GD32F4xx_DFP\3.4.0\Device\F4XX\Include"-I"D:\AsusMCenterDownload\keil5 MDK\core\ARM\CMSIS\Include"--pd "__UVISION_VERSION SETA 524" --pd "_RTE_ SETA 1" --pd "GD32F470 SETA 1"--list .\listings\startup_gd32f450_470.lst --xref -o .\objects\startup_gd32f450_470.o --depend .\objects\startup_gd32f450_470.d)
-F (..\Driver\System\AD3344\AD3344.c)(0x6A268095)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Driver\HardWare\KEY -I ..\Driver\HardWare\LED -I ..\Driver\HardWare\OLED -I ..\Driver\HardWare\RTC -I ..\Driver\HardWare\SDCARD -I ..\Driver\HardWare\SPI_FLASH -I ..\Driver\HardWare\USART -I ..\Driver\HeaderFiles -I ..\Driver\Library -I ..\Driver\Start\CMSIS -I ..\Driver\Start\Startup -I ..\Driver\System\ADC -I ..\Driver\System\AD3344 -I ..\Driver\System\TIM6 -I ..\User -I ..\Driver\Library\GD32F4xx_standard_peripheral\Include -I ..\Driver\Library\GD32F4xx_standard_peripheral\Source -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Include -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Source -I ..\Function -I ..\Protocol -I ..\Driver\Fatfs -I ..\Driver\System\myDMA -I ..\Driver\FlashDB\fal -I ..\Driver\FlashDB\flashdb -I ..\Driver\FlashDB -I ..\Driver\HardWare\sleep_wake -I ..\Driver\System\DAC-I.\RTE\_TASK_-I"D:\AsusMCenterDownload\keil5 MDK\pack\GigaDevice\GD32F4xx_DFP\3.4.0\Device\F4XX\Include"-I"D:\AsusMCenterDownload\keil5 MDK\core\ARM\CMSIS\Include"-D__UVISION_VERSION="524" -D_RTE_ -DGD32F470 -DUSE_STDPERIPH_DRIVER -DGD32F470-o .\objects\ad3344.o --omf_browse .\objects\ad3344.crf --depend .\objects\ad3344.d)
+F (..\Driver\System\AD3344\AD3344.c)(0x6A269733)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Driver\HardWare\KEY -I ..\Driver\HardWare\LED -I ..\Driver\HardWare\OLED -I ..\Driver\HardWare\RTC -I ..\Driver\HardWare\SDCARD -I ..\Driver\HardWare\SPI_FLASH -I ..\Driver\HardWare\USART -I ..\Driver\HeaderFiles -I ..\Driver\Library -I ..\Driver\Start\CMSIS -I ..\Driver\Start\Startup -I ..\Driver\System\ADC -I ..\Driver\System\AD3344 -I ..\Driver\System\TIM6 -I ..\User -I ..\Driver\Library\GD32F4xx_standard_peripheral\Include -I ..\Driver\Library\GD32F4xx_standard_peripheral\Source -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Include -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Source -I ..\Function -I ..\Protocol -I ..\Driver\Fatfs -I ..\Driver\System\myDMA -I ..\Driver\FlashDB\fal -I ..\Driver\FlashDB\flashdb -I ..\Driver\FlashDB -I ..\Driver\HardWare\sleep_wake -I ..\Driver\System\DAC-I.\RTE\_TASK_-I"D:\AsusMCenterDownload\keil5 MDK\pack\GigaDevice\GD32F4xx_DFP\3.4.0\Device\F4XX\Include"-I"D:\AsusMCenterDownload\keil5 MDK\core\ARM\CMSIS\Include"-D__UVISION_VERSION="524" -D_RTE_ -DGD32F470 -DUSE_STDPERIPH_DRIVER -DGD32F470-o .\objects\ad3344.o --omf_browse .\objects\ad3344.crf --depend .\objects\ad3344.d)
 I (..\Driver\System\AD3344\AD3344.h)(0x6A1D9CA5)
-I (..\Driver\HeaderFiles\HeaderFiles.h)(0x6A268095)
+I (..\Driver\HeaderFiles\HeaderFiles.h)(0x6A269733)
 I (..\Driver\Start\CMSIS\GD\GD32F4xx\Include\gd32f4xx.h)(0x67D920AE)
 I (..\Driver\Start\CMSIS\core_cm4.h)(0x65A7AAB6)
 I (D:\AsusMCenterDownload\keil5 MDK\core\ARM\ARMCC\include\stdint.h)(0x588B8344)
@@ -1137,14 +1137,14 @@ I (..\Driver\FlashDB\fal\rtconfig.h)(0x6A04757C)
 I (..\Driver\FlashDB\fal/fal_cfg.h)(0x6A0DAD56)
 I (..\Driver\FlashDB\fal/fal_def.h)(0x6A047733)
 I (..\Driver\FlashDB\flashdb\fdb_def.h)(0x6A0AD9F3)
-I (..\Function\app_param.h)(0x6A268096)
+I (..\Function\app_param.h)(0x6A269733)
 I (..\Driver\HardWare\OLED\OLED.h)(0x6988BAB9)
 I (..\Driver\System\DAC\DAC.h)(0x6A020191)
 I (..\Driver\HardWare\USART\USART.h)(0x6A215EC9)
 I (..\Driver\HardWare\RTC\RTC.h)(0x6A086EC3)
 I (..\Driver\HardWare\SPI_FLASH\SPI_FLASH.h)(0x6A055861)
 I (..\Driver\HardWare\SDCARD\sdcard.h)(0x6985E489)
-I (..\Driver\System\ADC\ADC.h)(0x6A268095)
+I (..\Driver\System\ADC\ADC.h)(0x6A269733)
 I (..\Driver\System\TIM6\tim6_functimer.h)(0x6A040AF2)
 I (..\Driver\HardWare\LED\LED.h)(0x69864771)
 I (..\Driver\Fatfs\ff.h)(0x698EC021)
@@ -1152,18 +1152,18 @@ I (..\Driver\Fatfs\integer.h)(0x4BD31212)
 I (..\Driver\Fatfs\ffconf.h)(0x698C904D)
 I (..\Driver\Fatfs\diskio.h)(0x4D21CB12)
 I (..\Driver\HardWare\KEY\Key.h)(0x6A041558)
-I (..\Driver\System\myDMA\myDMA.h)(0x6A268095)
-I (..\Function\data_process.h)(0x6A268096)
-I (..\Function\pt100.h)(0x6A268096)
-I (..\Function\Function.h)(0x6A268095)
-I (..\Function\myflashdb_log.h)(0x6A268096)
-I (..\Function\myflashdb_data.h)(0x6A268096)
+I (..\Driver\System\myDMA\myDMA.h)(0x6A269733)
+I (..\Function\data_process.h)(0x6A269733)
+I (..\Function\pt100.h)(0x6A269838)
+I (..\Function\Function.h)(0x6A269733)
+I (..\Function\myflashdb_log.h)(0x6A269733)
+I (..\Function\myflashdb_data.h)(0x6A269733)
 I (..\Driver\HardWare\sleep_wake\sleep_wake.h)(0x6A1D190B)
-I (..\Protocol\msg.h)(0x6A268096)
+I (..\Protocol\msg.h)(0x6A269733)
 F (..\Driver\System\AD3344\AD3344.h)(0x6A1D9CA5)()
-F (..\Driver\System\ADC\ADC.c)(0x6A268095)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Driver\HardWare\KEY -I ..\Driver\HardWare\LED -I ..\Driver\HardWare\OLED -I ..\Driver\HardWare\RTC -I ..\Driver\HardWare\SDCARD -I ..\Driver\HardWare\SPI_FLASH -I ..\Driver\HardWare\USART -I ..\Driver\HeaderFiles -I ..\Driver\Library -I ..\Driver\Start\CMSIS -I ..\Driver\Start\Startup -I ..\Driver\System\ADC -I ..\Driver\System\AD3344 -I ..\Driver\System\TIM6 -I ..\User -I ..\Driver\Library\GD32F4xx_standard_peripheral\Include -I ..\Driver\Library\GD32F4xx_standard_peripheral\Source -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Include -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Source -I ..\Function -I ..\Protocol -I ..\Driver\Fatfs -I ..\Driver\System\myDMA -I ..\Driver\FlashDB\fal -I ..\Driver\FlashDB\flashdb -I ..\Driver\FlashDB -I ..\Driver\HardWare\sleep_wake -I ..\Driver\System\DAC-I.\RTE\_TASK_-I"D:\AsusMCenterDownload\keil5 MDK\pack\GigaDevice\GD32F4xx_DFP\3.4.0\Device\F4XX\Include"-I"D:\AsusMCenterDownload\keil5 MDK\core\ARM\CMSIS\Include"-D__UVISION_VERSION="524" -D_RTE_ -DGD32F470 -DUSE_STDPERIPH_DRIVER -DGD32F470-o .\objects\adc.o --omf_browse .\objects\adc.crf --depend .\objects\adc.d)
-I (..\Driver\System\ADC\ADC.h)(0x6A268095)
-I (..\Driver\HeaderFiles\HeaderFiles.h)(0x6A268095)
+F (..\Driver\System\ADC\ADC.c)(0x6A269733)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Driver\HardWare\KEY -I ..\Driver\HardWare\LED -I ..\Driver\HardWare\OLED -I ..\Driver\HardWare\RTC -I ..\Driver\HardWare\SDCARD -I ..\Driver\HardWare\SPI_FLASH -I ..\Driver\HardWare\USART -I ..\Driver\HeaderFiles -I ..\Driver\Library -I ..\Driver\Start\CMSIS -I ..\Driver\Start\Startup -I ..\Driver\System\ADC -I ..\Driver\System\AD3344 -I ..\Driver\System\TIM6 -I ..\User -I ..\Driver\Library\GD32F4xx_standard_peripheral\Include -I ..\Driver\Library\GD32F4xx_standard_peripheral\Source -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Include -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Source -I ..\Function -I ..\Protocol -I ..\Driver\Fatfs -I ..\Driver\System\myDMA -I ..\Driver\FlashDB\fal -I ..\Driver\FlashDB\flashdb -I ..\Driver\FlashDB -I ..\Driver\HardWare\sleep_wake -I ..\Driver\System\DAC-I.\RTE\_TASK_-I"D:\AsusMCenterDownload\keil5 MDK\pack\GigaDevice\GD32F4xx_DFP\3.4.0\Device\F4XX\Include"-I"D:\AsusMCenterDownload\keil5 MDK\core\ARM\CMSIS\Include"-D__UVISION_VERSION="524" -D_RTE_ -DGD32F470 -DUSE_STDPERIPH_DRIVER -DGD32F470-o .\objects\adc.o --omf_browse .\objects\adc.crf --depend .\objects\adc.d)
+I (..\Driver\System\ADC\ADC.h)(0x6A269733)
+I (..\Driver\HeaderFiles\HeaderFiles.h)(0x6A269733)
 I (..\Driver\Start\CMSIS\GD\GD32F4xx\Include\gd32f4xx.h)(0x67D920AE)
 I (..\Driver\Start\CMSIS\core_cm4.h)(0x65A7AAB6)
 I (D:\AsusMCenterDownload\keil5 MDK\core\ARM\ARMCC\include\stdint.h)(0x588B8344)
@@ -1218,7 +1218,7 @@ I (..\Driver\FlashDB\fal\rtconfig.h)(0x6A04757C)
 I (..\Driver\FlashDB\fal/fal_cfg.h)(0x6A0DAD56)
 I (..\Driver\FlashDB\fal/fal_def.h)(0x6A047733)
 I (..\Driver\FlashDB\flashdb\fdb_def.h)(0x6A0AD9F3)
-I (..\Function\app_param.h)(0x6A268096)
+I (..\Function\app_param.h)(0x6A269733)
 I (..\Driver\HardWare\OLED\OLED.h)(0x6988BAB9)
 I (..\Driver\System\DAC\DAC.h)(0x6A020191)
 I (..\Driver\HardWare\USART\USART.h)(0x6A215EC9)
@@ -1233,17 +1233,17 @@ I (..\Driver\Fatfs\integer.h)(0x4BD31212)
 I (..\Driver\Fatfs\ffconf.h)(0x698C904D)
 I (..\Driver\Fatfs\diskio.h)(0x4D21CB12)
 I (..\Driver\HardWare\KEY\Key.h)(0x6A041558)
-I (..\Driver\System\myDMA\myDMA.h)(0x6A268095)
-I (..\Function\data_process.h)(0x6A268096)
-I (..\Function\pt100.h)(0x6A268096)
-I (..\Function\Function.h)(0x6A268095)
-I (..\Function\myflashdb_log.h)(0x6A268096)
-I (..\Function\myflashdb_data.h)(0x6A268096)
+I (..\Driver\System\myDMA\myDMA.h)(0x6A269733)
+I (..\Function\data_process.h)(0x6A269733)
+I (..\Function\pt100.h)(0x6A269838)
+I (..\Function\Function.h)(0x6A269733)
+I (..\Function\myflashdb_log.h)(0x6A269733)
+I (..\Function\myflashdb_data.h)(0x6A269733)
 I (..\Driver\HardWare\sleep_wake\sleep_wake.h)(0x6A1D190B)
-I (..\Protocol\msg.h)(0x6A268096)
-F (..\Driver\System\ADC\ADC.h)(0x6A268095)()
-F (..\Driver\System\TIM6\tim6_functimer.c)(0x6A268095)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Driver\HardWare\KEY -I ..\Driver\HardWare\LED -I ..\Driver\HardWare\OLED -I ..\Driver\HardWare\RTC -I ..\Driver\HardWare\SDCARD -I ..\Driver\HardWare\SPI_FLASH -I ..\Driver\HardWare\USART -I ..\Driver\HeaderFiles -I ..\Driver\Library -I ..\Driver\Start\CMSIS -I ..\Driver\Start\Startup -I ..\Driver\System\ADC -I ..\Driver\System\AD3344 -I ..\Driver\System\TIM6 -I ..\User -I ..\Driver\Library\GD32F4xx_standard_peripheral\Include -I ..\Driver\Library\GD32F4xx_standard_peripheral\Source -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Include -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Source -I ..\Function -I ..\Protocol -I ..\Driver\Fatfs -I ..\Driver\System\myDMA -I ..\Driver\FlashDB\fal -I ..\Driver\FlashDB\flashdb -I ..\Driver\FlashDB -I ..\Driver\HardWare\sleep_wake -I ..\Driver\System\DAC-I.\RTE\_TASK_-I"D:\AsusMCenterDownload\keil5 MDK\pack\GigaDevice\GD32F4xx_DFP\3.4.0\Device\F4XX\Include"-I"D:\AsusMCenterDownload\keil5 MDK\core\ARM\CMSIS\Include"-D__UVISION_VERSION="524" -D_RTE_ -DGD32F470 -DUSE_STDPERIPH_DRIVER -DGD32F470-o .\objects\tim6_functimer.o --omf_browse .\objects\tim6_functimer.crf --depend .\objects\tim6_functimer.d)
-I (..\Driver\HeaderFiles\HeaderFiles.h)(0x6A268095)
+I (..\Protocol\msg.h)(0x6A269733)
+F (..\Driver\System\ADC\ADC.h)(0x6A269733)()
+F (..\Driver\System\TIM6\tim6_functimer.c)(0x6A269733)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Driver\HardWare\KEY -I ..\Driver\HardWare\LED -I ..\Driver\HardWare\OLED -I ..\Driver\HardWare\RTC -I ..\Driver\HardWare\SDCARD -I ..\Driver\HardWare\SPI_FLASH -I ..\Driver\HardWare\USART -I ..\Driver\HeaderFiles -I ..\Driver\Library -I ..\Driver\Start\CMSIS -I ..\Driver\Start\Startup -I ..\Driver\System\ADC -I ..\Driver\System\AD3344 -I ..\Driver\System\TIM6 -I ..\User -I ..\Driver\Library\GD32F4xx_standard_peripheral\Include -I ..\Driver\Library\GD32F4xx_standard_peripheral\Source -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Include -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Source -I ..\Function -I ..\Protocol -I ..\Driver\Fatfs -I ..\Driver\System\myDMA -I ..\Driver\FlashDB\fal -I ..\Driver\FlashDB\flashdb -I ..\Driver\FlashDB -I ..\Driver\HardWare\sleep_wake -I ..\Driver\System\DAC-I.\RTE\_TASK_-I"D:\AsusMCenterDownload\keil5 MDK\pack\GigaDevice\GD32F4xx_DFP\3.4.0\Device\F4XX\Include"-I"D:\AsusMCenterDownload\keil5 MDK\core\ARM\CMSIS\Include"-D__UVISION_VERSION="524" -D_RTE_ -DGD32F470 -DUSE_STDPERIPH_DRIVER -DGD32F470-o .\objects\tim6_functimer.o --omf_browse .\objects\tim6_functimer.crf --depend .\objects\tim6_functimer.d)
+I (..\Driver\HeaderFiles\HeaderFiles.h)(0x6A269733)
 I (..\Driver\Start\CMSIS\GD\GD32F4xx\Include\gd32f4xx.h)(0x67D920AE)
 I (..\Driver\Start\CMSIS\core_cm4.h)(0x65A7AAB6)
 I (D:\AsusMCenterDownload\keil5 MDK\core\ARM\ARMCC\include\stdint.h)(0x588B8344)
@@ -1298,14 +1298,14 @@ I (..\Driver\FlashDB\fal\rtconfig.h)(0x6A04757C)
 I (..\Driver\FlashDB\fal/fal_cfg.h)(0x6A0DAD56)
 I (..\Driver\FlashDB\fal/fal_def.h)(0x6A047733)
 I (..\Driver\FlashDB\flashdb\fdb_def.h)(0x6A0AD9F3)
-I (..\Function\app_param.h)(0x6A268096)
+I (..\Function\app_param.h)(0x6A269733)
 I (..\Driver\HardWare\OLED\OLED.h)(0x6988BAB9)
 I (..\Driver\System\DAC\DAC.h)(0x6A020191)
 I (..\Driver\HardWare\USART\USART.h)(0x6A215EC9)
 I (..\Driver\HardWare\RTC\RTC.h)(0x6A086EC3)
 I (..\Driver\HardWare\SPI_FLASH\SPI_FLASH.h)(0x6A055861)
 I (..\Driver\HardWare\SDCARD\sdcard.h)(0x6985E489)
-I (..\Driver\System\ADC\ADC.h)(0x6A268095)
+I (..\Driver\System\ADC\ADC.h)(0x6A269733)
 I (..\Driver\System\AD3344\AD3344.h)(0x6A1D9CA5)
 I (..\Driver\System\TIM6\tim6_functimer.h)(0x6A040AF2)
 I (..\Driver\HardWare\LED\LED.h)(0x69864771)
@@ -1314,18 +1314,18 @@ I (..\Driver\Fatfs\integer.h)(0x4BD31212)
 I (..\Driver\Fatfs\ffconf.h)(0x698C904D)
 I (..\Driver\Fatfs\diskio.h)(0x4D21CB12)
 I (..\Driver\HardWare\KEY\Key.h)(0x6A041558)
-I (..\Driver\System\myDMA\myDMA.h)(0x6A268095)
-I (..\Function\data_process.h)(0x6A268096)
-I (..\Function\pt100.h)(0x6A268096)
-I (..\Function\Function.h)(0x6A268095)
-I (..\Function\myflashdb_log.h)(0x6A268096)
-I (..\Function\myflashdb_data.h)(0x6A268096)
+I (..\Driver\System\myDMA\myDMA.h)(0x6A269733)
+I (..\Function\data_process.h)(0x6A269733)
+I (..\Function\pt100.h)(0x6A269838)
+I (..\Function\Function.h)(0x6A269733)
+I (..\Function\myflashdb_log.h)(0x6A269733)
+I (..\Function\myflashdb_data.h)(0x6A269733)
 I (..\Driver\HardWare\sleep_wake\sleep_wake.h)(0x6A1D190B)
-I (..\Protocol\msg.h)(0x6A268096)
+I (..\Protocol\msg.h)(0x6A269733)
 F (..\Driver\System\TIM6\tim6_functimer.h)(0x6A040AF2)()
-F (..\Driver\System\myDMA\myDMA.c)(0x6A268095)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Driver\HardWare\KEY -I ..\Driver\HardWare\LED -I ..\Driver\HardWare\OLED -I ..\Driver\HardWare\RTC -I ..\Driver\HardWare\SDCARD -I ..\Driver\HardWare\SPI_FLASH -I ..\Driver\HardWare\USART -I ..\Driver\HeaderFiles -I ..\Driver\Library -I ..\Driver\Start\CMSIS -I ..\Driver\Start\Startup -I ..\Driver\System\ADC -I ..\Driver\System\AD3344 -I ..\Driver\System\TIM6 -I ..\User -I ..\Driver\Library\GD32F4xx_standard_peripheral\Include -I ..\Driver\Library\GD32F4xx_standard_peripheral\Source -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Include -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Source -I ..\Function -I ..\Protocol -I ..\Driver\Fatfs -I ..\Driver\System\myDMA -I ..\Driver\FlashDB\fal -I ..\Driver\FlashDB\flashdb -I ..\Driver\FlashDB -I ..\Driver\HardWare\sleep_wake -I ..\Driver\System\DAC-I.\RTE\_TASK_-I"D:\AsusMCenterDownload\keil5 MDK\pack\GigaDevice\GD32F4xx_DFP\3.4.0\Device\F4XX\Include"-I"D:\AsusMCenterDownload\keil5 MDK\core\ARM\CMSIS\Include"-D__UVISION_VERSION="524" -D_RTE_ -DGD32F470 -DUSE_STDPERIPH_DRIVER -DGD32F470-o .\objects\mydma.o --omf_browse .\objects\mydma.crf --depend .\objects\mydma.d)
-I (..\Driver\System\myDMA\myDMA.h)(0x6A268095)
-I (..\Driver\HeaderFiles\HeaderFiles.h)(0x6A268095)
+F (..\Driver\System\myDMA\myDMA.c)(0x6A269733)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Driver\HardWare\KEY -I ..\Driver\HardWare\LED -I ..\Driver\HardWare\OLED -I ..\Driver\HardWare\RTC -I ..\Driver\HardWare\SDCARD -I ..\Driver\HardWare\SPI_FLASH -I ..\Driver\HardWare\USART -I ..\Driver\HeaderFiles -I ..\Driver\Library -I ..\Driver\Start\CMSIS -I ..\Driver\Start\Startup -I ..\Driver\System\ADC -I ..\Driver\System\AD3344 -I ..\Driver\System\TIM6 -I ..\User -I ..\Driver\Library\GD32F4xx_standard_peripheral\Include -I ..\Driver\Library\GD32F4xx_standard_peripheral\Source -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Include -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Source -I ..\Function -I ..\Protocol -I ..\Driver\Fatfs -I ..\Driver\System\myDMA -I ..\Driver\FlashDB\fal -I ..\Driver\FlashDB\flashdb -I ..\Driver\FlashDB -I ..\Driver\HardWare\sleep_wake -I ..\Driver\System\DAC-I.\RTE\_TASK_-I"D:\AsusMCenterDownload\keil5 MDK\pack\GigaDevice\GD32F4xx_DFP\3.4.0\Device\F4XX\Include"-I"D:\AsusMCenterDownload\keil5 MDK\core\ARM\CMSIS\Include"-D__UVISION_VERSION="524" -D_RTE_ -DGD32F470 -DUSE_STDPERIPH_DRIVER -DGD32F470-o .\objects\mydma.o --omf_browse .\objects\mydma.crf --depend .\objects\mydma.d)
+I (..\Driver\System\myDMA\myDMA.h)(0x6A269733)
+I (..\Driver\HeaderFiles\HeaderFiles.h)(0x6A269733)
 I (..\Driver\Start\CMSIS\GD\GD32F4xx\Include\gd32f4xx.h)(0x67D920AE)
 I (..\Driver\Start\CMSIS\core_cm4.h)(0x65A7AAB6)
 I (D:\AsusMCenterDownload\keil5 MDK\core\ARM\ARMCC\include\stdint.h)(0x588B8344)
@@ -1380,14 +1380,14 @@ I (..\Driver\FlashDB\fal\rtconfig.h)(0x6A04757C)
 I (..\Driver\FlashDB\fal/fal_cfg.h)(0x6A0DAD56)
 I (..\Driver\FlashDB\fal/fal_def.h)(0x6A047733)
 I (..\Driver\FlashDB\flashdb\fdb_def.h)(0x6A0AD9F3)
-I (..\Function\app_param.h)(0x6A268096)
+I (..\Function\app_param.h)(0x6A269733)
 I (..\Driver\HardWare\OLED\OLED.h)(0x6988BAB9)
 I (..\Driver\System\DAC\DAC.h)(0x6A020191)
 I (..\Driver\HardWare\USART\USART.h)(0x6A215EC9)
 I (..\Driver\HardWare\RTC\RTC.h)(0x6A086EC3)
 I (..\Driver\HardWare\SPI_FLASH\SPI_FLASH.h)(0x6A055861)
 I (..\Driver\HardWare\SDCARD\sdcard.h)(0x6985E489)
-I (..\Driver\System\ADC\ADC.h)(0x6A268095)
+I (..\Driver\System\ADC\ADC.h)(0x6A269733)
 I (..\Driver\System\AD3344\AD3344.h)(0x6A1D9CA5)
 I (..\Driver\System\TIM6\tim6_functimer.h)(0x6A040AF2)
 I (..\Driver\HardWare\LED\LED.h)(0x69864771)
@@ -1396,17 +1396,17 @@ I (..\Driver\Fatfs\integer.h)(0x4BD31212)
 I (..\Driver\Fatfs\ffconf.h)(0x698C904D)
 I (..\Driver\Fatfs\diskio.h)(0x4D21CB12)
 I (..\Driver\HardWare\KEY\Key.h)(0x6A041558)
-I (..\Function\data_process.h)(0x6A268096)
-I (..\Function\pt100.h)(0x6A268096)
-I (..\Function\Function.h)(0x6A268095)
-I (..\Function\myflashdb_log.h)(0x6A268096)
-I (..\Function\myflashdb_data.h)(0x6A268096)
+I (..\Function\data_process.h)(0x6A269733)
+I (..\Function\pt100.h)(0x6A269838)
+I (..\Function\Function.h)(0x6A269733)
+I (..\Function\myflashdb_log.h)(0x6A269733)
+I (..\Function\myflashdb_data.h)(0x6A269733)
 I (..\Driver\HardWare\sleep_wake\sleep_wake.h)(0x6A1D190B)
-I (..\Protocol\msg.h)(0x6A268096)
-F (..\Driver\System\myDMA\myDMA.h)(0x6A268095)()
+I (..\Protocol\msg.h)(0x6A269733)
+F (..\Driver\System\myDMA\myDMA.h)(0x6A269733)()
 F (..\Driver\HardWare\sleep_wake\sleep_wake.c)(0x6A1C2732)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Driver\HardWare\KEY -I ..\Driver\HardWare\LED -I ..\Driver\HardWare\OLED -I ..\Driver\HardWare\RTC -I ..\Driver\HardWare\SDCARD -I ..\Driver\HardWare\SPI_FLASH -I ..\Driver\HardWare\USART -I ..\Driver\HeaderFiles -I ..\Driver\Library -I ..\Driver\Start\CMSIS -I ..\Driver\Start\Startup -I ..\Driver\System\ADC -I ..\Driver\System\AD3344 -I ..\Driver\System\TIM6 -I ..\User -I ..\Driver\Library\GD32F4xx_standard_peripheral\Include -I ..\Driver\Library\GD32F4xx_standard_peripheral\Source -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Include -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Source -I ..\Function -I ..\Protocol -I ..\Driver\Fatfs -I ..\Driver\System\myDMA -I ..\Driver\FlashDB\fal -I ..\Driver\FlashDB\flashdb -I ..\Driver\FlashDB -I ..\Driver\HardWare\sleep_wake -I ..\Driver\System\DAC-I.\RTE\_TASK_-I"D:\AsusMCenterDownload\keil5 MDK\pack\GigaDevice\GD32F4xx_DFP\3.4.0\Device\F4XX\Include"-I"D:\AsusMCenterDownload\keil5 MDK\core\ARM\CMSIS\Include"-D__UVISION_VERSION="524" -D_RTE_ -DGD32F470 -DUSE_STDPERIPH_DRIVER -DGD32F470-o .\objects\sleep_wake.o --omf_browse .\objects\sleep_wake.crf --depend .\objects\sleep_wake.d)
 I (..\Driver\HardWare\sleep_wake\sleep_wake.h)(0x6A1D190B)
-I (..\Driver\HeaderFiles\HeaderFiles.h)(0x6A268095)
+I (..\Driver\HeaderFiles\HeaderFiles.h)(0x6A269733)
 I (..\Driver\Start\CMSIS\GD\GD32F4xx\Include\gd32f4xx.h)(0x67D920AE)
 I (..\Driver\Start\CMSIS\core_cm4.h)(0x65A7AAB6)
 I (D:\AsusMCenterDownload\keil5 MDK\core\ARM\ARMCC\include\stdint.h)(0x588B8344)
@@ -1461,14 +1461,14 @@ I (..\Driver\FlashDB\fal\rtconfig.h)(0x6A04757C)
 I (..\Driver\FlashDB\fal/fal_cfg.h)(0x6A0DAD56)
 I (..\Driver\FlashDB\fal/fal_def.h)(0x6A047733)
 I (..\Driver\FlashDB\flashdb\fdb_def.h)(0x6A0AD9F3)
-I (..\Function\app_param.h)(0x6A268096)
+I (..\Function\app_param.h)(0x6A269733)
 I (..\Driver\HardWare\OLED\OLED.h)(0x6988BAB9)
 I (..\Driver\System\DAC\DAC.h)(0x6A020191)
 I (..\Driver\HardWare\USART\USART.h)(0x6A215EC9)
 I (..\Driver\HardWare\RTC\RTC.h)(0x6A086EC3)
 I (..\Driver\HardWare\SPI_FLASH\SPI_FLASH.h)(0x6A055861)
 I (..\Driver\HardWare\SDCARD\sdcard.h)(0x6985E489)
-I (..\Driver\System\ADC\ADC.h)(0x6A268095)
+I (..\Driver\System\ADC\ADC.h)(0x6A269733)
 I (..\Driver\System\AD3344\AD3344.h)(0x6A1D9CA5)
 I (..\Driver\System\TIM6\tim6_functimer.h)(0x6A040AF2)
 I (..\Driver\HardWare\LED\LED.h)(0x69864771)
@@ -1477,13 +1477,13 @@ I (..\Driver\Fatfs\integer.h)(0x4BD31212)
 I (..\Driver\Fatfs\ffconf.h)(0x698C904D)
 I (..\Driver\Fatfs\diskio.h)(0x4D21CB12)
 I (..\Driver\HardWare\KEY\Key.h)(0x6A041558)
-I (..\Driver\System\myDMA\myDMA.h)(0x6A268095)
-I (..\Function\data_process.h)(0x6A268096)
-I (..\Function\pt100.h)(0x6A268096)
-I (..\Function\Function.h)(0x6A268095)
-I (..\Function\myflashdb_log.h)(0x6A268096)
-I (..\Function\myflashdb_data.h)(0x6A268096)
-I (..\Protocol\msg.h)(0x6A268096)
+I (..\Driver\System\myDMA\myDMA.h)(0x6A269733)
+I (..\Function\data_process.h)(0x6A269733)
+I (..\Function\pt100.h)(0x6A269838)
+I (..\Function\Function.h)(0x6A269733)
+I (..\Function\myflashdb_log.h)(0x6A269733)
+I (..\Function\myflashdb_data.h)(0x6A269733)
+I (..\Protocol\msg.h)(0x6A269733)
 F (..\Driver\Library\GD32F4xx_standard_peripheral\Source\gd32f4xx_adc.c)(0x65A7AAB8)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Driver\HardWare\KEY -I ..\Driver\HardWare\LED -I ..\Driver\HardWare\OLED -I ..\Driver\HardWare\RTC -I ..\Driver\HardWare\SDCARD -I ..\Driver\HardWare\SPI_FLASH -I ..\Driver\HardWare\USART -I ..\Driver\HeaderFiles -I ..\Driver\Library -I ..\Driver\Start\CMSIS -I ..\Driver\Start\Startup -I ..\Driver\System\ADC -I ..\Driver\System\AD3344 -I ..\Driver\System\TIM6 -I ..\User -I ..\Driver\Library\GD32F4xx_standard_peripheral\Include -I ..\Driver\Library\GD32F4xx_standard_peripheral\Source -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Include -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Source -I ..\Function -I ..\Protocol -I ..\Driver\Fatfs -I ..\Driver\System\myDMA -I ..\Driver\FlashDB\fal -I ..\Driver\FlashDB\flashdb -I ..\Driver\FlashDB -I ..\Driver\HardWare\sleep_wake -I ..\Driver\System\DAC-I.\RTE\_TASK_-I"D:\AsusMCenterDownload\keil5 MDK\pack\GigaDevice\GD32F4xx_DFP\3.4.0\Device\F4XX\Include"-I"D:\AsusMCenterDownload\keil5 MDK\core\ARM\CMSIS\Include"-D__UVISION_VERSION="524" -D_RTE_ -DGD32F470 -DUSE_STDPERIPH_DRIVER -DGD32F470-o .\objects\gd32f4xx_adc.o --omf_browse .\objects\gd32f4xx_adc.crf --depend .\objects\gd32f4xx_adc.d)
 I (..\Driver\Library\GD32F4xx_standard_peripheral\Include\gd32f4xx_adc.h)(0x65A7AAB6)
 I (..\Driver\Start\CMSIS\GD\GD32F4xx\Include\gd32f4xx.h)(0x67D920AE)
@@ -2654,8 +2654,8 @@ I (D:\AsusMCenterDownload\keil5 MDK\core\ARM\ARMCC\include\stdlib.h)(0x588B8344)
 I (..\Driver\Library\GD32F4xx_standard_peripheral\Include\gd32f4xx_exmc.h)(0x65A7AAB6)
 I (..\Driver\Library\GD32F4xx_standard_peripheral\Include\gd32f4xx_ipa.h)(0x65A7AAB6)
 I (..\Driver\Library\GD32F4xx_standard_peripheral\Include\gd32f4xx_tli.h)(0x65A7AAB6)
-F (..\Function\Function.c)(0x6A268095)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Driver\HardWare\KEY -I ..\Driver\HardWare\LED -I ..\Driver\HardWare\OLED -I ..\Driver\HardWare\RTC -I ..\Driver\HardWare\SDCARD -I ..\Driver\HardWare\SPI_FLASH -I ..\Driver\HardWare\USART -I ..\Driver\HeaderFiles -I ..\Driver\Library -I ..\Driver\Start\CMSIS -I ..\Driver\Start\Startup -I ..\Driver\System\ADC -I ..\Driver\System\AD3344 -I ..\Driver\System\TIM6 -I ..\User -I ..\Driver\Library\GD32F4xx_standard_peripheral\Include -I ..\Driver\Library\GD32F4xx_standard_peripheral\Source -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Include -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Source -I ..\Function -I ..\Protocol -I ..\Driver\Fatfs -I ..\Driver\System\myDMA -I ..\Driver\FlashDB\fal -I ..\Driver\FlashDB\flashdb -I ..\Driver\FlashDB -I ..\Driver\HardWare\sleep_wake -I ..\Driver\System\DAC-I.\RTE\_TASK_-I"D:\AsusMCenterDownload\keil5 MDK\pack\GigaDevice\GD32F4xx_DFP\3.4.0\Device\F4XX\Include"-I"D:\AsusMCenterDownload\keil5 MDK\core\ARM\CMSIS\Include"-D__UVISION_VERSION="524" -D_RTE_ -DGD32F470 -DUSE_STDPERIPH_DRIVER -DGD32F470-o .\objects\function.o --omf_browse .\objects\function.crf --depend .\objects\function.d)
-I (..\Driver\HeaderFiles\HeaderFiles.h)(0x6A268095)
+F (..\Function\Function.c)(0x6A269733)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Driver\HardWare\KEY -I ..\Driver\HardWare\LED -I ..\Driver\HardWare\OLED -I ..\Driver\HardWare\RTC -I ..\Driver\HardWare\SDCARD -I ..\Driver\HardWare\SPI_FLASH -I ..\Driver\HardWare\USART -I ..\Driver\HeaderFiles -I ..\Driver\Library -I ..\Driver\Start\CMSIS -I ..\Driver\Start\Startup -I ..\Driver\System\ADC -I ..\Driver\System\AD3344 -I ..\Driver\System\TIM6 -I ..\User -I ..\Driver\Library\GD32F4xx_standard_peripheral\Include -I ..\Driver\Library\GD32F4xx_standard_peripheral\Source -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Include -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Source -I ..\Function -I ..\Protocol -I ..\Driver\Fatfs -I ..\Driver\System\myDMA -I ..\Driver\FlashDB\fal -I ..\Driver\FlashDB\flashdb -I ..\Driver\FlashDB -I ..\Driver\HardWare\sleep_wake -I ..\Driver\System\DAC-I.\RTE\_TASK_-I"D:\AsusMCenterDownload\keil5 MDK\pack\GigaDevice\GD32F4xx_DFP\3.4.0\Device\F4XX\Include"-I"D:\AsusMCenterDownload\keil5 MDK\core\ARM\CMSIS\Include"-D__UVISION_VERSION="524" -D_RTE_ -DGD32F470 -DUSE_STDPERIPH_DRIVER -DGD32F470-o .\objects\function.o --omf_browse .\objects\function.crf --depend .\objects\function.d)
+I (..\Driver\HeaderFiles\HeaderFiles.h)(0x6A269733)
 I (..\Driver\Start\CMSIS\GD\GD32F4xx\Include\gd32f4xx.h)(0x67D920AE)
 I (..\Driver\Start\CMSIS\core_cm4.h)(0x65A7AAB6)
 I (D:\AsusMCenterDownload\keil5 MDK\core\ARM\ARMCC\include\stdint.h)(0x588B8344)
@@ -2710,14 +2710,14 @@ I (..\Driver\FlashDB\fal\rtconfig.h)(0x6A04757C)
 I (..\Driver\FlashDB\fal/fal_cfg.h)(0x6A0DAD56)
 I (..\Driver\FlashDB\fal/fal_def.h)(0x6A047733)
 I (..\Driver\FlashDB\flashdb\fdb_def.h)(0x6A0AD9F3)
-I (..\Function\app_param.h)(0x6A268096)
+I (..\Function\app_param.h)(0x6A269733)
 I (..\Driver\HardWare\OLED\OLED.h)(0x6988BAB9)
 I (..\Driver\System\DAC\DAC.h)(0x6A020191)
 I (..\Driver\HardWare\USART\USART.h)(0x6A215EC9)
 I (..\Driver\HardWare\RTC\RTC.h)(0x6A086EC3)
 I (..\Driver\HardWare\SPI_FLASH\SPI_FLASH.h)(0x6A055861)
 I (..\Driver\HardWare\SDCARD\sdcard.h)(0x6985E489)
-I (..\Driver\System\ADC\ADC.h)(0x6A268095)
+I (..\Driver\System\ADC\ADC.h)(0x6A269733)
 I (..\Driver\System\AD3344\AD3344.h)(0x6A1D9CA5)
 I (..\Driver\System\TIM6\tim6_functimer.h)(0x6A040AF2)
 I (..\Driver\HardWare\LED\LED.h)(0x69864771)
@@ -2726,18 +2726,18 @@ I (..\Driver\Fatfs\integer.h)(0x4BD31212)
 I (..\Driver\Fatfs\ffconf.h)(0x698C904D)
 I (..\Driver\Fatfs\diskio.h)(0x4D21CB12)
 I (..\Driver\HardWare\KEY\Key.h)(0x6A041558)
-I (..\Driver\System\myDMA\myDMA.h)(0x6A268095)
-I (..\Function\data_process.h)(0x6A268096)
-I (..\Function\pt100.h)(0x6A268096)
-I (..\Function\Function.h)(0x6A268095)
-I (..\Function\myflashdb_log.h)(0x6A268096)
-I (..\Function\myflashdb_data.h)(0x6A268096)
+I (..\Driver\System\myDMA\myDMA.h)(0x6A269733)
+I (..\Function\data_process.h)(0x6A269733)
+I (..\Function\pt100.h)(0x6A269838)
+I (..\Function\Function.h)(0x6A269733)
+I (..\Function\myflashdb_log.h)(0x6A269733)
+I (..\Function\myflashdb_data.h)(0x6A269733)
 I (..\Driver\HardWare\sleep_wake\sleep_wake.h)(0x6A1D190B)
-I (..\Protocol\msg.h)(0x6A268096)
-F (..\Function\Function.h)(0x6A268095)()
-F (..\Function\data_process.c)(0x6A268096)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Driver\HardWare\KEY -I ..\Driver\HardWare\LED -I ..\Driver\HardWare\OLED -I ..\Driver\HardWare\RTC -I ..\Driver\HardWare\SDCARD -I ..\Driver\HardWare\SPI_FLASH -I ..\Driver\HardWare\USART -I ..\Driver\HeaderFiles -I ..\Driver\Library -I ..\Driver\Start\CMSIS -I ..\Driver\Start\Startup -I ..\Driver\System\ADC -I ..\Driver\System\AD3344 -I ..\Driver\System\TIM6 -I ..\User -I ..\Driver\Library\GD32F4xx_standard_peripheral\Include -I ..\Driver\Library\GD32F4xx_standard_peripheral\Source -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Include -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Source -I ..\Function -I ..\Protocol -I ..\Driver\Fatfs -I ..\Driver\System\myDMA -I ..\Driver\FlashDB\fal -I ..\Driver\FlashDB\flashdb -I ..\Driver\FlashDB -I ..\Driver\HardWare\sleep_wake -I ..\Driver\System\DAC-I.\RTE\_TASK_-I"D:\AsusMCenterDownload\keil5 MDK\pack\GigaDevice\GD32F4xx_DFP\3.4.0\Device\F4XX\Include"-I"D:\AsusMCenterDownload\keil5 MDK\core\ARM\CMSIS\Include"-D__UVISION_VERSION="524" -D_RTE_ -DGD32F470 -DUSE_STDPERIPH_DRIVER -DGD32F470-o .\objects\data_process.o --omf_browse .\objects\data_process.crf --depend .\objects\data_process.d)
-I (..\Function\data_process.h)(0x6A268096)
-I (..\Driver\HeaderFiles\HeaderFiles.h)(0x6A268095)
+I (..\Protocol\msg.h)(0x6A269733)
+F (..\Function\Function.h)(0x6A269733)()
+F (..\Function\data_process.c)(0x6A269733)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Driver\HardWare\KEY -I ..\Driver\HardWare\LED -I ..\Driver\HardWare\OLED -I ..\Driver\HardWare\RTC -I ..\Driver\HardWare\SDCARD -I ..\Driver\HardWare\SPI_FLASH -I ..\Driver\HardWare\USART -I ..\Driver\HeaderFiles -I ..\Driver\Library -I ..\Driver\Start\CMSIS -I ..\Driver\Start\Startup -I ..\Driver\System\ADC -I ..\Driver\System\AD3344 -I ..\Driver\System\TIM6 -I ..\User -I ..\Driver\Library\GD32F4xx_standard_peripheral\Include -I ..\Driver\Library\GD32F4xx_standard_peripheral\Source -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Include -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Source -I ..\Function -I ..\Protocol -I ..\Driver\Fatfs -I ..\Driver\System\myDMA -I ..\Driver\FlashDB\fal -I ..\Driver\FlashDB\flashdb -I ..\Driver\FlashDB -I ..\Driver\HardWare\sleep_wake -I ..\Driver\System\DAC-I.\RTE\_TASK_-I"D:\AsusMCenterDownload\keil5 MDK\pack\GigaDevice\GD32F4xx_DFP\3.4.0\Device\F4XX\Include"-I"D:\AsusMCenterDownload\keil5 MDK\core\ARM\CMSIS\Include"-D__UVISION_VERSION="524" -D_RTE_ -DGD32F470 -DUSE_STDPERIPH_DRIVER -DGD32F470-o .\objects\data_process.o --omf_browse .\objects\data_process.crf --depend .\objects\data_process.d)
+I (..\Function\data_process.h)(0x6A269733)
+I (..\Driver\HeaderFiles\HeaderFiles.h)(0x6A269733)
 I (..\Driver\Start\CMSIS\GD\GD32F4xx\Include\gd32f4xx.h)(0x67D920AE)
 I (..\Driver\Start\CMSIS\core_cm4.h)(0x65A7AAB6)
 I (D:\AsusMCenterDownload\keil5 MDK\core\ARM\ARMCC\include\stdint.h)(0x588B8344)
@@ -2792,14 +2792,14 @@ I (..\Driver\FlashDB\fal\rtconfig.h)(0x6A04757C)
 I (..\Driver\FlashDB\fal/fal_cfg.h)(0x6A0DAD56)
 I (..\Driver\FlashDB\fal/fal_def.h)(0x6A047733)
 I (..\Driver\FlashDB\flashdb\fdb_def.h)(0x6A0AD9F3)
-I (..\Function\app_param.h)(0x6A268096)
+I (..\Function\app_param.h)(0x6A269733)
 I (..\Driver\HardWare\OLED\OLED.h)(0x6988BAB9)
 I (..\Driver\System\DAC\DAC.h)(0x6A020191)
 I (..\Driver\HardWare\USART\USART.h)(0x6A215EC9)
 I (..\Driver\HardWare\RTC\RTC.h)(0x6A086EC3)
 I (..\Driver\HardWare\SPI_FLASH\SPI_FLASH.h)(0x6A055861)
 I (..\Driver\HardWare\SDCARD\sdcard.h)(0x6985E489)
-I (..\Driver\System\ADC\ADC.h)(0x6A268095)
+I (..\Driver\System\ADC\ADC.h)(0x6A269733)
 I (..\Driver\System\AD3344\AD3344.h)(0x6A1D9CA5)
 I (..\Driver\System\TIM6\tim6_functimer.h)(0x6A040AF2)
 I (..\Driver\HardWare\LED\LED.h)(0x69864771)
@@ -2808,17 +2808,17 @@ I (..\Driver\Fatfs\integer.h)(0x4BD31212)
 I (..\Driver\Fatfs\ffconf.h)(0x698C904D)
 I (..\Driver\Fatfs\diskio.h)(0x4D21CB12)
 I (..\Driver\HardWare\KEY\Key.h)(0x6A041558)
-I (..\Driver\System\myDMA\myDMA.h)(0x6A268095)
-I (..\Function\pt100.h)(0x6A268096)
-I (..\Function\Function.h)(0x6A268095)
-I (..\Function\myflashdb_log.h)(0x6A268096)
-I (..\Function\myflashdb_data.h)(0x6A268096)
+I (..\Driver\System\myDMA\myDMA.h)(0x6A269733)
+I (..\Function\pt100.h)(0x6A269838)
+I (..\Function\Function.h)(0x6A269733)
+I (..\Function\myflashdb_log.h)(0x6A269733)
+I (..\Function\myflashdb_data.h)(0x6A269733)
 I (..\Driver\HardWare\sleep_wake\sleep_wake.h)(0x6A1D190B)
-I (..\Protocol\msg.h)(0x6A268096)
-F (..\Function\data_process.h)(0x6A268096)()
-F (..\Function\pt100.c)(0x6A268096)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Driver\HardWare\KEY -I ..\Driver\HardWare\LED -I ..\Driver\HardWare\OLED -I ..\Driver\HardWare\RTC -I ..\Driver\HardWare\SDCARD -I ..\Driver\HardWare\SPI_FLASH -I ..\Driver\HardWare\USART -I ..\Driver\HeaderFiles -I ..\Driver\Library -I ..\Driver\Start\CMSIS -I ..\Driver\Start\Startup -I ..\Driver\System\ADC -I ..\Driver\System\AD3344 -I ..\Driver\System\TIM6 -I ..\User -I ..\Driver\Library\GD32F4xx_standard_peripheral\Include -I ..\Driver\Library\GD32F4xx_standard_peripheral\Source -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Include -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Source -I ..\Function -I ..\Protocol -I ..\Driver\Fatfs -I ..\Driver\System\myDMA -I ..\Driver\FlashDB\fal -I ..\Driver\FlashDB\flashdb -I ..\Driver\FlashDB -I ..\Driver\HardWare\sleep_wake -I ..\Driver\System\DAC-I.\RTE\_TASK_-I"D:\AsusMCenterDownload\keil5 MDK\pack\GigaDevice\GD32F4xx_DFP\3.4.0\Device\F4XX\Include"-I"D:\AsusMCenterDownload\keil5 MDK\core\ARM\CMSIS\Include"-D__UVISION_VERSION="524" -D_RTE_ -DGD32F470 -DUSE_STDPERIPH_DRIVER -DGD32F470-o .\objects\pt100.o --omf_browse .\objects\pt100.crf --depend .\objects\pt100.d)
-I (..\Function\pt100.h)(0x6A268096)
-I (..\Driver\HeaderFiles\HeaderFiles.h)(0x6A268095)
+I (..\Protocol\msg.h)(0x6A269733)
+F (..\Function\data_process.h)(0x6A269733)()
+F (..\Function\pt100.c)(0x6A269733)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Driver\HardWare\KEY -I ..\Driver\HardWare\LED -I ..\Driver\HardWare\OLED -I ..\Driver\HardWare\RTC -I ..\Driver\HardWare\SDCARD -I ..\Driver\HardWare\SPI_FLASH -I ..\Driver\HardWare\USART -I ..\Driver\HeaderFiles -I ..\Driver\Library -I ..\Driver\Start\CMSIS -I ..\Driver\Start\Startup -I ..\Driver\System\ADC -I ..\Driver\System\AD3344 -I ..\Driver\System\TIM6 -I ..\User -I ..\Driver\Library\GD32F4xx_standard_peripheral\Include -I ..\Driver\Library\GD32F4xx_standard_peripheral\Source -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Include -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Source -I ..\Function -I ..\Protocol -I ..\Driver\Fatfs -I ..\Driver\System\myDMA -I ..\Driver\FlashDB\fal -I ..\Driver\FlashDB\flashdb -I ..\Driver\FlashDB -I ..\Driver\HardWare\sleep_wake -I ..\Driver\System\DAC-I.\RTE\_TASK_-I"D:\AsusMCenterDownload\keil5 MDK\pack\GigaDevice\GD32F4xx_DFP\3.4.0\Device\F4XX\Include"-I"D:\AsusMCenterDownload\keil5 MDK\core\ARM\CMSIS\Include"-D__UVISION_VERSION="524" -D_RTE_ -DGD32F470 -DUSE_STDPERIPH_DRIVER -DGD32F470-o .\objects\pt100.o --omf_browse .\objects\pt100.crf --depend .\objects\pt100.d)
+I (..\Function\pt100.h)(0x6A269838)
+I (..\Driver\HeaderFiles\HeaderFiles.h)(0x6A269733)
 I (..\Driver\Start\CMSIS\GD\GD32F4xx\Include\gd32f4xx.h)(0x67D920AE)
 I (..\Driver\Start\CMSIS\core_cm4.h)(0x65A7AAB6)
 I (D:\AsusMCenterDownload\keil5 MDK\core\ARM\ARMCC\include\stdint.h)(0x588B8344)
@@ -2873,14 +2873,14 @@ I (..\Driver\FlashDB\fal\rtconfig.h)(0x6A04757C)
 I (..\Driver\FlashDB\fal/fal_cfg.h)(0x6A0DAD56)
 I (..\Driver\FlashDB\fal/fal_def.h)(0x6A047733)
 I (..\Driver\FlashDB\flashdb\fdb_def.h)(0x6A0AD9F3)
-I (..\Function\app_param.h)(0x6A268096)
+I (..\Function\app_param.h)(0x6A269733)
 I (..\Driver\HardWare\OLED\OLED.h)(0x6988BAB9)
 I (..\Driver\System\DAC\DAC.h)(0x6A020191)
 I (..\Driver\HardWare\USART\USART.h)(0x6A215EC9)
 I (..\Driver\HardWare\RTC\RTC.h)(0x6A086EC3)
 I (..\Driver\HardWare\SPI_FLASH\SPI_FLASH.h)(0x6A055861)
 I (..\Driver\HardWare\SDCARD\sdcard.h)(0x6985E489)
-I (..\Driver\System\ADC\ADC.h)(0x6A268095)
+I (..\Driver\System\ADC\ADC.h)(0x6A269733)
 I (..\Driver\System\AD3344\AD3344.h)(0x6A1D9CA5)
 I (..\Driver\System\TIM6\tim6_functimer.h)(0x6A040AF2)
 I (..\Driver\HardWare\LED\LED.h)(0x69864771)
@@ -2889,17 +2889,17 @@ I (..\Driver\Fatfs\integer.h)(0x4BD31212)
 I (..\Driver\Fatfs\ffconf.h)(0x698C904D)
 I (..\Driver\Fatfs\diskio.h)(0x4D21CB12)
 I (..\Driver\HardWare\KEY\Key.h)(0x6A041558)
-I (..\Driver\System\myDMA\myDMA.h)(0x6A268095)
-I (..\Function\data_process.h)(0x6A268096)
-I (..\Function\Function.h)(0x6A268095)
-I (..\Function\myflashdb_log.h)(0x6A268096)
-I (..\Function\myflashdb_data.h)(0x6A268096)
+I (..\Driver\System\myDMA\myDMA.h)(0x6A269733)
+I (..\Function\data_process.h)(0x6A269733)
+I (..\Function\Function.h)(0x6A269733)
+I (..\Function\myflashdb_log.h)(0x6A269733)
+I (..\Function\myflashdb_data.h)(0x6A269733)
 I (..\Driver\HardWare\sleep_wake\sleep_wake.h)(0x6A1D190B)
-I (..\Protocol\msg.h)(0x6A268096)
-F (..\Function\pt100.h)(0x6A268096)()
-F (..\Function\app_param.c)(0x6A268095)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Driver\HardWare\KEY -I ..\Driver\HardWare\LED -I ..\Driver\HardWare\OLED -I ..\Driver\HardWare\RTC -I ..\Driver\HardWare\SDCARD -I ..\Driver\HardWare\SPI_FLASH -I ..\Driver\HardWare\USART -I ..\Driver\HeaderFiles -I ..\Driver\Library -I ..\Driver\Start\CMSIS -I ..\Driver\Start\Startup -I ..\Driver\System\ADC -I ..\Driver\System\AD3344 -I ..\Driver\System\TIM6 -I ..\User -I ..\Driver\Library\GD32F4xx_standard_peripheral\Include -I ..\Driver\Library\GD32F4xx_standard_peripheral\Source -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Include -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Source -I ..\Function -I ..\Protocol -I ..\Driver\Fatfs -I ..\Driver\System\myDMA -I ..\Driver\FlashDB\fal -I ..\Driver\FlashDB\flashdb -I ..\Driver\FlashDB -I ..\Driver\HardWare\sleep_wake -I ..\Driver\System\DAC-I.\RTE\_TASK_-I"D:\AsusMCenterDownload\keil5 MDK\pack\GigaDevice\GD32F4xx_DFP\3.4.0\Device\F4XX\Include"-I"D:\AsusMCenterDownload\keil5 MDK\core\ARM\CMSIS\Include"-D__UVISION_VERSION="524" -D_RTE_ -DGD32F470 -DUSE_STDPERIPH_DRIVER -DGD32F470-o .\objects\app_param.o --omf_browse .\objects\app_param.crf --depend .\objects\app_param.d)
-I (..\Function\app_param.h)(0x6A268096)
-I (..\Driver\HeaderFiles\HeaderFiles.h)(0x6A268095)
+I (..\Protocol\msg.h)(0x6A269733)
+F (..\Function\pt100.h)(0x6A269838)()
+F (..\Function\app_param.c)(0x6A269733)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Driver\HardWare\KEY -I ..\Driver\HardWare\LED -I ..\Driver\HardWare\OLED -I ..\Driver\HardWare\RTC -I ..\Driver\HardWare\SDCARD -I ..\Driver\HardWare\SPI_FLASH -I ..\Driver\HardWare\USART -I ..\Driver\HeaderFiles -I ..\Driver\Library -I ..\Driver\Start\CMSIS -I ..\Driver\Start\Startup -I ..\Driver\System\ADC -I ..\Driver\System\AD3344 -I ..\Driver\System\TIM6 -I ..\User -I ..\Driver\Library\GD32F4xx_standard_peripheral\Include -I ..\Driver\Library\GD32F4xx_standard_peripheral\Source -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Include -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Source -I ..\Function -I ..\Protocol -I ..\Driver\Fatfs -I ..\Driver\System\myDMA -I ..\Driver\FlashDB\fal -I ..\Driver\FlashDB\flashdb -I ..\Driver\FlashDB -I ..\Driver\HardWare\sleep_wake -I ..\Driver\System\DAC-I.\RTE\_TASK_-I"D:\AsusMCenterDownload\keil5 MDK\pack\GigaDevice\GD32F4xx_DFP\3.4.0\Device\F4XX\Include"-I"D:\AsusMCenterDownload\keil5 MDK\core\ARM\CMSIS\Include"-D__UVISION_VERSION="524" -D_RTE_ -DGD32F470 -DUSE_STDPERIPH_DRIVER -DGD32F470-o .\objects\app_param.o --omf_browse .\objects\app_param.crf --depend .\objects\app_param.d)
+I (..\Function\app_param.h)(0x6A269733)
+I (..\Driver\HeaderFiles\HeaderFiles.h)(0x6A269733)
 I (..\Driver\Start\CMSIS\GD\GD32F4xx\Include\gd32f4xx.h)(0x67D920AE)
 I (..\Driver\Start\CMSIS\core_cm4.h)(0x65A7AAB6)
 I (D:\AsusMCenterDownload\keil5 MDK\core\ARM\ARMCC\include\stdint.h)(0x588B8344)
@@ -2960,7 +2960,7 @@ I (..\Driver\HardWare\USART\USART.h)(0x6A215EC9)
 I (..\Driver\HardWare\RTC\RTC.h)(0x6A086EC3)
 I (..\Driver\HardWare\SPI_FLASH\SPI_FLASH.h)(0x6A055861)
 I (..\Driver\HardWare\SDCARD\sdcard.h)(0x6985E489)
-I (..\Driver\System\ADC\ADC.h)(0x6A268095)
+I (..\Driver\System\ADC\ADC.h)(0x6A269733)
 I (..\Driver\System\AD3344\AD3344.h)(0x6A1D9CA5)
 I (..\Driver\System\TIM6\tim6_functimer.h)(0x6A040AF2)
 I (..\Driver\HardWare\LED\LED.h)(0x69864771)
@@ -2969,18 +2969,18 @@ I (..\Driver\Fatfs\integer.h)(0x4BD31212)
 I (..\Driver\Fatfs\ffconf.h)(0x698C904D)
 I (..\Driver\Fatfs\diskio.h)(0x4D21CB12)
 I (..\Driver\HardWare\KEY\Key.h)(0x6A041558)
-I (..\Driver\System\myDMA\myDMA.h)(0x6A268095)
-I (..\Function\data_process.h)(0x6A268096)
-I (..\Function\pt100.h)(0x6A268096)
-I (..\Function\Function.h)(0x6A268095)
-I (..\Function\myflashdb_log.h)(0x6A268096)
-I (..\Function\myflashdb_data.h)(0x6A268096)
+I (..\Driver\System\myDMA\myDMA.h)(0x6A269733)
+I (..\Function\data_process.h)(0x6A269733)
+I (..\Function\pt100.h)(0x6A269838)
+I (..\Function\Function.h)(0x6A269733)
+I (..\Function\myflashdb_log.h)(0x6A269733)
+I (..\Function\myflashdb_data.h)(0x6A269733)
 I (..\Driver\HardWare\sleep_wake\sleep_wake.h)(0x6A1D190B)
-I (..\Protocol\msg.h)(0x6A268096)
-F (..\Function\app_param.h)(0x6A268096)()
-F (..\Function\myflashdb_data.c)(0x6A268096)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Driver\HardWare\KEY -I ..\Driver\HardWare\LED -I ..\Driver\HardWare\OLED -I ..\Driver\HardWare\RTC -I ..\Driver\HardWare\SDCARD -I ..\Driver\HardWare\SPI_FLASH -I ..\Driver\HardWare\USART -I ..\Driver\HeaderFiles -I ..\Driver\Library -I ..\Driver\Start\CMSIS -I ..\Driver\Start\Startup -I ..\Driver\System\ADC -I ..\Driver\System\AD3344 -I ..\Driver\System\TIM6 -I ..\User -I ..\Driver\Library\GD32F4xx_standard_peripheral\Include -I ..\Driver\Library\GD32F4xx_standard_peripheral\Source -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Include -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Source -I ..\Function -I ..\Protocol -I ..\Driver\Fatfs -I ..\Driver\System\myDMA -I ..\Driver\FlashDB\fal -I ..\Driver\FlashDB\flashdb -I ..\Driver\FlashDB -I ..\Driver\HardWare\sleep_wake -I ..\Driver\System\DAC-I.\RTE\_TASK_-I"D:\AsusMCenterDownload\keil5 MDK\pack\GigaDevice\GD32F4xx_DFP\3.4.0\Device\F4XX\Include"-I"D:\AsusMCenterDownload\keil5 MDK\core\ARM\CMSIS\Include"-D__UVISION_VERSION="524" -D_RTE_ -DGD32F470 -DUSE_STDPERIPH_DRIVER -DGD32F470-o .\objects\myflashdb_data.o --omf_browse .\objects\myflashdb_data.crf --depend .\objects\myflashdb_data.d)
-I (..\Function\myflashdb_data.h)(0x6A268096)
-I (..\Driver\HeaderFiles\HeaderFiles.h)(0x6A268095)
+I (..\Protocol\msg.h)(0x6A269733)
+F (..\Function\app_param.h)(0x6A269733)()
+F (..\Function\myflashdb_data.c)(0x6A269733)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Driver\HardWare\KEY -I ..\Driver\HardWare\LED -I ..\Driver\HardWare\OLED -I ..\Driver\HardWare\RTC -I ..\Driver\HardWare\SDCARD -I ..\Driver\HardWare\SPI_FLASH -I ..\Driver\HardWare\USART -I ..\Driver\HeaderFiles -I ..\Driver\Library -I ..\Driver\Start\CMSIS -I ..\Driver\Start\Startup -I ..\Driver\System\ADC -I ..\Driver\System\AD3344 -I ..\Driver\System\TIM6 -I ..\User -I ..\Driver\Library\GD32F4xx_standard_peripheral\Include -I ..\Driver\Library\GD32F4xx_standard_peripheral\Source -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Include -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Source -I ..\Function -I ..\Protocol -I ..\Driver\Fatfs -I ..\Driver\System\myDMA -I ..\Driver\FlashDB\fal -I ..\Driver\FlashDB\flashdb -I ..\Driver\FlashDB -I ..\Driver\HardWare\sleep_wake -I ..\Driver\System\DAC-I.\RTE\_TASK_-I"D:\AsusMCenterDownload\keil5 MDK\pack\GigaDevice\GD32F4xx_DFP\3.4.0\Device\F4XX\Include"-I"D:\AsusMCenterDownload\keil5 MDK\core\ARM\CMSIS\Include"-D__UVISION_VERSION="524" -D_RTE_ -DGD32F470 -DUSE_STDPERIPH_DRIVER -DGD32F470-o .\objects\myflashdb_data.o --omf_browse .\objects\myflashdb_data.crf --depend .\objects\myflashdb_data.d)
+I (..\Function\myflashdb_data.h)(0x6A269733)
+I (..\Driver\HeaderFiles\HeaderFiles.h)(0x6A269733)
 I (..\Driver\Start\CMSIS\GD\GD32F4xx\Include\gd32f4xx.h)(0x67D920AE)
 I (..\Driver\Start\CMSIS\core_cm4.h)(0x65A7AAB6)
 I (D:\AsusMCenterDownload\keil5 MDK\core\ARM\ARMCC\include\stdint.h)(0x588B8344)
@@ -3035,14 +3035,14 @@ I (..\Driver\FlashDB\fal\rtconfig.h)(0x6A04757C)
 I (..\Driver\FlashDB\fal/fal_cfg.h)(0x6A0DAD56)
 I (..\Driver\FlashDB\fal/fal_def.h)(0x6A047733)
 I (..\Driver\FlashDB\flashdb\fdb_def.h)(0x6A0AD9F3)
-I (..\Function\app_param.h)(0x6A268096)
+I (..\Function\app_param.h)(0x6A269733)
 I (..\Driver\HardWare\OLED\OLED.h)(0x6988BAB9)
 I (..\Driver\System\DAC\DAC.h)(0x6A020191)
 I (..\Driver\HardWare\USART\USART.h)(0x6A215EC9)
 I (..\Driver\HardWare\RTC\RTC.h)(0x6A086EC3)
 I (..\Driver\HardWare\SPI_FLASH\SPI_FLASH.h)(0x6A055861)
 I (..\Driver\HardWare\SDCARD\sdcard.h)(0x6985E489)
-I (..\Driver\System\ADC\ADC.h)(0x6A268095)
+I (..\Driver\System\ADC\ADC.h)(0x6A269733)
 I (..\Driver\System\AD3344\AD3344.h)(0x6A1D9CA5)
 I (..\Driver\System\TIM6\tim6_functimer.h)(0x6A040AF2)
 I (..\Driver\HardWare\LED\LED.h)(0x69864771)
@@ -3051,17 +3051,17 @@ I (..\Driver\Fatfs\integer.h)(0x4BD31212)
 I (..\Driver\Fatfs\ffconf.h)(0x698C904D)
 I (..\Driver\Fatfs\diskio.h)(0x4D21CB12)
 I (..\Driver\HardWare\KEY\Key.h)(0x6A041558)
-I (..\Driver\System\myDMA\myDMA.h)(0x6A268095)
-I (..\Function\data_process.h)(0x6A268096)
-I (..\Function\pt100.h)(0x6A268096)
-I (..\Function\Function.h)(0x6A268095)
-I (..\Function\myflashdb_log.h)(0x6A268096)
+I (..\Driver\System\myDMA\myDMA.h)(0x6A269733)
+I (..\Function\data_process.h)(0x6A269733)
+I (..\Function\pt100.h)(0x6A269838)
+I (..\Function\Function.h)(0x6A269733)
+I (..\Function\myflashdb_log.h)(0x6A269733)
 I (..\Driver\HardWare\sleep_wake\sleep_wake.h)(0x6A1D190B)
-I (..\Protocol\msg.h)(0x6A268096)
-F (..\Function\myflashdb_data.h)(0x6A268096)()
-F (..\Function\myflashdb_log.c)(0x6A268096)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Driver\HardWare\KEY -I ..\Driver\HardWare\LED -I ..\Driver\HardWare\OLED -I ..\Driver\HardWare\RTC -I ..\Driver\HardWare\SDCARD -I ..\Driver\HardWare\SPI_FLASH -I ..\Driver\HardWare\USART -I ..\Driver\HeaderFiles -I ..\Driver\Library -I ..\Driver\Start\CMSIS -I ..\Driver\Start\Startup -I ..\Driver\System\ADC -I ..\Driver\System\AD3344 -I ..\Driver\System\TIM6 -I ..\User -I ..\Driver\Library\GD32F4xx_standard_peripheral\Include -I ..\Driver\Library\GD32F4xx_standard_peripheral\Source -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Include -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Source -I ..\Function -I ..\Protocol -I ..\Driver\Fatfs -I ..\Driver\System\myDMA -I ..\Driver\FlashDB\fal -I ..\Driver\FlashDB\flashdb -I ..\Driver\FlashDB -I ..\Driver\HardWare\sleep_wake -I ..\Driver\System\DAC-I.\RTE\_TASK_-I"D:\AsusMCenterDownload\keil5 MDK\pack\GigaDevice\GD32F4xx_DFP\3.4.0\Device\F4XX\Include"-I"D:\AsusMCenterDownload\keil5 MDK\core\ARM\CMSIS\Include"-D__UVISION_VERSION="524" -D_RTE_ -DGD32F470 -DUSE_STDPERIPH_DRIVER -DGD32F470-o .\objects\myflashdb_log.o --omf_browse .\objects\myflashdb_log.crf --depend .\objects\myflashdb_log.d)
-I (..\Function\myflashdb_log.h)(0x6A268096)
-I (..\Driver\HeaderFiles\HeaderFiles.h)(0x6A268095)
+I (..\Protocol\msg.h)(0x6A269733)
+F (..\Function\myflashdb_data.h)(0x6A269733)()
+F (..\Function\myflashdb_log.c)(0x6A269733)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Driver\HardWare\KEY -I ..\Driver\HardWare\LED -I ..\Driver\HardWare\OLED -I ..\Driver\HardWare\RTC -I ..\Driver\HardWare\SDCARD -I ..\Driver\HardWare\SPI_FLASH -I ..\Driver\HardWare\USART -I ..\Driver\HeaderFiles -I ..\Driver\Library -I ..\Driver\Start\CMSIS -I ..\Driver\Start\Startup -I ..\Driver\System\ADC -I ..\Driver\System\AD3344 -I ..\Driver\System\TIM6 -I ..\User -I ..\Driver\Library\GD32F4xx_standard_peripheral\Include -I ..\Driver\Library\GD32F4xx_standard_peripheral\Source -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Include -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Source -I ..\Function -I ..\Protocol -I ..\Driver\Fatfs -I ..\Driver\System\myDMA -I ..\Driver\FlashDB\fal -I ..\Driver\FlashDB\flashdb -I ..\Driver\FlashDB -I ..\Driver\HardWare\sleep_wake -I ..\Driver\System\DAC-I.\RTE\_TASK_-I"D:\AsusMCenterDownload\keil5 MDK\pack\GigaDevice\GD32F4xx_DFP\3.4.0\Device\F4XX\Include"-I"D:\AsusMCenterDownload\keil5 MDK\core\ARM\CMSIS\Include"-D__UVISION_VERSION="524" -D_RTE_ -DGD32F470 -DUSE_STDPERIPH_DRIVER -DGD32F470-o .\objects\myflashdb_log.o --omf_browse .\objects\myflashdb_log.crf --depend .\objects\myflashdb_log.d)
+I (..\Function\myflashdb_log.h)(0x6A269733)
+I (..\Driver\HeaderFiles\HeaderFiles.h)(0x6A269733)
 I (..\Driver\Start\CMSIS\GD\GD32F4xx\Include\gd32f4xx.h)(0x67D920AE)
 I (..\Driver\Start\CMSIS\core_cm4.h)(0x65A7AAB6)
 I (D:\AsusMCenterDownload\keil5 MDK\core\ARM\ARMCC\include\stdint.h)(0x588B8344)
@@ -3116,14 +3116,14 @@ I (..\Driver\FlashDB\fal\rtconfig.h)(0x6A04757C)
 I (..\Driver\FlashDB\fal/fal_cfg.h)(0x6A0DAD56)
 I (..\Driver\FlashDB\fal/fal_def.h)(0x6A047733)
 I (..\Driver\FlashDB\flashdb\fdb_def.h)(0x6A0AD9F3)
-I (..\Function\app_param.h)(0x6A268096)
+I (..\Function\app_param.h)(0x6A269733)
 I (..\Driver\HardWare\OLED\OLED.h)(0x6988BAB9)
 I (..\Driver\System\DAC\DAC.h)(0x6A020191)
 I (..\Driver\HardWare\USART\USART.h)(0x6A215EC9)
 I (..\Driver\HardWare\RTC\RTC.h)(0x6A086EC3)
 I (..\Driver\HardWare\SPI_FLASH\SPI_FLASH.h)(0x6A055861)
 I (..\Driver\HardWare\SDCARD\sdcard.h)(0x6985E489)
-I (..\Driver\System\ADC\ADC.h)(0x6A268095)
+I (..\Driver\System\ADC\ADC.h)(0x6A269733)
 I (..\Driver\System\AD3344\AD3344.h)(0x6A1D9CA5)
 I (..\Driver\System\TIM6\tim6_functimer.h)(0x6A040AF2)
 I (..\Driver\HardWare\LED\LED.h)(0x69864771)
@@ -3132,18 +3132,18 @@ I (..\Driver\Fatfs\integer.h)(0x4BD31212)
 I (..\Driver\Fatfs\ffconf.h)(0x698C904D)
 I (..\Driver\Fatfs\diskio.h)(0x4D21CB12)
 I (..\Driver\HardWare\KEY\Key.h)(0x6A041558)
-I (..\Driver\System\myDMA\myDMA.h)(0x6A268095)
-I (..\Function\data_process.h)(0x6A268096)
-I (..\Function\pt100.h)(0x6A268096)
-I (..\Function\Function.h)(0x6A268095)
-I (..\Function\myflashdb_data.h)(0x6A268096)
+I (..\Driver\System\myDMA\myDMA.h)(0x6A269733)
+I (..\Function\data_process.h)(0x6A269733)
+I (..\Function\pt100.h)(0x6A269838)
+I (..\Function\Function.h)(0x6A269733)
+I (..\Function\myflashdb_data.h)(0x6A269733)
 I (..\Driver\HardWare\sleep_wake\sleep_wake.h)(0x6A1D190B)
-I (..\Protocol\msg.h)(0x6A268096)
-F (..\Function\myflashdb_log.h)(0x6A268096)()
-F (..\Function\msg_app.c)(0x6A268096)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Driver\HardWare\KEY -I ..\Driver\HardWare\LED -I ..\Driver\HardWare\OLED -I ..\Driver\HardWare\RTC -I ..\Driver\HardWare\SDCARD -I ..\Driver\HardWare\SPI_FLASH -I ..\Driver\HardWare\USART -I ..\Driver\HeaderFiles -I ..\Driver\Library -I ..\Driver\Start\CMSIS -I ..\Driver\Start\Startup -I ..\Driver\System\ADC -I ..\Driver\System\AD3344 -I ..\Driver\System\TIM6 -I ..\User -I ..\Driver\Library\GD32F4xx_standard_peripheral\Include -I ..\Driver\Library\GD32F4xx_standard_peripheral\Source -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Include -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Source -I ..\Function -I ..\Protocol -I ..\Driver\Fatfs -I ..\Driver\System\myDMA -I ..\Driver\FlashDB\fal -I ..\Driver\FlashDB\flashdb -I ..\Driver\FlashDB -I ..\Driver\HardWare\sleep_wake -I ..\Driver\System\DAC-I.\RTE\_TASK_-I"D:\AsusMCenterDownload\keil5 MDK\pack\GigaDevice\GD32F4xx_DFP\3.4.0\Device\F4XX\Include"-I"D:\AsusMCenterDownload\keil5 MDK\core\ARM\CMSIS\Include"-D__UVISION_VERSION="524" -D_RTE_ -DGD32F470 -DUSE_STDPERIPH_DRIVER -DGD32F470-o .\objects\msg_app.o --omf_browse .\objects\msg_app.crf --depend .\objects\msg_app.d)
-I (..\Function\msg_app.h)(0x6A268096)
-I (..\Protocol\msg.h)(0x6A268096)
-I (..\Driver\HeaderFiles\HeaderFiles.h)(0x6A268095)
+I (..\Protocol\msg.h)(0x6A269733)
+F (..\Function\myflashdb_log.h)(0x6A269733)()
+F (..\Function\msg_app.c)(0x6A269733)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Driver\HardWare\KEY -I ..\Driver\HardWare\LED -I ..\Driver\HardWare\OLED -I ..\Driver\HardWare\RTC -I ..\Driver\HardWare\SDCARD -I ..\Driver\HardWare\SPI_FLASH -I ..\Driver\HardWare\USART -I ..\Driver\HeaderFiles -I ..\Driver\Library -I ..\Driver\Start\CMSIS -I ..\Driver\Start\Startup -I ..\Driver\System\ADC -I ..\Driver\System\AD3344 -I ..\Driver\System\TIM6 -I ..\User -I ..\Driver\Library\GD32F4xx_standard_peripheral\Include -I ..\Driver\Library\GD32F4xx_standard_peripheral\Source -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Include -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Source -I ..\Function -I ..\Protocol -I ..\Driver\Fatfs -I ..\Driver\System\myDMA -I ..\Driver\FlashDB\fal -I ..\Driver\FlashDB\flashdb -I ..\Driver\FlashDB -I ..\Driver\HardWare\sleep_wake -I ..\Driver\System\DAC-I.\RTE\_TASK_-I"D:\AsusMCenterDownload\keil5 MDK\pack\GigaDevice\GD32F4xx_DFP\3.4.0\Device\F4XX\Include"-I"D:\AsusMCenterDownload\keil5 MDK\core\ARM\CMSIS\Include"-D__UVISION_VERSION="524" -D_RTE_ -DGD32F470 -DUSE_STDPERIPH_DRIVER -DGD32F470-o .\objects\msg_app.o --omf_browse .\objects\msg_app.crf --depend .\objects\msg_app.d)
+I (..\Function\msg_app.h)(0x6A269733)
+I (..\Protocol\msg.h)(0x6A269733)
+I (..\Driver\HeaderFiles\HeaderFiles.h)(0x6A269733)
 I (..\Driver\Start\CMSIS\GD\GD32F4xx\Include\gd32f4xx.h)(0x67D920AE)
 I (..\Driver\Start\CMSIS\core_cm4.h)(0x65A7AAB6)
 I (D:\AsusMCenterDownload\keil5 MDK\core\ARM\ARMCC\include\stdint.h)(0x588B8344)
@@ -3198,14 +3198,14 @@ I (..\Driver\FlashDB\fal\rtconfig.h)(0x6A04757C)
 I (..\Driver\FlashDB\fal/fal_cfg.h)(0x6A0DAD56)
 I (..\Driver\FlashDB\fal/fal_def.h)(0x6A047733)
 I (..\Driver\FlashDB\flashdb\fdb_def.h)(0x6A0AD9F3)
-I (..\Function\app_param.h)(0x6A268096)
+I (..\Function\app_param.h)(0x6A269733)
 I (..\Driver\HardWare\OLED\OLED.h)(0x6988BAB9)
 I (..\Driver\System\DAC\DAC.h)(0x6A020191)
 I (..\Driver\HardWare\USART\USART.h)(0x6A215EC9)
 I (..\Driver\HardWare\RTC\RTC.h)(0x6A086EC3)
 I (..\Driver\HardWare\SPI_FLASH\SPI_FLASH.h)(0x6A055861)
 I (..\Driver\HardWare\SDCARD\sdcard.h)(0x6985E489)
-I (..\Driver\System\ADC\ADC.h)(0x6A268095)
+I (..\Driver\System\ADC\ADC.h)(0x6A269733)
 I (..\Driver\System\AD3344\AD3344.h)(0x6A1D9CA5)
 I (..\Driver\System\TIM6\tim6_functimer.h)(0x6A040AF2)
 I (..\Driver\HardWare\LED\LED.h)(0x69864771)
@@ -3214,17 +3214,17 @@ I (..\Driver\Fatfs\integer.h)(0x4BD31212)
 I (..\Driver\Fatfs\ffconf.h)(0x698C904D)
 I (..\Driver\Fatfs\diskio.h)(0x4D21CB12)
 I (..\Driver\HardWare\KEY\Key.h)(0x6A041558)
-I (..\Driver\System\myDMA\myDMA.h)(0x6A268095)
-I (..\Function\data_process.h)(0x6A268096)
-I (..\Function\pt100.h)(0x6A268096)
-I (..\Function\Function.h)(0x6A268095)
-I (..\Function\myflashdb_log.h)(0x6A268096)
-I (..\Function\myflashdb_data.h)(0x6A268096)
+I (..\Driver\System\myDMA\myDMA.h)(0x6A269733)
+I (..\Function\data_process.h)(0x6A269733)
+I (..\Function\pt100.h)(0x6A269838)
+I (..\Function\Function.h)(0x6A269733)
+I (..\Function\myflashdb_log.h)(0x6A269733)
+I (..\Function\myflashdb_data.h)(0x6A269733)
 I (..\Driver\HardWare\sleep_wake\sleep_wake.h)(0x6A1D190B)
-F (..\Function\msg_app.h)(0x6A268096)()
-F (..\Protocol\msg.c)(0x6A268096)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Driver\HardWare\KEY -I ..\Driver\HardWare\LED -I ..\Driver\HardWare\OLED -I ..\Driver\HardWare\RTC -I ..\Driver\HardWare\SDCARD -I ..\Driver\HardWare\SPI_FLASH -I ..\Driver\HardWare\USART -I ..\Driver\HeaderFiles -I ..\Driver\Library -I ..\Driver\Start\CMSIS -I ..\Driver\Start\Startup -I ..\Driver\System\ADC -I ..\Driver\System\AD3344 -I ..\Driver\System\TIM6 -I ..\User -I ..\Driver\Library\GD32F4xx_standard_peripheral\Include -I ..\Driver\Library\GD32F4xx_standard_peripheral\Source -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Include -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Source -I ..\Function -I ..\Protocol -I ..\Driver\Fatfs -I ..\Driver\System\myDMA -I ..\Driver\FlashDB\fal -I ..\Driver\FlashDB\flashdb -I ..\Driver\FlashDB -I ..\Driver\HardWare\sleep_wake -I ..\Driver\System\DAC-I.\RTE\_TASK_-I"D:\AsusMCenterDownload\keil5 MDK\pack\GigaDevice\GD32F4xx_DFP\3.4.0\Device\F4XX\Include"-I"D:\AsusMCenterDownload\keil5 MDK\core\ARM\CMSIS\Include"-D__UVISION_VERSION="524" -D_RTE_ -DGD32F470 -DUSE_STDPERIPH_DRIVER -DGD32F470-o .\objects\msg.o --omf_browse .\objects\msg.crf --depend .\objects\msg.d)
-I (..\Protocol\msg.h)(0x6A268096)
-I (..\Driver\HeaderFiles\HeaderFiles.h)(0x6A268095)
+F (..\Function\msg_app.h)(0x6A269733)()
+F (..\Protocol\msg.c)(0x6A269733)(--c99 -c --cpu Cortex-M4.fp -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I ..\Driver\HardWare\KEY -I ..\Driver\HardWare\LED -I ..\Driver\HardWare\OLED -I ..\Driver\HardWare\RTC -I ..\Driver\HardWare\SDCARD -I ..\Driver\HardWare\SPI_FLASH -I ..\Driver\HardWare\USART -I ..\Driver\HeaderFiles -I ..\Driver\Library -I ..\Driver\Start\CMSIS -I ..\Driver\Start\Startup -I ..\Driver\System\ADC -I ..\Driver\System\AD3344 -I ..\Driver\System\TIM6 -I ..\User -I ..\Driver\Library\GD32F4xx_standard_peripheral\Include -I ..\Driver\Library\GD32F4xx_standard_peripheral\Source -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Include -I ..\Driver\Start\CMSIS\GD\GD32F4xx\Source -I ..\Function -I ..\Protocol -I ..\Driver\Fatfs -I ..\Driver\System\myDMA -I ..\Driver\FlashDB\fal -I ..\Driver\FlashDB\flashdb -I ..\Driver\FlashDB -I ..\Driver\HardWare\sleep_wake -I ..\Driver\System\DAC-I.\RTE\_TASK_-I"D:\AsusMCenterDownload\keil5 MDK\pack\GigaDevice\GD32F4xx_DFP\3.4.0\Device\F4XX\Include"-I"D:\AsusMCenterDownload\keil5 MDK\core\ARM\CMSIS\Include"-D__UVISION_VERSION="524" -D_RTE_ -DGD32F470 -DUSE_STDPERIPH_DRIVER -DGD32F470-o .\objects\msg.o --omf_browse .\objects\msg.crf --depend .\objects\msg.d)
+I (..\Protocol\msg.h)(0x6A269733)
+I (..\Driver\HeaderFiles\HeaderFiles.h)(0x6A269733)
 I (..\Driver\Start\CMSIS\GD\GD32F4xx\Include\gd32f4xx.h)(0x67D920AE)
 I (..\Driver\Start\CMSIS\core_cm4.h)(0x65A7AAB6)
 I (D:\AsusMCenterDownload\keil5 MDK\core\ARM\ARMCC\include\stdint.h)(0x588B8344)
@@ -3279,14 +3279,14 @@ I (..\Driver\FlashDB\fal\rtconfig.h)(0x6A04757C)
 I (..\Driver\FlashDB\fal/fal_cfg.h)(0x6A0DAD56)
 I (..\Driver\FlashDB\fal/fal_def.h)(0x6A047733)
 I (..\Driver\FlashDB\flashdb\fdb_def.h)(0x6A0AD9F3)
-I (..\Function\app_param.h)(0x6A268096)
+I (..\Function\app_param.h)(0x6A269733)
 I (..\Driver\HardWare\OLED\OLED.h)(0x6988BAB9)
 I (..\Driver\System\DAC\DAC.h)(0x6A020191)
 I (..\Driver\HardWare\USART\USART.h)(0x6A215EC9)
 I (..\Driver\HardWare\RTC\RTC.h)(0x6A086EC3)
 I (..\Driver\HardWare\SPI_FLASH\SPI_FLASH.h)(0x6A055861)
 I (..\Driver\HardWare\SDCARD\sdcard.h)(0x6985E489)
-I (..\Driver\System\ADC\ADC.h)(0x6A268095)
+I (..\Driver\System\ADC\ADC.h)(0x6A269733)
 I (..\Driver\System\AD3344\AD3344.h)(0x6A1D9CA5)
 I (..\Driver\System\TIM6\tim6_functimer.h)(0x6A040AF2)
 I (..\Driver\HardWare\LED\LED.h)(0x69864771)
@@ -3295,12 +3295,12 @@ I (..\Driver\Fatfs\integer.h)(0x4BD31212)
 I (..\Driver\Fatfs\ffconf.h)(0x698C904D)
 I (..\Driver\Fatfs\diskio.h)(0x4D21CB12)
 I (..\Driver\HardWare\KEY\Key.h)(0x6A041558)
-I (..\Driver\System\myDMA\myDMA.h)(0x6A268095)
-I (..\Function\data_process.h)(0x6A268096)
-I (..\Function\pt100.h)(0x6A268096)
-I (..\Function\Function.h)(0x6A268095)
-I (..\Function\myflashdb_log.h)(0x6A268096)
-I (..\Function\myflashdb_data.h)(0x6A268096)
+I (..\Driver\System\myDMA\myDMA.h)(0x6A269733)
+I (..\Function\data_process.h)(0x6A269733)
+I (..\Function\pt100.h)(0x6A269838)
+I (..\Function\Function.h)(0x6A269733)
+I (..\Function\myflashdb_log.h)(0x6A269733)
+I (..\Function\myflashdb_data.h)(0x6A269733)
 I (..\Driver\HardWare\sleep_wake\sleep_wake.h)(0x6A1D190B)
-I (..\Function\msg_app.h)(0x6A268096)
-F (..\Protocol\msg.h)(0x6A268096)()
+I (..\Function\msg_app.h)(0x6A269733)
+F (..\Protocol\msg.h)(0x6A269733)()
